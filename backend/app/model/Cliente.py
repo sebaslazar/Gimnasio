@@ -35,3 +35,5 @@ class Cliente(SQLModel, TimeMixin, table=True):
     titular: Optional["Cliente"] = Relationship(back_populates="beneficiario",
                                                 sa_relationship_kwargs={"remote_side": "Cliente.ID_cliente"})
     beneficiario: List["Cliente"] = Relationship(back_populates="titular")
+
+    citas: List["Cita"] = Relationship(back_populates="cliente")
