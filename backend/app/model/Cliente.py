@@ -18,7 +18,7 @@ class Cliente(SQLModel, TimeMixin, table=True):
 
     ID_cliente: Optional[str] = Field(default=None, primary_key=True, nullable=False)
     password: str
-    sexo: str = Field(sa_column=Column("Genero", String, Enum(Sexo)))
+    sexo: str = Field(sa_column=Column("sexo", String, Enum(Sexo)))
     nombre: str
     segundo_nombre: Optional[str] = None
     apellido: str

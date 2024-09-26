@@ -5,6 +5,7 @@ from typing import Optional, List
 from datetime import date
 
 from app.model.mixins import TimeMixin
+from app.model.actividad_entrenador import ActividadEntrenador
 
 
 class Sexo(enum.Enum):
@@ -12,10 +13,10 @@ class Sexo(enum.Enum):
     FEMENINO = "FEMENINO"
 
 
-class Administrador(SQLModel, TimeMixin, table=True):
-    __tablename__ = "administrador"
+class Entrenador(SQLModel, TimeMixin, table=True):
+    __tablename__ = "entrenador"
 
-    ID_admin: Optional[str] = Field(default=None, primary_key=True, nullable=False)
+    ID_entrenador: Optional[str] = Field(default=None, primary_key=True, nullable=False)
     password: str
     sexo: str = Field(sa_column=Column("sexo", String, Enum(Sexo)))
     nombre: str
@@ -25,6 +26,10 @@ class Administrador(SQLModel, TimeMixin, table=True):
     fecha_nacimiento: date
     correo: str = Field(sa_column=Column("correo", String, unique=True))
     telefono: str
+    direccion: str
+    especialidad: str
+    activo: bool = True
 
-    proveedores: List["Proveedor"] = Relationship(back_populates="administrador")
-    membresias: List["Membresia"] = Relationship(back_populates="administrador")
+    actividad: List["Actividad"] = Relationship(back_populates="entrenador_actividad", link_model=ActividadEntrenador)
+
+
