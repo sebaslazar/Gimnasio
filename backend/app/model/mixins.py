@@ -9,5 +9,5 @@ class TimeMixin(BaseModel):
 
     creado_en: datetime = Field(default_factory=datetime.now)
     modificado_en: datetime = Field(
-        sa_column=Column(DateTime, default=datetime.now, onupdate=datetime.now(), nullable=False)
+        sa_column=Column(DateTime, default=datetime.now, onupdate=datetime.now, nullable=False)
     )
