@@ -28,3 +28,4 @@ class Administrador(SQLModel, TimeMixin, table=True):
 
     proveedores: List["Proveedor"] = Relationship(back_populates="administrador")
     membresias: List["Membresia"] = Relationship(back_populates="administrador")
+    entrenadores: List["Entrenador"] = Relationship(back_populates="administrador")

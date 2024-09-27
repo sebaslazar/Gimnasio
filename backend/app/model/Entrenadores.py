@@ -32,4 +32,7 @@ class Entrenador(SQLModel, TimeMixin, table=True):
 
     actividad: List["Actividad"] = Relationship(back_populates="entrenador_actividad", link_model=ActividadEntrenador)
 
+    ID_admin_creador: Optional[str] = Field(default=None, foreign_key="administrador.ID_admin", nullable=False)
+    administrador: Optional["Administrador"] = Relationship(back_populates="entrenadores")
 
+    entrenamientos: List["Entrenamiento"] = Relationship(back_populates="entrenador")

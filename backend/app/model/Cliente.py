@@ -37,3 +37,6 @@ class Cliente(SQLModel, TimeMixin, table=True):
     beneficiario: List["Cliente"] = Relationship(back_populates="titular")
 
     citas: List["Cita"] = Relationship(back_populates="cliente")
+
+    entrenamientos: Optional["Entrenamiento"] = Relationship(back_populates="cliente",
+                                                             sa_relationship_kwargs={'uselist': False})
