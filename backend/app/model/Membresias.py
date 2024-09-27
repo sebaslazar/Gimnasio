@@ -13,7 +13,7 @@ class Membresia(SQLModel, TimeMixin, table=True):
     nombre: str
     descripcion: str
 
-    ID_admin_creador: Optional[str] = Field(default=None, foreign_key="administrador.ID_admin")
+    ID_admin_creador: Optional[str] = Field(default=None, foreign_key="administrador.ID_admin", ondelete="SET NULL")
     administrador: Optional["Administrador"] = Relationship(back_populates="membresias")
 
     cliente: List["Cliente"] = Relationship(back_populates="membresias", link_model=CompraMembresia)

@@ -14,6 +14,7 @@ class Actividad(SQLModel, TimeMixin, table=True):
     nombre: str = Field(sa_column=Column("nombre", String, unique=True))
     descripcion: str
 
-    citas_actividad: List["Cita"] = Relationship(back_populates="actividad")
+    citas_actividad: List["Cita"] = Relationship(back_populates="actividad", cascade_delete=True)
 
-    entrenador_actividad: List["Entrenador"] = Relationship(back_populates="actividad", link_model=ActividadEntrenador)
+    entrenador_actividad: List["Entrenador"] = Relationship(back_populates="actividad", link_model=ActividadEntrenador,
+                                                            cascade_delete=True)

@@ -31,7 +31,7 @@ class Cliente(SQLModel, TimeMixin, table=True):
 
     membresias: List["Membresia"] = Relationship(back_populates="cliente", link_model=CompraMembresia)
 
-    ID_titular: Optional[str] = Field(default=None, foreign_key="cliente.ID_cliente", nullable=True)
+    ID_titular: Optional[str] = Field(default=None, foreign_key="cliente.ID_cliente", ondelete="SET NULL")
     titular: Optional["Cliente"] = Relationship(back_populates="beneficiario",
                                                 sa_relationship_kwargs={"remote_side": "Cliente.ID_cliente"})
     beneficiario: List["Cliente"] = Relationship(back_populates="titular")
@@ -39,4 +39,5 @@ class Cliente(SQLModel, TimeMixin, table=True):
     citas: List["Cita"] = Relationship(back_populates="cliente")
 
     entrenamientos: Optional["Entrenamiento"] = Relationship(back_populates="cliente",
-                                                             sa_relationship_kwargs={'uselist': False})
+                                                             sa_relationship_kwargs={'uselist': False},
+                                                             cascade_delete=True)
