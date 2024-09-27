@@ -2,11 +2,10 @@ from sqlmodel import SQLModel, Field, Relationship
 from typing import Optional, List
 
 
-from app.model.mixins import TimeMixin
 from app.model.compra_membresia import CompraMembresia
 
 
-class Membresia(SQLModel, TimeMixin, table=True):
+class Membresia(SQLModel, table=True):
     __tablename__ = "membresia"
 
     ID_membresia: Optional[int] = Field(default=None, primary_key=True, nullable=False)

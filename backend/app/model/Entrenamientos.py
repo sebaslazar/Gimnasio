@@ -3,10 +3,7 @@ from sqlalchemy import table, Column, String
 from typing import Optional, List
 
 
-from app.model.mixins import TimeMixin
-
-
-class Entrenamiento(SQLModel, TimeMixin, table=True):
+class Entrenamiento(SQLModel, table=True):
     __tablename__ = "entrenamiento"
 
     ID_entrenamiento: Optional[str] = Field(default=None, primary_key=True, nullable=False)

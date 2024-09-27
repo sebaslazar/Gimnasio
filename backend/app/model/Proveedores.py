@@ -2,10 +2,7 @@ from sqlmodel import SQLModel, Field, Relationship
 from typing import Optional
 
 
-from app.model.mixins import TimeMixin
-
-
-class Proveedor(SQLModel, TimeMixin, table=True):
+class Proveedor(SQLModel, table=True):
     __tablename__ = "proveedor"
 
     ID_proveedor: Optional[str] = Field(default=None, primary_key=True, nullable=False)

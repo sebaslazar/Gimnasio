@@ -4,7 +4,6 @@ from sqlalchemy import table, Enum, Column, String
 from typing import Optional, List
 from datetime import date
 
-from app.model.mixins import TimeMixin
 from app.model.actividad_entrenador import ActividadEntrenador
 
 
@@ -13,7 +12,7 @@ class Sexo(enum.Enum):
     FEMENINO = "FEMENINO"
 
 
-class Entrenador(SQLModel, TimeMixin, table=True):
+class Entrenador(SQLModel, table=True):
     __tablename__ = "entrenador"
 
     ID_entrenador: Optional[str] = Field(default=None, primary_key=True, nullable=False)
