@@ -22,8 +22,11 @@ class Administrador(SQLModel, table=True):
     segundo_apellido: Optional[str] = None
     fecha_nacimiento: date
     correo: str = Field(sa_column=Column("correo", String, unique=True))
+    direccion: str
     telefono: str
 
     proveedores: List["Proveedor"] = Relationship(back_populates="administrador")
+
     membresias: List["Membresia"] = Relationship(back_populates="administrador")
+
     entrenadores: List["Entrenador"] = Relationship(back_populates="administrador")

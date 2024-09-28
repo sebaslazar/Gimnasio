@@ -11,6 +11,10 @@ class Membresia(SQLModel, table=True):
     ID_membresia: Optional[int] = Field(default=None, primary_key=True, nullable=False)
     nombre: str
     descripcion: str
+    descuento: float
+    max_miembros: int
+    precio: int
+    duracion_meses: int
 
     ID_admin_creador: Optional[str] = Field(default=None, foreign_key="administrador.ID_admin", ondelete="SET NULL")
     administrador: Optional["Administrador"] = Relationship(back_populates="membresias")

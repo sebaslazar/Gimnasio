@@ -29,10 +29,8 @@ class Entrenador(SQLModel, table=True):
     especialidad: str
     activo: bool = True
 
-    actividad: List["Actividad"] = Relationship(back_populates="entrenador_actividad", link_model=ActividadEntrenador,
-                                                cascade_delete=True)
+    actividad: List["Actividad"] = Relationship(back_populates="entrenador_actividad", link_model=ActividadEntrenador)
 
-    ID_admin_creador: Optional[str] = Field(default=None, foreign_key="administrador.ID_admin", ondelete="SET NULL")
-    administrador: Optional["Administrador"] = Relationship(back_populates="entrenadores")
+    citas: List["Cita"] = Relationship(back_populates="entrenador", cascade_delete=True)
 
     entrenamientos: List["Entrenamiento"] = Relationship(back_populates="entrenador", cascade_delete=True)

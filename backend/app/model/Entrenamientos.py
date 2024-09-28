@@ -1,13 +1,13 @@
 from sqlmodel import SQLModel, Field, Relationship
-from sqlalchemy import table, Column, String
-from typing import Optional, List
+from typing import Optional
 
 
 class Entrenamiento(SQLModel, table=True):
     __tablename__ = "entrenamiento"
 
     ID_entrenamiento: Optional[str] = Field(default=None, primary_key=True, nullable=False)
-    detalles: Optional[str] = None
+    tipo: str
+    descripcion: str
 
     ID_entrenador: Optional[str] = Field(default=None, foreign_key="entrenador.ID_entrenador", ondelete="CASCADE")
     entrenador: Optional["Entrenador"] = Relationship(back_populates="entrenamientos")

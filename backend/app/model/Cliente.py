@@ -27,6 +27,8 @@ class Cliente(SQLModel, table=True):
     telefono: str
     direccion: str
     activo: bool = True
+    peso: float
+    altura: float
 
     membresias: List["Membresia"] = Relationship(back_populates="cliente", link_model=CompraMembresia)
 
