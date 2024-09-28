@@ -3,7 +3,10 @@ from sqlalchemy import Column, String
 from typing import Optional
 
 
-class Proveedor(SQLModel, table=True):
+from app.model.mixins import TimeMixin
+
+
+class Proveedor(SQLModel, TimeMixin, table=True):
     __tablename__ = "proveedor"
 
     ID_proveedor: Optional[str] = Field(default=None, primary_key=True, nullable=False)

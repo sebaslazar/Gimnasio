@@ -5,6 +5,7 @@ from typing import Optional, List
 from datetime import date
 
 from app.model.compra_membresia import CompraMembresia
+from app.model.mixins import TimeMixin
 
 
 class Sexo(enum.Enum):
@@ -12,7 +13,7 @@ class Sexo(enum.Enum):
     FEMENINO = "FEMENINO"
 
 
-class Cliente(SQLModel, table=True):
+class Cliente(SQLModel, TimeMixin, table=True):
     __tablename__ = "cliente"
 
     ID_cliente: Optional[str] = Field(default=None, primary_key=True, nullable=False)

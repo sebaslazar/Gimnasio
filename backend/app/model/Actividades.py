@@ -4,9 +4,10 @@ from typing import Optional, List
 
 
 from app.model.actividad_entrenador import ActividadEntrenador
+from app.model.mixins import TimeMixin
 
 
-class Actividad(SQLModel, table=True):
+class Actividad(SQLModel, TimeMixin, table=True):
     __tablename__ = "actividad"
 
     ID_actividad: Optional[int] = Field(default=None, primary_key=True, nullable=False)

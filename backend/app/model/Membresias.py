@@ -3,9 +3,10 @@ from typing import Optional, List
 
 
 from app.model.compra_membresia import CompraMembresia
+from app.model.mixins import TimeMixin
 
 
-class Membresia(SQLModel, table=True):
+class Membresia(SQLModel, TimeMixin, table=True):
     __tablename__ = "membresia"
 
     ID_membresia: Optional[int] = Field(default=None, primary_key=True, nullable=False)

@@ -5,6 +5,7 @@ from typing import Optional, List
 from datetime import date
 
 from app.model.actividad_entrenador import ActividadEntrenador
+from app.model.mixins import TimeMixin
 
 
 class Sexo(enum.Enum):
@@ -12,7 +13,7 @@ class Sexo(enum.Enum):
     FEMENINO = "FEMENINO"
 
 
-class Entrenador(SQLModel, table=True):
+class Entrenador(SQLModel, TimeMixin, table=True):
     __tablename__ = "entrenador"
 
     ID_entrenador: Optional[str] = Field(default=None, primary_key=True, nullable=False)

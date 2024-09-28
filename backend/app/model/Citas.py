@@ -4,7 +4,10 @@ from typing import Optional
 from datetime import date, time
 
 
-class Cita(SQLModel, table=True):
+from app.model.mixins import TimeMixin
+
+
+class Cita(SQLModel, TimeMixin, table=True):
     __tablename__ = "cita"
 
     ID_cita: Optional[int] = Field(default=None, primary_key=True, nullable=False)

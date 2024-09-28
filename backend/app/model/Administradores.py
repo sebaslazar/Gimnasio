@@ -5,12 +5,15 @@ from typing import Optional, List
 from datetime import date
 
 
+from app.model.mixins import TimeMixin
+
+
 class Sexo(enum.Enum):
     MASCULINO = "MASCULINO"
     FEMENINO = "FEMENINO"
 
 
-class Administrador(SQLModel, table=True):
+class Administrador(SQLModel, TimeMixin, table=True):
     __tablename__ = "administrador"
 
     ID_admin: Optional[str] = Field(default=None, primary_key=True, nullable=False)

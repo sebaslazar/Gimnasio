@@ -8,3 +8,4 @@ from .Citas import Cita
 from .Cliente import Cliente
 from .Entrenadores import Entrenador
 from .Entrenamientos import Entrenamiento
+from .mixins import TimeMixin

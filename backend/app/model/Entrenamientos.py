@@ -2,7 +2,10 @@ from sqlmodel import SQLModel, Field, Relationship
 from typing import Optional
 
 
-class Entrenamiento(SQLModel, table=True):
+from app.model.mixins import TimeMixin
+
+
+class Entrenamiento(SQLModel, TimeMixin, table=True):
     __tablename__ = "entrenamiento"
 
     ID_entrenamiento: Optional[str] = Field(default=None, primary_key=True, nullable=False)
