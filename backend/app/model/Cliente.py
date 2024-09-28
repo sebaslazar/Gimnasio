@@ -40,5 +40,4 @@ class Cliente(SQLModel, table=True):
     citas: List["Cita"] = Relationship(back_populates="cliente")
 
     entrenamientos: Optional["Entrenamiento"] = Relationship(back_populates="cliente",
-                                                             sa_relationship_kwargs={'uselist': False},
-                                                             cascade_delete=True)
+                                                             sa_relationship_kwargs={'uselist': False})

@@ -12,5 +12,5 @@ class Entrenamiento(SQLModel, table=True):
     ID_entrenador: Optional[str] = Field(default=None, foreign_key="entrenador.ID_entrenador", ondelete="CASCADE")
     entrenador: Optional["Entrenador"] = Relationship(back_populates="entrenamientos")
 
-    ID_cliente: Optional[str] = Field(default=None, foreign_key="cliente.ID_cliente", ondelete="CASCADE")
+    ID_cliente: Optional[str] = Field(default=None, foreign_key="cliente.ID_cliente")
     cliente: Optional["Cliente"] = Relationship(back_populates="entrenamientos")
