@@ -10,15 +10,14 @@ class ActividadRepositorio(BaseRepo):
     model = Actividad
 
     @staticmethod
-    async def encontrar_por_nombre(nombre: str):
+    async def buscar_por_nombre(nombre: str):
         query = select(Actividad).where(Actividad.nombre == nombre)
         return (await db.execute(query)).scalar_one_or_none()
 
     @staticmethod
-    async def actualizar_datos_por_nombre(nombre: str, descripcion: str, precio: int):
-        query = (sql_update(Actividad).where(Actividad.nombre == nombre).
-                 values(nombre=nombre, descripcion=descripcion, precio=precio).
-                 execution_options(synchronize_session="fetch"))
+    async def actualizar_datos_por_nombre(nombre: str,  **kwargs):
+        query = sql_update(Actividad).where(Actividad.nombre == nombre).values(**kwargs).\
+                 execution_options(synchronize_session="fetch")
         await db.execute(query)
         await commit_rollback()
 

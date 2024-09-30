@@ -10,16 +10,16 @@ class CitaRepository(BaseRepo):
     model = Cita
 
     @staticmethod
-    async def encontrar_id_cliente(id_cliente: str):
+    async def buscar_por_id_cliente(id_cliente: str):
         query = select(Cita).where(Cita.ID_cliente == id_cliente)
-        return (await db.execute(query)).scalar_one_or_none()
+        return (await db.execute(query)).scalars().all
 
     @staticmethod
-    async def encontrar_id_actividad(id_actividad: str):
+    async def buscar_por_id_actividad(id_actividad: int):
         query = select(Cita).where(Cita.ID_actividad == id_actividad)
-        return (await db.execute(query)).scalar_one_or_none()
+        return (await db.execute(query)).scalars().all
 
     @staticmethod
-    async def encontrar_id_entrenador(id_entrenador: str):
+    async def buscar_por_id_entrenador(id_entrenador: str):
         query = select(Cita).where(Cita.ID_entrenador == id_entrenador)
-        return (await db.execute(query)).scalar_one_or_none()
+        return (await db.execute(query)).scalars().all
