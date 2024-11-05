@@ -1,6 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 from app.config import db
+from app.service.auth_service import generar_administrador_principal
 
 
 def init_app():
@@ -15,6 +16,7 @@ def init_app():
     @app.on_event("startup")
     async def startup():
         await db.create_all()
+        await generar_administrador_principal()
 
     @app.on_event("shutdown")
     async def shutdown():
