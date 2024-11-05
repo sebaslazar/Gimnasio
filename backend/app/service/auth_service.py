@@ -53,13 +53,13 @@ class AuthService:
 
 # Genera el administrador principal
 async def generar_administrador_principal():
-    _admin = await AdministradorRepository.buscar_por_id("0000000000")
+    _admin = await AdministradorRepository.buscar_id("0000000000")
     if not _admin:
         _main_admin = Administrador(ID_admin="0000000000", password=pwd_context.hash("Password_principal"),
                                     sexo="MASCULINO", nombre="Nombre_principal",
                                     segundo_nombre="Segundo_nombre_principal", apellido="Apellido_principal",
                                     segundo_apellido="Segundo_apellido_principal",
-                                    fecha_nacimiento=datetime.strptime("28/01/23", '%d-%m-%Y'),
+                                    fecha_nacimiento=datetime.strptime("28-01-2023", '%d-%m-%Y'),
                                     correo="Principal_correo@gmail.com", direccion="Cra. 27 #10-02",
                                     telefono="1000000000")
         await AdministradorRepository.crear(**_main_admin.model_dump())

@@ -16,6 +16,11 @@ class AdministradorRepository(BaseRepo):
         return (await db.execute(query)).scalar_one_or_none()
 
     @staticmethod
+    async def buscar_id(id_admin: str):
+        query = select(Administrador).where(Administrador.ID_admin == id_admin)
+        return (await db.execute(query)).scalar_one_or_none()
+
+    @staticmethod
     async def buscar_por_nombre(nombre: str):
         query = select(Administrador).where(Administrador.nombre == nombre)
         return (await db.execute(query)).scalar_one_or_none()
