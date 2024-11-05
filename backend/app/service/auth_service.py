@@ -3,7 +3,7 @@ from datetime import datetime
 from fastapi import HTTPException
 
 from passlib.context import CryptContext
-from app.schema import SchemaRegistrarCliente, SchemaLogin
+from app.schema import SchemaRegistrar, SchemaLogin
 from app.model import Cliente, Administrador
 from app.repository.Cliente import ClienteRepository
 from app.repository.Administradores import AdministradorRepository
@@ -16,7 +16,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 class AuthService:
 
     @staticmethod
-    async def servicio_de_registro_de_cliente(registro: SchemaRegistrarCliente):
+    async def servicio_de_registro_de_cliente(registro: SchemaRegistrar):
 
         # Convertir fecha de nacimiento de str a date
         fecha_nacimiento_con_date = datetime.strptime(registro.fecha_nacimiento, '%d-%m-%Y')
@@ -47,7 +47,7 @@ class AuthService:
         if _cliente is not None:
             if not pwd_context.verify(login.password, _cliente.password):
                 raise HTTPException(status_code=400, detail="Contraseña inválida")
-            return JWTRepo(data={"cliente": _cliente}).generar_token()
+            return JWTRepo(data={"ID_cliente": _cliente.ID_cliente}).generar_token()
         raise HTTPException(status_code=400, detail="El cliente no existe")
 
 

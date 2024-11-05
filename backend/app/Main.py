@@ -1,7 +1,9 @@
 import uvicorn
 from fastapi import FastAPI
+
 from app.config import db
 from app.service.auth_service import generar_administrador_principal
+from app.controller import authentication, Cliente
 
 
 def init_app():
@@ -21,6 +23,9 @@ def init_app():
     @app.on_event("shutdown")
     async def shutdown():
         await db.close()
+
+    app.include_router(authentication.router)
+    app.include_router(Cliente.router)
 
     return app
 

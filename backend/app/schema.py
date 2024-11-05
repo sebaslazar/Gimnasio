@@ -11,7 +11,7 @@ T = TypeVar('T')
 logger = logging.getLogger(__name__)
 
 
-class SchemaRegistrarCliente(BaseModel):
+class SchemaRegistrar(BaseModel):
     ID_cliente: str
     password: str
     sexo: Sexo
@@ -63,11 +63,11 @@ class SchemaLogin(BaseModel):
 
 
 class SchemaDetallado(BaseModel):
-    status: str
-    message: str
-    result: Optional[T] = None
+    estado: str
+    mensaje: str
+    resultado: Optional[T] = None
 
 
 class SchemaRespuesta(BaseModel):
-    detail: str
-    result: Optional[T] = None
+    detalles: str
+    resultado: Optional[T] = None
