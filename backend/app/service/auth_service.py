@@ -48,7 +48,7 @@ class AuthService:
             if not pwd_context.verify(login.password, _cliente.password):
                 raise HTTPException(status_code=400, detail="Contraseña inválida")
             return JWTRepo(data={"ID_cliente": _cliente.ID_cliente}).generar_token()
-        raise HTTPException(status_code=400, detail="El cliente no existe")
+        raise HTTPException(status_code=404, detail="El cliente no existe")
 
 
 # Genera el administrador principal
