@@ -30,7 +30,7 @@ class AuthService:
                            peso=registro.peso, altura=registro.altura, ID_titular=None)
 
         # Verifica si el ID ya está registrado
-        _ID_cliente = await ClienteRepository.buscar_por_id(registro.ID_cliente)
+        _ID_cliente = await ClienteRepository.buscar_id(registro.ID_cliente)
         if _ID_cliente:
             raise HTTPException(status_code=400, detail="El usuario ya existe")
 

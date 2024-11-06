@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 class SchemaRegistrar(BaseModel):
     ID_cliente: str
     password: str
-    sexo: Sexo
+    sexo: str
     nombre: str
     segundo_nombre: Optional[str] = None
     apellido: str
