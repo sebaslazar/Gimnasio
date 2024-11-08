@@ -4,7 +4,6 @@ from sqlalchemy import table, Enum, Column, String
 from typing import Optional, List
 from datetime import date
 
-from app.model.actividad_entrenador import ActividadEntrenador
 from app.model.mixins import TimeMixin
 
 
@@ -30,8 +29,6 @@ class Entrenador(SQLModel, TimeMixin, table=True):
     especialidad: str
     activo: bool = True
 
-    actividad: List["Actividad"] = Relationship(back_populates="entrenador_actividad", link_model=ActividadEntrenador)
-
-    citas: List["Cita"] = Relationship(back_populates="entrenador", cascade_delete=True)
+    actividad: List["Actividad"] = Relationship(back_populates="entrenador")
 
     entrenamientos: List["Entrenamiento"] = Relationship(back_populates="entrenador", cascade_delete=True)

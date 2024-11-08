@@ -23,6 +23,3 @@ class Cita(SQLModel, TimeMixin, table=True):
     ID_actividad: Optional[int] = Field(default=None, foreign_key="actividad.ID_actividad", ondelete="CASCADE")
     actividad: Optional["Actividad"] = Relationship(back_populates="citas_actividad")
 
-    ID_entrenador: Optional[str] = Field(default=None, foreign_key="entrenador.ID_entrenador", ondelete="CASCADE")
-    entrenador: Optional["Entrenador"] = Relationship(back_populates="citas")
-
