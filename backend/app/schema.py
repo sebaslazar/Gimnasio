@@ -62,6 +62,7 @@ class SchemaRegistrar(BaseModel):
 class SchemaLogin(BaseModel):
     correo: str
     password: str
+    rango: str
 
 
 class SchemaDetallado(BaseModel):
