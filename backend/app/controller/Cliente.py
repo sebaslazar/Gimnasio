@@ -5,7 +5,7 @@ from app.repository.auth_repo import JWTBearer, JWTRepo
 from app.schema import SchemaRespuesta
 from app.service.Cliente import ServicioCliente
 
-router = APIRouter(prefix="/clientes", tags=['Cliente'], dependencies=[Depends(JWTBearer())])
+router = APIRouter(prefix="/cliente", tags=['Cliente'], dependencies=[Depends(JWTBearer())])
 
 
 @router.get("/", response_model=SchemaRespuesta, response_model_exclude_none=True)
