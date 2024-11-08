@@ -30,7 +30,7 @@ class AuthService:
                            peso=registro.peso, altura=registro.altura, ID_titular=None)
 
         # Verifica si el ID ya está registrado
-        _ID_cliente = await ClienteRepository.buscar_id(registro.ID_cliente)
+        _ID_cliente = await ClienteRepository.buscar_por_id(registro.ID_cliente, "ID_cliente")
         if _ID_cliente:
             raise HTTPException(status_code=400, detail="El usuario ya existe")
 
@@ -53,7 +53,7 @@ class AuthService:
 
 # Genera el administrador principal
 async def generar_administrador_principal():
-    _admin = await AdministradorRepository.buscar_id("0000000000")
+    _admin = await AdministradorRepository.buscar_por_id("0000000000", "ID_admin")
     if not _admin:
         _main_admin = Administrador(ID_admin="0000000000", password=pwd_context.hash("Password_principal"),
                                     sexo="MASCULINO", nombre="Nombre_principal",
