@@ -32,8 +32,10 @@ class SchemaRegistrar(BaseModel):
         logger.debug(f"Cédula en validación: {id_para_validar}")
 
         # Validación por expresión regular
-        regex = r"\b[0-9]\.{0,1}[0-9]{3}\.{0,1}[0-9]{3}\.{0,1}[0-9]{3}\b"
-        if id_para_validar and not re.search(regex, id_para_validar, re.I):
+        regex_cedula_10_digitos = r"\b[0-9]\.{0,1}[0-9]{3}\.{0,1}[0-9]{3}\.{0,1}[0-9]{3}\b"
+        regex_cedula_8_digitos = r"\b[0-9]{2}\.{0,1}[0-9]{3}\.{0,1}[0-9]{3}\b"
+        if (id_para_validar and not re.search(regex_cedula_10_digitos, id_para_validar, re.I)
+                and not re.search(regex_cedula_8_digitos, id_para_validar, re.I)):
             raise HTTPException(status_code=400, detail="Tipo de cédula inválida")
         return id_para_validar
 

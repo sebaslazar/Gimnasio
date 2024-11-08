@@ -27,7 +27,7 @@ class AuthService:
                            apellido=registro.apellido, segundo_apellido=registro.segundo_apellido,
                            fecha_nacimiento=fecha_nacimiento_con_date, correo=registro.correo,
                            telefono=registro.telefono, direccion=registro.direccion, activo=True,
-                           peso=registro.peso, altura=registro.altura, ID_titular=None)
+                           peso=registro.peso, altura=registro.altura, ID_titular=None, rango="Cliente")
 
         # Verifica si el ID ya está registrado
         _ID_cliente = await ClienteRepository.buscar_por_id(registro.ID_cliente, "ID_cliente")
@@ -61,5 +61,5 @@ async def generar_administrador_principal():
                                     segundo_apellido="Segundo_apellido_principal",
                                     fecha_nacimiento=datetime.strptime("28-01-2023", '%d-%m-%Y'),
                                     correo="Principal_correo@gmail.com", direccion="Cra. 27 #10-02",
-                                    telefono="1000000000")
+                                    telefono="1000000000", rango="Administrador")
         await AdministradorRepository.crear(**_main_admin.model_dump())

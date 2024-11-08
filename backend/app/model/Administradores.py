@@ -27,6 +27,7 @@ class Administrador(SQLModel, TimeMixin, table=True):
     correo: str = Field(sa_column=Column("correo", String, unique=True))
     direccion: str
     telefono: str
+    rango: str
 
     proveedores: List["Proveedor"] = Relationship(back_populates="administrador")
 

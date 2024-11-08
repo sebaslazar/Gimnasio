@@ -30,6 +30,7 @@ class Cliente(SQLModel, TimeMixin, table=True):
     activo: bool = True
     peso: float
     altura: float
+    rango: str
 
     membresias: List["Membresia"] = Relationship(back_populates="cliente", link_model=CompraMembresia)
 

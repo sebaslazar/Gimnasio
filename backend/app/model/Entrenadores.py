@@ -28,6 +28,7 @@ class Entrenador(SQLModel, TimeMixin, table=True):
     direccion: str
     especialidad: str
     activo: bool = True
+    rango: str
 
     actividad: List["Actividad"] = Relationship(back_populates="entrenador")
 
