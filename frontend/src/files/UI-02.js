@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from "react-router-dom"
 import "./UI-02.css";
 
 export default function Login(props) {
@@ -57,9 +58,14 @@ export default function Login(props) {
                         Ingresar
                 </button>
                 <p>
-                    ¿Eres Nuevo? <span className="link_registrar">
-                        Únete
-                    </span>
+                    ¿Eres Nuevo?{" "}
+                    <Link to="/?registro_cliente" //Ruta que va a aparecer en el navegador
+                        onClick={() => {
+                            props.setPage("registro_cliente"); //Nombre de la página indicada en App.js
+                        }}
+                    >
+                        <span className="link_registrar">Únete</span>
+                    </Link>
                 </p>
             </form>
         </React.Fragment>

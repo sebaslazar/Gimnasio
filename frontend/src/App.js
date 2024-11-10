@@ -1,7 +1,7 @@
 import './App.css';
 import React, {useState} from "react";
 import Login from './files/UI-02.js';
-import Crear_cliente from './files/UI-03.js';
+import Registro_cliente from './files/UI-03.js';
 
 function App() {
 
@@ -11,15 +11,15 @@ function App() {
         if (page === "login") {
             return <Login setPage={setPage} />;
         }
-        if (page === "crear_cliente") {
-            return <Crear_cliente setPage={setPage} />;
+        if (page === "registro_cliente") {
+            return <Registro_cliente setPage={setPage} />;
         }
     }
 
     return (
         <div className="app-container">
             <div className="centered-div">
-                <Crear_cliente />
+                {elegir_pagina()}
             </div>
         </div>
     );
