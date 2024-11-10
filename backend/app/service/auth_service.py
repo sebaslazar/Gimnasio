@@ -28,7 +28,7 @@ class AuthService:
                            apellido=registro.apellido, segundo_apellido=registro.segundo_apellido,
                            fecha_nacimiento=fecha_nacimiento_con_date, correo=registro.correo,
                            telefono=registro.telefono, direccion=registro.direccion, activo=True,
-                           peso=registro.peso, altura=registro.altura, ID_titular=None, rango="Cliente")
+                           peso=registro.peso, altura=registro.altura, ID_titular=None, rango=registro.rango)
 
         # Verifica si el ID ya está registrado
         _ID_cliente = await ClienteRepository.buscar_por_id(registro.ID_cliente, "ID_cliente")

@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import es from 'date-fns/locale/es';
 import "./UI-03.css";
 
-export default function Login(props) {
+export default function Registro(props) {
 
     //Opciones de sexo
     const opciones_sexo = [

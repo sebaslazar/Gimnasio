@@ -25,6 +25,7 @@ class SchemaRegistrar(BaseModel):
     direccion: str
     peso: float
     altura: float
+    rango: str
 
     # Validación de número de cédula
     @field_validator("ID_cliente")
