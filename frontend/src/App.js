@@ -1,25 +1,28 @@
-import logo from './logo.svg';
 import './App.css';
+import React, {useState} from "react";
+import Login from './files/UI-02.js';
+import Crear_cliente from './files/UI-03.js';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    const [page, setPage] = useState("login");
+
+    const elegir_pagina = () => {
+        if (page === "login") {
+            return <Login setPage={setPage} />;
+        }
+        if (page === "crear_cliente") {
+            return <Crear_cliente setPage={setPage} />;
+        }
+    }
+
+    return (
+        <div className="app-container">
+            <div className="centered-div">
+                <Crear_cliente />
+            </div>
+        </div>
+    );
 }
 
 export default App;
