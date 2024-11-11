@@ -48,20 +48,11 @@ export default function Home(props) {
                 </div>
             );
         } else {
-            if (user.name != null){ //De ser falso, significa que se venció el token
                 return (
                     <div className="home_page">
                         ¡BIENVENID{user.sexo === "MASCULINO" ? "O " : "A "} {user.nombre}!
                     </div>
                 );;
-            } else{
-                localStorage.removeItem("auth_token");
-                localStorage.removeItem("auth_token_type");
-
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1500);
-            }
         }
     };
 

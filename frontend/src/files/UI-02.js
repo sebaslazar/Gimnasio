@@ -50,13 +50,14 @@ export default function Login(props) {
                 response.data.resultado.tipo_de_token
             );
 
+            //Agregar notificación de éxito
+            toast.success(response.data.detalles);
+
             //recarga página después de login exitoso
             setTimeout(() => {
                 window.location.reload();
             }, 1000);
 
-            //Agregar notificación de éxito
-            toast.success(response.data.detail);
         }).catch((error) => {
             console.log(error); //Sólo sirve para pruebas
             toast.error(error.response.data.detail);
