@@ -103,19 +103,17 @@ export default function Registro(props) {
     const onSubmitManejador = async(event) => {
         event.preventDefault()
         console.log(formRegister) //Sólo sirve para pruebas
-        navigate("/?login");
-        setTimeout(() => {
-            props.setPage("login");
-        }, 2000)
-
 
         //Llama a la API para registrar cliente
-        /*await axios.post("http://localhost:8888/auth/registro_cliente", formRegister).then((response) => {
-            //Redirige a página de login
-            navigate("/?login");
-
+        await axios.post("http://localhost:8888/auth/registro_cliente", formRegister).then((response) => {
             //Agregar notificación de éxito
             toast.success(response.data.detalles);
+
+            //Redirige a página de login
+            navigate("/?login");
+            setTimeout(() => {
+                props.setPage("login");
+            }, 2000)
 
             //Sólo sirve para pruebas
             console.log(response);
@@ -125,7 +123,7 @@ export default function Registro(props) {
 
             //Agrega notificación de error
             toast.error(error.response.data.detail)
-        });*/
+        });
     };
 
     return (
@@ -179,7 +177,6 @@ export default function Registro(props) {
                 </div>
                 <div className="form-group">
                     <input
-                        required = "true"
                         type="text"
                         className="form-control"
                         placeholder="Segundo Apellido"

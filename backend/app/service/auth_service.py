@@ -33,7 +33,7 @@ class AuthService:
         # Verifica si el ID ya está registrado
         _ID_cliente = await ClienteRepository.buscar_por_id(registro.ID_cliente, "ID_cliente")
         if _ID_cliente:
-            raise HTTPException(status_code=400, detail="El cliente ya está registrado")
+            raise HTTPException(status_code=400, detail="La cédula ya está registrado")
 
         # Verifica si el correo ya está registrado
         _correo = await ClienteRepository.buscar_por_correo(registro.correo)
