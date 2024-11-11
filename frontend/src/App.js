@@ -1,6 +1,7 @@
 import './App.css';
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Helmet} from "react-helmet"
+import Home from "./Home.js"
 import Login from './files/UI-02.js';
 import Registro_cliente from './files/UI-03.js';
 
@@ -9,7 +10,9 @@ document.documentElement.lang = "es"; //Establece el idioma de la página en esp
 function App() {
 
     const [page, setPage] = useState("login");
+    const [token, setToken] = useState();
 
+    //Permite intercambiar la página que se carga
     const elegir_pagina = () => {
         if (page === "login") {
             return <Login setPage={setPage} />;
@@ -19,17 +22,31 @@ function App() {
         }
     }
 
-    return (
-        <div className="app-container">
-            <Helmet>
-                <meta charSet="utf-8"/>
-                <title>Gymcontrol</title>
-            </Helmet>
-            <div className="centered-div">
-                {elegir_pagina()}
-            </div>
-        </div>
-    );
+    //Recupera token del almacenamiento local
+    useEffect(() => {
+        const auth = localStorage.getItem("auth_token");
+        setToken(auth);
+    }, [token]);
+
+    const paginas = () => {
+        if (token == null) {
+            return(
+                <div className="app-container">
+                    <Helmet>
+                        <meta charSet="utf-8"/>
+                        <title>Gymcontrol</title>
+                    </Helmet>
+                    <div className="centered-div">
+                        {elegir_pagina()}
+                    </div>
+                </div>
+            );
+        } else {
+            return <Home />;
+        }
+    };
+
+    return <React.Fragment>{paginas()}</React.Fragment>;
 }
 
 export default App;
