@@ -16,14 +16,14 @@ export default function Home(props) {
                     4: "No te detengas cuando estés cansado, detente cuando hayas terminado",
                     5: "Cada gota de sudor es un paso hacia tu mejor versión"
                     }
-    const [user, setUser] = useState({}); //Sirven para los datos del usuario
-    const [auth_token, setToken] = useState(); //Sirven para los datos del token
-    const [rango_token, setRango] = useState();
+    const [user, setUser] = useState({}); //Sirve para los datos del usuario
+    const [auth_token, setToken] = useState(); //Sirve para los datos del token
+    const [rango_token, setRango] = useState(); //Sirve para los datos del rango
 
     useEffect(() => {
         const auth_token = localStorage.getItem("auth_token"); //Cargo del token del almacenamiento local
         setToken(auth_token);
-        if(auth_token != null) { //Verifico si el token existe
+        if(auth_token != null) { //Verifica si el token existe
 
             const decoded_token = jwtDecode(auth_token);
             const current_time = Date.now() / 1000;
@@ -36,7 +36,7 @@ export default function Home(props) {
                 setRango(rango_token)
                 console.log(rango_token) //Sólo sirve para pruebas
 
-                //Obtener datos de la API
+                //Obtiene datos de la API
                 axios.get("http://localhost:8888/cliente/", {headers: {Authorization: token_usuario}}).then((response) => {
                     console.log(response); //Sólo sirve para pruebas
                     setUser(response.data.resultado);
