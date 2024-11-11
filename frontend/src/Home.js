@@ -35,14 +35,24 @@ export default function Home(props) {
                 const rango_token = decoded_token.Rango //Recupera rango del token
                 setRango(rango_token)
                 console.log(rango_token) //Sólo sirve para pruebas
+                console.log(decoded_token)
 
                 //Obtiene datos de la API
-                axios.get("http://localhost:8888/cliente/", {headers: {Authorization: token_usuario}}).then((response) => {
-                    console.log(response); //Sólo sirve para pruebas
-                    setUser(response.data.resultado);
-                }).catch((error) => {
-                    console.log(error); //Sólo sirve para pruebas
-                })
+                if(rango_token === "Cliente"){
+                    axios.get("http://localhost:8888/cliente/", {headers: {Authorization: token_usuario}}).then((response) => {
+                        console.log(response); //Sólo sirve para pruebas
+                        setUser(response.data.resultado);
+                    }).catch((error) => {
+                        console.log(error); //Sólo sirve para pruebas
+                    })
+                } else if(rango_token === "Administrador"){
+                    axios.get("http://localhost:8888/admin/", {headers: {Authorization: token_usuario}}).then((response) => {
+                        console.log(response); //Sólo sirve para pruebas
+                        setUser(response.data.resultado);
+                    }).catch((error) => {
+                        console.log(error); //Sólo sirve para pruebas
+                    })
+                }
             } else {
                 localStorage.removeItem("auth_token")
                 localStorage.removeItem("auth_token_type")
@@ -50,6 +60,27 @@ export default function Home(props) {
             }
         }
     }, [auth_token])
+
+    const onClickHandler = (event) => {
+        event.preventDefault();
+
+        localStorage.removeItem("auth_token")
+        localStorage.removeItem("auth_token_type")
+
+        toast("Sesión cerrada exitosamente", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+
+        setTimeout(() => {
+            window.location.reload();
+        }, 1500)
+    }
 
     const paginas = () => {
         if (auth_token == null) {
@@ -59,7 +90,7 @@ export default function Home(props) {
                         <meta charSet="utf-8"/>
                         <title>Gymcontrol - Príncipal</title>
                     </Helmet>
-                    {frases[Math.floor(Math.random() * 5) + 1]}
+                    {frases[Math.floor(Math.random() * Object.keys(frases).length) + 1]}
                     <Link to="/?login"
                         onClick={() => {
                             props.setPage("login");
@@ -77,6 +108,15 @@ export default function Home(props) {
                             <title>Gymcontrol - Príncipal</title>
                         </Helmet>
                         ¡BIENVENID{user.sexo === "MASCULINO" ? "O " : "A "} {rango_token === "Cliente" ? user.nombre : rango_token}!
+                        <button
+                            type="button"
+                            className="btn btn-primary"
+                            onClick = {(event) => {
+                                onClickHandler(event);
+                            }}
+                        >
+                            Cerrar Sesión
+                        </button>
                     </div>
                 );;
         }
