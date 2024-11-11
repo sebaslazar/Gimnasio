@@ -16,4 +16,4 @@ async def registro(cuerpo_de_solicitud: SchemaRegistrar):
 async def login(cuerpo_de_solicitud: SchemaLogin):
     token_usuario = await AuthService.servicio_de_login(cuerpo_de_solicitud)
     return SchemaRespuesta(detalles="Sesión iniciada",
-                           resultado={"token_type": "Bearer", "access_token": token_usuario})
+                           resultado={"tipo_de_token": "Bearer", "token_de_acceso": token_usuario})

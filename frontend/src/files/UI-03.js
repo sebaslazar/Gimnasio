@@ -54,60 +54,60 @@ export default function Registro(props) {
                 GYMCONTROL
             </h1>
             <form>
-                <div class="form-group">
+                <div className="form-group">
                     <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Identificación"
                     />
                 </div>
-                <div class="form-group">
+                <div className="form-group">
                     <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Nombre"
                     />
                 </div>
-                <div class="form-group">
+                <div className="form-group">
                     <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Segundo Nombre"
                     />
                 </div>
-                <div class="form-group">
+                <div className="form-group">
                     <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Apellido"
                     />
                 </div>
-                <div class="form-group">
+                <div className="form-group">
                     <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Segundo Apellido"
                     />
                 </div>
-                <div class="form-group">
+                <div className="form-group">
                     <input
                         type="email"
-                        class="form-control"
+                        className="form-control"
                         aria-describedby="emailHelp"
                         placeholder="Correo"
                     />
                 </div>
-                <div class="form-group">
+                <div className="form-group">
                     <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Dirección"
                     />
                 </div>
-                <div class="form-group">
+                <div className="form-group">
                     <input
                         type="number"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Teléfono"
                         locale="es"
                     />
@@ -118,8 +118,8 @@ export default function Registro(props) {
                         locale="es"
                         dateFormat="dd-MM-yyyy"
                     />
-                <div class="form-group">
-                    <select value={formRegister.sexo} class="form-group">
+                <div className="form-group">
+                    <select className="form-group">
                     {opciones_sexo.map((data) => {
                         if(data.value === ""){
                             return(
@@ -138,31 +138,31 @@ export default function Registro(props) {
                     })}
                     </select>
                 </div>
-                <div class="form-group">
+                <div className="form-group">
                     <input
                         type="number"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Peso en Kilogramos"
                     />
                 </div>
-                <div class="form-group">
+                <div className="form-group">
                     <input
                         type="number"
                         min="1"
                         max="3"
                         step="0.1"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Altura en Metro"
                     />
                 </div>
                 <button
                     type="submit"
-                    class="btn btn-primary">
+                    className="btn btn-primary">
                         Crear cuenta
                 </button>
                 <p>
-                    ¿Ya Tienes Una Cuenta?{" "} //Ruta que va a aparecer en el navegador
-                    <Link to="/?login"
+                    ¿Ya Tienes Una Cuenta?{" "}
+                    <Link to="/?login" //Ruta que va a aparecer en el navegador
                         onClick={() => {
                             props.setPage("login"); //Nombre de la página indicada en App.js
                         }}

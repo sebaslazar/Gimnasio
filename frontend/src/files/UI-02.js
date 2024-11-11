@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import {Link} from "react-router-dom"
+import {Link} from "react-router-dom";
+import axios from "axios";
 import "./UI-02.css";
 
 export default function Login(props) {
@@ -16,10 +17,8 @@ export default function Login(props) {
     const [loginForm, setLoginform] = useState({
         correo: "",
         password: "",
-        rango: "",
-    })
-
-    console.log(loginForm)
+        rango: "Cliente", //Fija "Cliente" como valor por defecto
+    });
 
     //Capturador de campos
     const onChange_formulario = (label, event) => {
@@ -36,16 +35,42 @@ export default function Login(props) {
         }
     }
 
+    //Manejador de envío de datos
+    const onSubmitManejador = async(event) => {
+        event.preventDefault()
+        console.log(loginForm) //Sólo sirve para pruebas
+        //Llamada a API para login
+        await axios.post("http://localhost:8888/auth/login",loginForm).then((response) => {
+            console.log(response); //Sólo sirve para pruebas
+            //Guarda token en almacenamiento local
+            localStorage.setItem("auth_token", response.data.resultado.token_de_acceso);
+            localStorage.setItem(
+                "auth_token_type",
+                response.data.resultado.tipo_de_token
+            );
+
+            //recarga página después de login exitoso
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+
+            //Agregar notificación de éxito
+
+        }).catch((error) => {
+            console.log(error); //Sólo sirve para pruebas
+        })
+    }
+
     return (
         <React.Fragment>
             <h1 className="nombre_de_gimnasio">
                 GYMCONTROL
             </h1>
-            <form>
-                <div class="form-group">
+            <form onSubmit={onSubmitManejador}>
+                <div className="form-group">
                     <input
                         type="email"
-                        class="form-control"
+                        className="form-control"
                         aria-describedby="emailHelp"
                         placeholder="Correo"
                         onChange={(event) => {
@@ -53,9 +78,9 @@ export default function Login(props) {
                         }}
                     />
                 </div>
-                <div class="form-group">
+                <div className="form-group">
                     <select
-                        class="form-group"
+                        className="form-group"
                         onChange={(event) => {
                             onChange_formulario("rango", event);
                         }}
@@ -78,10 +103,10 @@ export default function Login(props) {
                     })}
                     </select>
                 </div>
-                <div class="form-group">
+                <div className="form-group">
                     <input
                         type="password"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Contraseña"
                         onChange={(event) => {
                             onChange_formulario("password", event);
@@ -90,7 +115,7 @@ export default function Login(props) {
                 </div>
                 <button
                     type="submit"
-                    class="btn btn-primary">
+                    className="btn btn-primary">
                         Ingresar
                 </button>
                 <p>

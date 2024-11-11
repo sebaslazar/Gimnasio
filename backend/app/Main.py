@@ -7,7 +7,8 @@ from app.service.auth_service import generar_administrador_principal
 from app.controller import authentication, Cliente
 
 origins = [
-    "http://localhost:3001"  # El 3000 por alguna razón me aparece ocupado
+    "http://localhost:3000",
+    "http://localhost:3001"  # A veces el 3000 por alguna razón me aparece ocupado
 ]
 
 
