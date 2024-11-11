@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
 import axios from "axios";
 import {jwtDecode} from 'jwt-decode';
+import {Helmet} from "react-helmet"
 import {toast} from 'react-toastify'
 import "./Home.css";
 
@@ -17,6 +18,7 @@ export default function Home(props) {
                     }
     const [user, setUser] = useState({}); //Sirven para los datos del usuario
     const [auth_token, setToken] = useState(); //Sirven para los datos del token
+    const [rango_token, setRango] = useState();
 
     useEffect(() => {
         const auth_token = localStorage.getItem("auth_token"); //Cargo del token del almacenamiento local
@@ -26,9 +28,13 @@ export default function Home(props) {
             const decoded_token = jwtDecode(auth_token);
             const current_time = Date.now() / 1000;
 
-            if(decoded_token.exp > current_time){ //Verifica si el token ha expirado
+            if(decoded_token.exp > current_time){ //Verifica si el token no ha expirado
                 const auth_token_type = localStorage.getItem("auth_token_type");
                 const token_usuario = auth_token_type + " " + auth_token;
+
+                const rango_token = decoded_token.Rango //Recupera rango del token
+                setRango(rango_token)
+                console.log(rango_token) //Sólo sirve para pruebas
 
                 //Obtener datos de la API
                 axios.get("http://localhost:8888/cliente/", {headers: {Authorization: token_usuario}}).then((response) => {
@@ -38,7 +44,9 @@ export default function Home(props) {
                     console.log(error); //Sólo sirve para pruebas
                 })
             } else {
-                console.error("token expirado")
+                localStorage.removeItem("auth_token")
+                localStorage.removeItem("auth_token_type")
+                toast.error("Token expirado")
             }
         }
     }, [auth_token])
@@ -47,6 +55,10 @@ export default function Home(props) {
         if (auth_token == null) {
             return(
                 <div className="home_page">
+                    <Helmet>
+                        <meta charSet="utf-8"/>
+                        <title>Gymcontrol - Príncipal</title>
+                    </Helmet>
                     {frases[Math.floor(Math.random() * 5) + 1]}
                     <Link to="/?login"
                         onClick={() => {
@@ -60,7 +72,11 @@ export default function Home(props) {
         } else {
                 return (
                     <div className="home_page">
-                        ¡BIENVENID{user.sexo === "MASCULINO" ? "O " : "A "} {user.nombre}!
+                        <Helmet>
+                            <meta charSet="utf-8"/>
+                            <title>Gymcontrol - Príncipal</title>
+                        </Helmet>
+                        ¡BIENVENID{user.sexo === "MASCULINO" ? "O " : "A "} {rango_token === "Cliente" ? user.nombre : rango_token}!
                     </div>
                 );;
         }

@@ -49,21 +49,21 @@ class AuthService:
             if _cliente is not None:
                 if not pwd_context.verify(login.password, _cliente.password):
                     raise HTTPException(status_code=400, detail="Contraseña inválida")
-                return JWTRepo(data={"ID_cliente": _cliente.ID_cliente}).generar_token()
+                return JWTRepo(data={"ID": _cliente.ID_cliente, "Rango": _cliente.rango}).generar_token()
             raise HTTPException(status_code=404, detail="El cliente no existe")
         elif login.rango == "Administrador":
             _administrador = await AdministradorRepository.buscar_por_correo(login.correo)
             if _administrador is not None:
                 if not pwd_context.verify(login.password, _administrador.password):
                     raise HTTPException(status_code=400, detail="Contraseña inválida")
-                return JWTRepo(data={"ID_cliente": _administrador.ID_admin}).generar_token()
+                return JWTRepo(data={"ID": _administrador.ID_admin, "Rango": _administrador.rango}).generar_token()
             raise HTTPException(status_code=404, detail="El administrador no existe")
         elif login.rango == "Entrenador":
             _entrenador = await EntrenadorRepository.buscar_por_correo(login.correo)
             if _entrenador is not None:
                 if not pwd_context.verify(login.password, _entrenador.password):
                     raise HTTPException(status_code=400, detail="Contraseña inválida")
-                return JWTRepo(data={"ID_cliente": _entrenador.ID_entrenador}).generar_token()
+                return JWTRepo(data={"ID": _entrenador.ID_entrenador, "Rango": _entrenador.rango}).generar_token()
             raise HTTPException(status_code=404, detail="El entrenador no existe")
         else:
             raise HTTPException(status_code=404, detail="Rango inválido")
