@@ -9,7 +9,7 @@ document.documentElement.lang = "es"; //Establece el idioma de la página en esp
 
 function App() {
 
-    const [page, setPage] = useState("login");
+    const [page, setPage] = useState("Home");
     const [token, setToken] = useState();
 
     //Permite intercambiar la página que se carga
@@ -29,7 +29,7 @@ function App() {
     }, [token]);
 
     const paginas = () => {
-        if (token == null) {
+        if (token == null && page === "login") {
             return(
                 <div className="app-container">
                     <Helmet>
@@ -42,7 +42,7 @@ function App() {
                 </div>
             );
         } else {
-            return <Home />;
+            return <Home setPage={setPage}/>;
         }
     };
 
