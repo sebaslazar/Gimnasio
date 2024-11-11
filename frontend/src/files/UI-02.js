@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 import "./UI-02.css";
 
 export default function Login(props) {
@@ -55,9 +56,10 @@ export default function Login(props) {
             }, 1000);
 
             //Agregar notificación de éxito
-
+            toast.success(response.data.detail);
         }).catch((error) => {
             console.log(error); //Sólo sirve para pruebas
+            toast.error(error.response.data.detail);
         })
     }
 
