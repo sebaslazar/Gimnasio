@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
 import axios from "axios";
+import {jwtDecode} from 'jwt-decode';
+import {toast} from 'react-toastify'
 import "./Home.css";
 
 document.documentElement.lang = "es";
@@ -20,16 +22,24 @@ export default function Home(props) {
         const auth_token = localStorage.getItem("auth_token"); //Cargo del token del almacenamiento local
         setToken(auth_token);
         if(auth_token != null) { //Verifico si el token existe
-            const auth_token_type = localStorage.getItem("auth_token_type");
-            const token_usuario = auth_token_type + " " + auth_token;
 
-            //Obtener datos de la API
-            axios.get("http://localhost:8888/cliente/", {headers: {Authorization: token_usuario}}).then((response) => {
-                console.log(response); //Sólo sirve para pruebas
-                setUser(response.data.resultado);
-            }).catch((error) => {
-                console.log(error); //Sólo sirve para pruebas
-            })
+            const decoded_token = jwtDecode(auth_token);
+            const current_time = Date.now() / 1000;
+
+            if(decoded_token.exp > current_time){ //Verifica si el token ha expirado
+                const auth_token_type = localStorage.getItem("auth_token_type");
+                const token_usuario = auth_token_type + " " + auth_token;
+
+                //Obtener datos de la API
+                axios.get("http://localhost:8888/cliente/", {headers: {Authorization: token_usuario}}).then((response) => {
+                    console.log(response); //Sólo sirve para pruebas
+                    setUser(response.data.resultado);
+                }).catch((error) => {
+                    console.log(error); //Sólo sirve para pruebas
+                })
+            } else {
+                console.error("token expirado")
+            }
         }
     }, [auth_token])
 
