@@ -53,13 +53,16 @@ export default function Login(props) {
             //Agregar notificación de éxito
             toast.success(response.data.detalles);
 
-            //recarga página después de login exitoso
+            //Recarga página después de login exitoso
             setTimeout(() => {
                 window.location.reload();
             }, 1000);
 
         }).catch((error) => {
-            console.log(error); //Sólo sirve para pruebas
+            //Sólo sirve para pruebas
+            console.log(error);
+
+            //Agrega notificación de error
             toast.error(error.response.data.detail);
         })
     }

@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
+import axios from "axios";
+import {toast} from "react-toastify";
 import DatePicker, {registerLocale} from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import es from 'date-fns/locale/es';
@@ -14,6 +16,8 @@ export default function Registro(props) {
         {value: "FEMENINO", label: "Mujer"},
     ];
 
+    const navigate = useNavigate();
+
     //Formato de registro
     const [formRegister, setFormRegister] = useState({
         ID_cliente: "",
@@ -27,7 +31,6 @@ export default function Registro(props) {
         correo: "",
         telefono: "",
         direccion: "",
-        activo: "",
         peso: "",
         altura: ""
     })
@@ -96,14 +99,44 @@ export default function Registro(props) {
         }
     }
 
+    //Manejador de envío de datos
+    const onSubmitManejador = async(event) => {
+        event.preventDefault()
+        console.log(formRegister) //Sólo sirve para pruebas
+        navigate("/?login");
+        setTimeout(() => {
+            props.setPage("login");
+        }, 2000)
+
+
+        //Llama a la API para registrar cliente
+        /*await axios.post("http://localhost:8888/auth/registro_cliente", formRegister).then((response) => {
+            //Redirige a página de login
+            navigate("/?login");
+
+            //Agregar notificación de éxito
+            toast.success(response.data.detalles);
+
+            //Sólo sirve para pruebas
+            console.log(response);
+        }).catch((error) => {
+            //Sólo sirve para pruebas
+            console.log(error);
+
+            //Agrega notificación de error
+            toast.error(error.response.data.detail)
+        });*/
+    };
+
     return (
         <React.Fragment>
             <h1 className="nombre_de_gimnasio">
                 GYMCONTROL
             </h1>
-            <form>
+            <form onSubmit={onSubmitManejador}>
                 <div className="form-group">
                     <input
+                        required = "true"
                         type="text"
                         className="form-control"
                         placeholder="Identificación"
@@ -114,6 +147,7 @@ export default function Registro(props) {
                 </div>
                 <div className="form-group">
                     <input
+                        required = "true"
                         type="text"
                         className="form-control"
                         placeholder="Nombre"
@@ -134,6 +168,7 @@ export default function Registro(props) {
                 </div>
                 <div className="form-group">
                     <input
+                        required = "true"
                         type="text"
                         className="form-control"
                         placeholder="Apellido"
@@ -144,6 +179,7 @@ export default function Registro(props) {
                 </div>
                 <div className="form-group">
                     <input
+                        required = "true"
                         type="text"
                         className="form-control"
                         placeholder="Segundo Apellido"
@@ -154,6 +190,7 @@ export default function Registro(props) {
                 </div>
                 <div className="form-group">
                     <input
+                        required = "true"
                         type="email"
                         className="form-control"
                         aria-describedby="emailHelp"
@@ -165,6 +202,18 @@ export default function Registro(props) {
                 </div>
                 <div className="form-group">
                     <input
+                        required = "true"
+                        type="password"
+                        className="form-control"
+                        placeholder="Contraseña"
+                        onChange={(event) => {
+                            onChange_formulario("password", event);
+                        }}
+                    />
+                </div>
+                <div className="form-group">
+                    <input
+                        required = "true"
                         type="text"
                         className="form-control"
                         placeholder="Dirección"
@@ -175,7 +224,8 @@ export default function Registro(props) {
                 </div>
                 <div className="form-group">
                     <input
-                        type="number"
+                        required = "true"
+                        type="tel"
                         className="form-control"
                         placeholder="Teléfono"
                         onChange={(event) => {
@@ -184,6 +234,7 @@ export default function Registro(props) {
                     />
                 </div>
                 <DatePicker
+                        required = "true"
                         placeholderText="Fecha De Nacimiento"
                         selected={birthDate}
                         locale="es"
@@ -194,6 +245,7 @@ export default function Registro(props) {
                     />
                 <div className="form-group">
                     <select
+                        required = "true"
                         value={formRegister.sexo}
                         className="form-group"
                         onChange = {(event) => {
@@ -219,6 +271,7 @@ export default function Registro(props) {
                 </div>
                 <div className="form-group">
                     <input
+                        required = "true"
                         type="number"
                         className="form-control"
                         placeholder="Peso en Kilogramos"
@@ -229,6 +282,7 @@ export default function Registro(props) {
                 </div>
                 <div className="form-group">
                     <input
+                        required = "true"
                         type="number"
                         min="1"
                         max="3"
