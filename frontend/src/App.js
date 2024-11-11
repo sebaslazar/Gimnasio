@@ -1,7 +1,10 @@
 import './App.css';
 import React, {useState} from "react";
+import {Helmet} from "react-helmet"
 import Login from './files/UI-02.js';
 import Registro_cliente from './files/UI-03.js';
+
+document.documentElement.lang = "es"; //Establece el idioma de la página en español
 
 function App() {
 
@@ -18,6 +21,10 @@ function App() {
 
     return (
         <div className="app-container">
+            <Helmet>
+                <meta charSet="utf-8"/>
+                <title>Gymcontrol</title>
+            </Helmet>
             <div className="centered-div">
                 {elegir_pagina()}
             </div>
