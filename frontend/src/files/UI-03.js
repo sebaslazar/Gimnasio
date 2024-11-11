@@ -29,8 +29,7 @@ export default function Registro(props) {
         direccion: "",
         activo: "",
         peso: "",
-        altura: "",
-        rango: "",
+        altura: ""
     })
 
     //Valor por defecto para datepicker
@@ -48,6 +47,55 @@ export default function Registro(props) {
         return [day, month, year].join("-");
     };
 
+    //Capturador de campos
+    const onChange_formulario = (label, event) => {
+        switch(label){
+            case "ID_cliente":
+                setFormRegister({ ...formRegister, ID_cliente: event.target.value});
+                break;
+            case "password":
+                setFormRegister({ ...formRegister, password: event.target.value});
+                break;
+            case "sexo":
+                setFormRegister({ ...formRegister, sexo: event.target.value});
+                break;
+            case "nombre":
+                setFormRegister({ ...formRegister, nombre: event.target.value});
+                break;
+            case "segundo_nombre":
+                setFormRegister({ ...formRegister, segundo_nombre: event.target.value});
+                break;
+            case "apellido":
+                setFormRegister({ ...formRegister, apellido: event.target.value});
+                break;
+            case "segundo_apellido":
+                setFormRegister({ ...formRegister, segundo_apellido: event.target.value});
+                break;
+            case "fecha_nacimiento":
+                setBirthDate(event);
+                setFormRegister({ ...formRegister, fecha_nacimiento: formato_fecha(event)});
+                break;
+            case "correo":
+                setFormRegister({ ...formRegister, correo: event.target.value});
+                break;
+            case "telefono":
+                setFormRegister({ ...formRegister, telefono: event.target.value});
+                break;
+            case "direccion":
+                setFormRegister({ ...formRegister, direccion: event.target.value});
+                break;
+            case "activo":
+                setFormRegister({ ...formRegister, activo: event.target.value});
+                break;
+            case "peso":
+                setFormRegister({ ...formRegister, peso: event.target.value});
+                break;
+            case "altura":
+                setFormRegister({ ...formRegister, altura: event.target.value});
+                break;
+        }
+    }
+
     return (
         <React.Fragment>
             <h1 className="nombre_de_gimnasio">
@@ -59,6 +107,9 @@ export default function Registro(props) {
                         type="text"
                         className="form-control"
                         placeholder="Identificación"
+                        onChange={(event) => {
+                            onChange_formulario("ID_cliente", event);
+                        }}
                     />
                 </div>
                 <div className="form-group">
@@ -66,6 +117,9 @@ export default function Registro(props) {
                         type="text"
                         className="form-control"
                         placeholder="Nombre"
+                        onChange={(event) => {
+                            onChange_formulario("nombre", event);
+                        }}
                     />
                 </div>
                 <div className="form-group">
@@ -73,6 +127,9 @@ export default function Registro(props) {
                         type="text"
                         className="form-control"
                         placeholder="Segundo Nombre"
+                        onChange={(event) => {
+                            onChange_formulario("segundo_nombre", event);
+                        }}
                     />
                 </div>
                 <div className="form-group">
@@ -80,6 +137,9 @@ export default function Registro(props) {
                         type="text"
                         className="form-control"
                         placeholder="Apellido"
+                        onChange={(event) => {
+                            onChange_formulario("apellido", event);
+                        }}
                     />
                 </div>
                 <div className="form-group">
@@ -87,6 +147,9 @@ export default function Registro(props) {
                         type="text"
                         className="form-control"
                         placeholder="Segundo Apellido"
+                        onChange={(event) => {
+                            onChange_formulario("segundo_apellido", event);
+                        }}
                     />
                 </div>
                 <div className="form-group">
@@ -95,6 +158,9 @@ export default function Registro(props) {
                         className="form-control"
                         aria-describedby="emailHelp"
                         placeholder="Correo"
+                        onChange={(event) => {
+                            onChange_formulario("correo", event);
+                        }}
                     />
                 </div>
                 <div className="form-group">
@@ -102,6 +168,9 @@ export default function Registro(props) {
                         type="text"
                         className="form-control"
                         placeholder="Dirección"
+                        onChange={(event) => {
+                            onChange_formulario("direccion", event);
+                        }}
                     />
                 </div>
                 <div className="form-group">
@@ -109,7 +178,9 @@ export default function Registro(props) {
                         type="number"
                         className="form-control"
                         placeholder="Teléfono"
-                        locale="es"
+                        onChange={(event) => {
+                            onChange_formulario("telefono", event);
+                        }}
                     />
                 </div>
                 <DatePicker
@@ -117,9 +188,17 @@ export default function Registro(props) {
                         selected={birthDate}
                         locale="es"
                         dateFormat="dd-MM-yyyy"
+                        onChange = {(event) => {
+                            onChange_formulario("fecha_nacimiento", event);
+                        }}
                     />
                 <div className="form-group">
-                    <select className="form-group">
+                    <select
+                        value={formRegister.sexo}
+                        className="form-group"
+                        onChange = {(event) => {
+                            onChange_formulario("sexo", event);
+                        }}>
                     {opciones_sexo.map((data) => {
                         if(data.value === ""){
                             return(
@@ -143,6 +222,9 @@ export default function Registro(props) {
                         type="number"
                         className="form-control"
                         placeholder="Peso en Kilogramos"
+                        onChange = {(event) => {
+                            onChange_formulario("peso", event);
+                        }}
                     />
                 </div>
                 <div className="form-group">
@@ -153,6 +235,9 @@ export default function Registro(props) {
                         step="0.1"
                         className="form-control"
                         placeholder="Altura en Metro"
+                        onChange = {(event) => {
+                            onChange_formulario("altura", event);
+                        }}
                     />
                 </div>
                 <button

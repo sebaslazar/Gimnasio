@@ -28,17 +28,17 @@ class AuthService:
                            apellido=registro.apellido, segundo_apellido=registro.segundo_apellido,
                            fecha_nacimiento=fecha_nacimiento_con_date, correo=registro.correo,
                            telefono=registro.telefono, direccion=registro.direccion, activo=True,
-                           peso=registro.peso, altura=registro.altura, ID_titular=None, rango=registro.rango)
+                           peso=registro.peso, altura=registro.altura, ID_titular=None, rango="Cliente")
 
         # Verifica si el ID ya está registrado
         _ID_cliente = await ClienteRepository.buscar_por_id(registro.ID_cliente, "ID_cliente")
         if _ID_cliente:
-            raise HTTPException(status_code=400, detail="El usuario ya existe")
+            raise HTTPException(status_code=400, detail="El cliente ya está registrado")
 
         # Verifica si el correo ya está registrado
         _correo = await ClienteRepository.buscar_por_correo(registro.correo)
         if _correo:
-            raise HTTPException(status_code=400, detail="El correo ya existe")
+            raise HTTPException(status_code=400, detail="El correo ya está registrado")
         else:
             await ClienteRepository.crear(**_cliente.model_dump())
 

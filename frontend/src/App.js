@@ -29,7 +29,7 @@ function App() {
     }, [token]);
 
     const paginas = () => {
-        if (token == null && page === "login") {
+        if (token == null && (page === "login" || page === "registro_cliente")) {
             return(
                 <div className="app-container">
                     <Helmet>
