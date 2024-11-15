@@ -75,6 +75,7 @@ export default function Login(props) {
             <form onSubmit={onSubmitManejador}>
                 <div className="form-group">
                     <input
+                        required = "true"
                         type="email"
                         className="form-control"
                         aria-describedby="emailHelp"
@@ -86,6 +87,7 @@ export default function Login(props) {
                 </div>
                 <div className="form-group">
                     <select
+                        required = "true"
                         className="form-group"
                         onChange={(event) => {
                             onChange_formulario("rango", event);

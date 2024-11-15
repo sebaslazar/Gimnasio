@@ -32,9 +32,6 @@ export default function Home(props) {
                 const auth_token_type = localStorage.getItem("auth_token_type");
                 const token_usuario = auth_token_type + " " + auth_token;
 
-                console.log(rango_token) //Sólo sirve para pruebas
-                console.log(decoded_token)
-
                 //Obtiene datos de la API
                 axios.get("http://localhost:8888/usuario/", {headers: {Authorization: token_usuario}}).then((response) => {
                         console.log(response); //Sólo sirve para pruebas
