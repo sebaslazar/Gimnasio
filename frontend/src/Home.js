@@ -32,34 +32,25 @@ export default function Home(props) {
                 const auth_token_type = localStorage.getItem("auth_token_type");
                 const token_usuario = auth_token_type + " " + auth_token;
 
-                const rango_token = decoded_token.Rango //Recupera rango del token
-                setRango(rango_token)
                 console.log(rango_token) //Sólo sirve para pruebas
                 console.log(decoded_token)
 
                 //Obtiene datos de la API
-                if(rango_token === "Cliente"){
-                    axios.get("http://localhost:8888/cliente/", {headers: {Authorization: token_usuario}}).then((response) => {
+                axios.get("http://localhost:8888/usuario/", {headers: {Authorization: token_usuario}}).then((response) => {
                         console.log(response); //Sólo sirve para pruebas
-                        setUser(response.data.resultado);
+                        setUser(response.data.resultado.info_usuario);
+                        const rango_token = response.data.resultado.rango_usuario;
+                        setRango(rango_token)
                     }).catch((error) => {
                         console.log(error); //Sólo sirve para pruebas
                     })
-                } else if(rango_token === "Administrador"){
-                    axios.get("http://localhost:8888/admin/", {headers: {Authorization: token_usuario}}).then((response) => {
-                        console.log(response); //Sólo sirve para pruebas
-                        setUser(response.data.resultado);
-                    }).catch((error) => {
-                        console.log(error); //Sólo sirve para pruebas
-                    })
-                }
             } else {
                 localStorage.removeItem("auth_token")
                 localStorage.removeItem("auth_token_type")
                 toast.error("Token expirado")
             }
         }
-    }, [auth_token])
+    }, [auth_token, rango_token])
 
     const onClickHandler = (event) => {
         event.preventDefault();
