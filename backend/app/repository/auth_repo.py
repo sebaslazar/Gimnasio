@@ -63,7 +63,10 @@ class JWTBearer(HTTPBearer):
 
     @staticmethod
     def verificar_jwt(jwt_token: str):
-        if jwt.decode(token=jwt_token, key=SECRET_KEY, algorithms=[ALGORITHM]) is not None:
-            return True
-        else:
+        try:
+            if jwt.decode(token=jwt_token, key=SECRET_KEY, algorithms=[ALGORITHM]) is not None:
+                return True
+            else:
+                return False
+        except:
             return False

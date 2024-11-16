@@ -25,12 +25,8 @@ export default function Home(props) {
         setToken(auth_token);
         if(auth_token != null) { //Verifica si el token existe
 
-            const decoded_token = jwtDecode(auth_token);
-            const current_time = Date.now() / 1000;
-
-            if(decoded_token.exp > current_time){ //Verifica si el token no ha expirado
-                const auth_token_type = localStorage.getItem("auth_token_type");
-                const token_usuario = auth_token_type + " " + auth_token;
+            const auth_token_type = localStorage.getItem("auth_token_type");
+            const token_usuario = auth_token_type + " " + auth_token;
 
                 //Obtiene datos de la API
                 axios.get("http://localhost:8888/usuario/", {headers: {Authorization: token_usuario}}).then((response) => {
@@ -40,12 +36,14 @@ export default function Home(props) {
                         setRango(rango_token)
                     }).catch((error) => {
                         console.log(error); //Sólo sirve para pruebas
+                        localStorage.removeItem("auth_token")
+                        localStorage.removeItem("auth_token_type")
+                        toast.error(error.response.data.detail.message)
+
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1500)
                     })
-            } else {
-                localStorage.removeItem("auth_token")
-                localStorage.removeItem("auth_token_type")
-                toast.error("Token expirado")
-            }
         }
     }, [auth_token, rango_token])
 
@@ -71,7 +69,7 @@ export default function Home(props) {
     }
 
     const paginas = () => {
-        if (auth_token == null) {
+        if (auth_token == null || rango_token == null) {
             return(
                 <div className="home_page">
                     <Helmet>
