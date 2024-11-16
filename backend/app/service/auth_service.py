@@ -19,7 +19,7 @@ class AuthService:
     @staticmethod
     async def servicio_de_registro_de_cliente(registro: SchemaRegistrar):
 
-        # Convertir fecha de nacimiento de str a date
+        # Convierte fecha de nacimiento de str a date
         fecha_nacimiento_con_date = datetime.strptime(registro.fecha_nacimiento, '%d-%m-%Y')
 
         # Asigna datos para realizar la solicitud a la tabla
@@ -38,7 +38,7 @@ class AuthService:
     @staticmethod
     async def servicio_de_registro_de_entrenador(registro: SchemaRegistrar):
 
-        # Convertir fecha de nacimiento de str a date
+        # Convierte fecha de nacimiento de str a date
         fecha_nacimiento_con_date = datetime.strptime(registro.fecha_nacimiento, '%d-%m-%Y')
 
         # Asigna datos para realizar la solicitud a la tabla
@@ -53,6 +53,24 @@ class AuthService:
 
         if no_existe_usuario:
             await EntrenadorRepository.crear(**_entrenador.model_dump())
+
+    @staticmethod
+    async def servicio_de_registro_de_administrador(registro: SchemaRegistrar):
+
+        # Convierte fecha de nacimiento de str a date
+        fecha_nacimiento_con_date = datetime.strptime(registro.fecha_nacimiento, '%d-%m-%Y')
+
+        # Asigna datos para realizar la solicitud a la tabla
+        _administrador = Administrador(ID_admin=registro.ID, password=registro.password, sexo=registro.sexo,
+                                       nombre=registro.nombre, segundo_nombre=registro.segundo_nombre,
+                                       apellido=registro.apellido, segundo_apellido=registro.segundo_apellido,
+                                       fecha_nacimiento=fecha_nacimiento_con_date, correo=registro.correo,
+                                       direccion=registro.direccion, telefono=registro.telefono, rango="Administrador")
+
+        no_existe_usuario = await verificacion_pre_registro(registro.ID, registro.correo)
+
+        if no_existe_usuario:
+            await AdministradorRepository.crear(**_administrador.model_dump())
 
     @staticmethod
     async def servicio_de_login(login: SchemaLogin):

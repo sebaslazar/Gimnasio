@@ -18,6 +18,12 @@ async def registro_entrenador(cuerpo_de_solicitud: SchemaRegistrar):
     return SchemaRespuesta(detalles="Entrenador creado exitosamente")
 
 
+@router.post("/registro_administrador", response_model=SchemaRespuesta, response_model_exclude_none=True)
+async def registro_administrador(cuerpo_de_solicitud: SchemaRegistrar):
+    await AuthService.servicio_de_registro_de_administrador(cuerpo_de_solicitud)
+    return SchemaRespuesta(detalles="Administrador creado exitosamente")
+
+
 @router.post("/login", response_model=SchemaRespuesta)
 async def login(cuerpo_de_solicitud: SchemaLogin):
     token_usuario = await AuthService.servicio_de_login(cuerpo_de_solicitud)
