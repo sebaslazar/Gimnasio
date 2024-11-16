@@ -100,12 +100,17 @@ class AuthService:
 
     @staticmethod
     async def actualizar_perfil_de_cliente(cliente: SchemaRegistrar):
-        info_cliente = dict(cliente)
-        info_cliente["password"] = pwd_context.hash(info_cliente["password"])
-        info_cliente["fecha_nacimiento"] = datetime.strptime(info_cliente["fecha_nacimiento"], '%d-%m-%Y')
-        del info_cliente['especialidad']
-        del info_cliente['ID']
-        await ClienteRepository.actualizar_por_id(model_id=cliente.ID, name_id="ID_cliente", **info_cliente)
+        _cliente = await ClienteRepository.buscar_por_id(cliente.ID, "ID_cliente")
+        if _cliente:
+            info_cliente = dict(cliente)
+            info_cliente["password"] = pwd_context.hash(info_cliente["password"])
+            info_cliente["fecha_nacimiento"] = datetime.strptime(info_cliente["fecha_nacimiento"], '%d-%m-%Y')
+            del info_cliente['especialidad']
+            del info_cliente['fecha_nacimiento']
+            del info_cliente['ID']
+            await ClienteRepository.actualizar_por_id(model_id=cliente.ID, name_id="ID_cliente", **info_cliente)
+        else:
+            raise HTTPException(status_code=404, detail="El cliente no existe")
 
 
 # Genera el administrador principal
