@@ -34,4 +34,16 @@ async def login(cuerpo_de_solicitud: SchemaLogin):
 @router.post("/actualizar_cliente", response_model=SchemaRespuesta, response_model_exclude_none=True)
 async def actualizar_cliente(cuerpo_de_solicitud: SchemaRegistrar):
     await AuthService.actualizar_perfil_de_cliente(cuerpo_de_solicitud)
-    return SchemaRespuesta(detalles="Cliente actualizado exitosamente")
+    return SchemaRespuesta(detalles="Perfil de cliente actualizado exitosamente")
+
+
+@router.post("/actualizar_entrenador", response_model=SchemaRespuesta, response_model_exclude_none=True)
+async def actualizar_entrenador(cuerpo_de_solicitud: SchemaRegistrar):
+    await AuthService.actualizar_perfil_de_entrenador(cuerpo_de_solicitud)
+    return SchemaRespuesta(detalles="Perfil de entrenador actualizado exitosamente")
+
+
+@router.post("/actualizar_administrador", response_model=SchemaRespuesta, response_model_exclude_none=True)
+async def actualizar_administrador(cuerpo_de_solicitud: SchemaRegistrar):
+    await AuthService.actualizar_perfil_de_administrador(cuerpo_de_solicitud)
+    return SchemaRespuesta(detalles="Perfil de administrador actualizado exitosamente")

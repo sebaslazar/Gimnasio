@@ -104,13 +104,41 @@ class AuthService:
         if _cliente:
             info_cliente = dict(cliente)
             info_cliente["password"] = pwd_context.hash(info_cliente["password"])
-            info_cliente["fecha_nacimiento"] = datetime.strptime(info_cliente["fecha_nacimiento"], '%d-%m-%Y')
             del info_cliente['especialidad']
             del info_cliente['fecha_nacimiento']
             del info_cliente['ID']
             await ClienteRepository.actualizar_por_id(model_id=cliente.ID, name_id="ID_cliente", **info_cliente)
         else:
             raise HTTPException(status_code=404, detail="El cliente no existe")
+
+    @staticmethod
+    async def actualizar_perfil_de_entrenador(entrenador: SchemaRegistrar):
+        _entrenador = await EntrenadorRepository.buscar_por_id(entrenador.ID, "ID_entrenador")
+        if _entrenador:
+            info_entrenador = dict(entrenador)
+            info_entrenador['password'] = pwd_context.hash(info_entrenador['password'])
+            del info_entrenador['peso']
+            del info_entrenador['altura']
+            del info_entrenador['fecha_nacimiento']
+            del info_entrenador['ID']
+            await EntrenadorRepository.actualizar_por_id(model_id=entrenador.ID, name_id="ID_entrenador", **info_entrenador)
+        else:
+            raise HTTPException(status_code=404, detail="El entrenador no existe")
+
+    @staticmethod
+    async def actualizar_perfil_de_administrador(administrador: SchemaRegistrar):
+        _administrador = await AdministradorRepository.buscar_por_id(administrador.ID, "ID_admin")
+        if _administrador:
+            info_administrador = dict(administrador)
+            info_administrador['password'] = pwd_context.hash(info_administrador['password'])
+            del info_administrador['especialidad']
+            del info_administrador['peso']
+            del info_administrador['altura']
+            del info_administrador['fecha_nacimiento']
+            del info_administrador['ID']
+            await AdministradorRepository.actualizar_por_id(model_id=administrador.ID, name_id="ID_admin", **info_administrador)
+        else:
+            raise HTTPException(status_code=404, detail="El administrador no existe")
 
 
 # Genera el administrador principal
