@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
 import axios from "axios";
-import {jwtDecode} from 'jwt-decode';
 import {Helmet} from "react-helmet"
 import {toast} from 'react-toastify'
 import "./Home.css";

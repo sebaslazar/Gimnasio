@@ -61,7 +61,7 @@ class AuthService:
         fecha_nacimiento_con_date = datetime.strptime(registro.fecha_nacimiento, '%d-%m-%Y')
 
         # Asigna datos para realizar la solicitud a la tabla
-        _administrador = Administrador(ID_admin=registro.ID, password=registro.password, sexo=registro.sexo,
+        _administrador = Administrador(ID_admin=registro.ID, password=pwd_context.hash(registro.password), sexo=registro.sexo,
                                        nombre=registro.nombre, segundo_nombre=registro.segundo_nombre,
                                        apellido=registro.apellido, segundo_apellido=registro.segundo_apellido,
                                        fecha_nacimiento=fecha_nacimiento_con_date, correo=registro.correo,
