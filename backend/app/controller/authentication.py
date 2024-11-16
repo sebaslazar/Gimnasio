@@ -7,9 +7,15 @@ router = APIRouter(prefix="/auth", tags=['Autenticacion'])
 
 
 @router.post("/registro_cliente", response_model=SchemaRespuesta, response_model_exclude_none=True)
-async def registro(cuerpo_de_solicitud: SchemaRegistrar):
+async def registro_cliente(cuerpo_de_solicitud: SchemaRegistrar):
     await AuthService.servicio_de_registro_de_cliente(cuerpo_de_solicitud)
-    return SchemaRespuesta(detalles="Usuario creado exitosamente")
+    return SchemaRespuesta(detalles="Cuenta creada exitosamente")
+
+
+@router.post("/registro_entrenador", response_model=SchemaRespuesta, response_model_exclude_none=True)
+async def registro_entrenador(cuerpo_de_solicitud: SchemaRegistrar):
+    await AuthService.servicio_de_registro_de_entrenador(cuerpo_de_solicitud)
+    return SchemaRespuesta(detalles="Entrenador creado exitosamente")
 
 
 @router.post("/login", response_model=SchemaRespuesta)

@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 class SchemaRegistrar(BaseModel):
-    ID_cliente: str
+    ID: str
     password: str
     sexo: str
     nombre: str
@@ -23,11 +23,12 @@ class SchemaRegistrar(BaseModel):
     correo: str
     telefono: str
     direccion: str
-    peso: float
-    altura: float
+    peso: Optional[float] = None
+    altura: Optional[float] = None
+    especialidad: Optional[str] = None
 
     # Validación de número de cédula
-    @field_validator("ID_cliente")
+    @field_validator("ID")
     def validar_id(cls, id_para_validar):
         logger.debug(f"Cédula en validación: {id_para_validar}")
 

@@ -4,7 +4,7 @@ from fastapi import HTTPException
 
 from passlib.context import CryptContext
 from app.schema import SchemaRegistrar, SchemaLogin
-from app.model import Cliente, Administrador
+from app.model import Cliente, Administrador, Entrenador
 from app.repository.Cliente import ClienteRepository
 from app.repository.Administradores import AdministradorRepository
 from app.repository.Entrenadores import EntrenadorRepository
@@ -23,24 +23,60 @@ class AuthService:
         fecha_nacimiento_con_date = datetime.strptime(registro.fecha_nacimiento, '%d-%m-%Y')
 
         # Asigna datos para realizar la solicitud a la tabla
-        _cliente = Cliente(ID_cliente=registro.ID_cliente, password=pwd_context.hash(registro.password),
+        _cliente = Cliente(ID_cliente=registro.ID, password=pwd_context.hash(registro.password),
                            sexo=registro.sexo, nombre=registro.nombre, segundo_nombre=registro.segundo_nombre,
                            apellido=registro.apellido, segundo_apellido=registro.segundo_apellido,
                            fecha_nacimiento=fecha_nacimiento_con_date, correo=registro.correo,
                            telefono=registro.telefono, direccion=registro.direccion, activo=True,
                            peso=registro.peso, altura=registro.altura, ID_titular=None, rango="Cliente")
 
+        no_existe_usuario = await verificacion_pre_registro(registro.ID, registro.correo)
+
+        if no_existe_usuario:
+            await ClienteRepository.crear(**_cliente.model_dump())
+
         # Verifica si el ID ya está registrado
-        _ID_cliente = await ClienteRepository.buscar_por_id(registro.ID_cliente, "ID_cliente")
+        _ID_cliente = await ClienteRepository.buscar_por_id(registro.ID, "ID_cliente")
         if _ID_cliente:
-            raise HTTPException(status_code=400, detail="La cédula ya está registrado")
+            raise HTTPException(status_code=400, detail="Ya hay un cliente registrado con esa cédula")
 
         # Verifica si el correo ya está registrado
         _correo = await ClienteRepository.buscar_por_correo(registro.correo)
         if _correo:
-            raise HTTPException(status_code=400, detail="El correo ya está registrado")
+            raise HTTPException(status_code=400, detail="Ya hay un cliente registrado con ese correo")
         else:
             await ClienteRepository.crear(**_cliente.model_dump())
+
+    @staticmethod
+    async def servicio_de_registro_de_entrenador(registro: SchemaRegistrar):
+
+        # Convertir fecha de nacimiento de str a date
+        fecha_nacimiento_con_date = datetime.strptime(registro.fecha_nacimiento, '%d-%m-%Y')
+
+        # Asigna datos para realizar la solicitud a la tabla
+        _entrenador = Entrenador(ID_entrenador=registro.ID, password=pwd_context.hash(registro.password),
+                                 sexo=registro.sexo, nombre=registro.nombre, segundo_nombre=registro.segundo_nombre,
+                                 apellido=registro.apellido, segundo_apellido=registro.segundo_apellido,
+                                 fecha_nacimiento=fecha_nacimiento_con_date, correo=registro.correo,
+                                 telefono=registro.telefono, direccion=registro.direccion,
+                                 especialidad=registro.especialidad, activo=True, rango="Entrenador")
+
+        no_existe_usuario = await verificacion_pre_registro(registro.ID, registro.correo)
+
+        if no_existe_usuario:
+            await EntrenadorRepository.crear(**_entrenador.model_dump())
+
+        # Verifica si el ID ya está registrado
+        _ID_entrenador = await EntrenadorRepository.buscar_por_id(registro.ID, "ID_entrenador")
+        if _ID_entrenador:
+            raise HTTPException(status_code=400, detail="Ya hay un entrenador registrado con esa cédula")
+
+        # Verifica si el correo ya está registrado
+        _correo = await EntrenadorRepository.buscar_por_correo(registro.correo)
+        if _correo:
+            raise HTTPException(status_code=400, detail="Ya hay un entrenador registrado con ese correo")
+        else:
+            await EntrenadorRepository.crear(**_entrenador.model_dump())
 
     @staticmethod
     async def servicio_de_login(login: SchemaLogin):
@@ -81,3 +117,31 @@ async def generar_administrador_principal():
                                     correo="Principal_correo@gmail.com", direccion="Cra. 27 #10-02",
                                     telefono="1000000000", rango="Administrador")
         await AdministradorRepository.crear(**_main_admin.model_dump())
+
+
+async def verificacion_pre_registro(registro_id: str, registro_correo: str):
+    _ID_usuario = await ClienteRepository.buscar_por_id(registro_id, "ID_cliente")
+    if not _ID_usuario:
+        _ID_usuario = await EntrenadorRepository.buscar_por_id(registro_id, "ID_entrenador")
+        if not _ID_usuario:
+            _ID_usuario = await AdministradorRepository.buscar_por_id(registro_id, "ID_admin")
+            if _ID_usuario:
+                raise HTTPException(status_code=400, detail="Ya hay un administrador registrado con esa cédula")
+        else:
+            raise HTTPException(status_code=400, detail="Ya hay un entrenador registrado con esa cédula")
+    else:
+        raise HTTPException(status_code=400, detail="Ya hay un entrenador registrado con esa cédula")
+
+    _correo_usuario = await ClienteRepository.buscar_por_correo(registro_correo)
+    if not _correo_usuario:
+        _correo_usuario = await EntrenadorRepository.buscar_por_correo(registro_correo)
+        if not _correo_usuario:
+            _correo_usuario = await AdministradorRepository.buscar_por_correo(registro_correo)
+            if _correo_usuario:
+                raise HTTPException(status_code=400, detail="Ya hay un administrador registrado con ese correo")
+            else:
+                return True
+        else:
+            raise HTTPException(status_code=400, detail="Ya hay un entrenador registrado con ese correo")
+    else:
+        raise HTTPException(status_code=400, detail="Ya hay un cliente registrado con ese correo")
