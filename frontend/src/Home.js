@@ -9,12 +9,12 @@ document.documentElement.lang = "es";
 
 export default function Home(props) {
 
-    const frases = {1: "El único mal entrenamiento es el que no haces",
-                    2: "No se trata de ser el mejor, sino de ser mejor que ayer",
-                    3: "Cada repetición cuenta, cada esfuerzo te acerca a tus metas",
-                    4: "No te detengas cuando estés cansado, detente cuando hayas terminado",
-                    5: "Cada gota de sudor es un paso hacia tu mejor versión"
-                    }
+    const frases = ["El único mal entrenamiento es el que no haces",
+                    "No se trata de ser el mejor, sino de ser mejor que ayer",
+                    "Cada repetición cuenta, cada esfuerzo te acerca a tus metas",
+                    "No te detengas cuando estés cansado, detente cuando hayas terminado",
+                    "Cada gota de sudor es un paso hacia tu mejor versión"
+                    ]
     const [user, setUser] = useState({}); //Sirve para los datos del usuario
     const [auth_token, setToken] = useState(); //Sirve para los datos del token
     const [rango_token, setRango] = useState(); //Sirve para los datos del rango
@@ -67,45 +67,45 @@ export default function Home(props) {
         }, 1500)
     }
 
-    const paginas = () => {
-        if (auth_token == null || rango_token == null) {
-            return(
-                <div className="home_page">
-                    <Helmet>
-                        <meta charSet="utf-8"/>
-                        <title>Gymcontrol - Príncipal</title>
-                    </Helmet>
-                    {frases[Math.floor(Math.random() * Object.keys(frases).length) + 1]}
-                    <Link to="/?login"
-                        onClick={() => {
-                            props.setPage("login");
-                        }}
-                    >
-                        <button type="button" className="btn btn-primary">Únete</button>
-                    </Link>
-                </div>
-            );
-        } else {
-                return (
-                    <div className="home_page">
-                        <Helmet>
-                            <meta charSet="utf-8"/>
-                            <title>Gymcontrol - Príncipal</title>
-                        </Helmet>
-                        ¡BIENVENID{user.sexo === "MASCULINO" ? "O " : "A "} {rango_token === "Cliente" ? user.nombre : rango_token}!
-                        <button
-                            type="button"
-                            className="btn btn-primary"
-                            onClick = {(event) => {
-                                onClickHandler(event);
-                            }}
-                        >
-                            Cerrar Sesión
-                        </button>
-                    </div>
-                );;
-        }
-    };
+    const pagina_sin_token = () => {
+        return(
+            <div className="home_page">
+                <Helmet>
+                    <meta charSet="utf-8"/>
+                    <title>Gymcontrol - Príncipal</title>
+                </Helmet>
+                {frases[Math.floor(Math.random() * frases.length)+1]}
+                <Link to="/?login"
+                    onClick={() => {
+                        props.setPage("login");
+                    }}
+                >
+                    <button type="button" className="btn btn-primary">Únete</button>
+                </Link>
+            </div>
+        );
+    }
 
-    return <React.Fragment>{paginas()}</React.Fragment>;
+    const pagina_con_token = () => {
+        return (
+            <div className="home_page">
+                <Helmet>
+                <meta charSet="utf-8"/>
+                    <title>Gymcontrol - Príncipal</title>
+                </Helmet>
+                ¡BIENVENID{user.sexo === "MASCULINO" ? "O " : "A "} {rango_token === "Cliente" ? user.nombre : rango_token}!
+                <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick = {(event) => {
+                        onClickHandler(event);
+                    }}
+                >
+                    Cerrar Sesión
+                </button>
+            </div>
+        );
+    }
+
+    return <React.Fragment>{auth_token==null || rango_token==null ? pagina_sin_token() : pagina_con_token()}</React.Fragment>;
 }
