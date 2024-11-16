@@ -1,9 +1,9 @@
 from fastapi import APIRouter
 
-from app.schema import SchemaRespuesta, SchemaRegistrar, SchemaLogin
+from app.schema import SchemaRespuesta, SchemaRegistrar, SchemaLogin, SchemaEliminar
 from app.service.auth_service import AuthService
 
-router = APIRouter(prefix="/auth", tags=['Autenticacion'])
+router = APIRouter(prefix="/auth", tags=['Autenticación'])
 
 
 @router.post("/registro_cliente", response_model=SchemaRespuesta, response_model_exclude_none=True)
@@ -47,3 +47,21 @@ async def actualizar_entrenador(cuerpo_de_solicitud: SchemaRegistrar):
 async def actualizar_administrador(cuerpo_de_solicitud: SchemaRegistrar):
     await AuthService.actualizar_perfil_de_administrador(cuerpo_de_solicitud)
     return SchemaRespuesta(detalles="Perfil de administrador actualizado exitosamente")
+
+
+@router.post("/eliminar_cliente", response_model=SchemaRespuesta)
+async def eliminar_cliente(cuerpo_de_solicitud: SchemaEliminar):
+    await AuthService.eliminar_perfil_de_cliente(cuerpo_de_solicitud)
+    return SchemaRespuesta(detalles="Perfil de cliente eliminado exitosamente")
+
+
+@router.post("/eliminar_entrenador", response_model=SchemaRespuesta)
+async def eliminar_entrenador(cuerpo_de_solicitud: SchemaEliminar):
+    await AuthService.eliminar_perfil_de_entrenador(cuerpo_de_solicitud)
+    return SchemaRespuesta(detalles="Perfil de entrenador eliminado exitosamente")
+
+
+@router.post("/eliminar_administrador", response_model=SchemaRespuesta)
+async def eliminar_administrador(cuerpo_de_solicitud: SchemaEliminar):
+    await AuthService.eliminar_perfil_de_administrador(cuerpo_de_solicitud)
+    return SchemaRespuesta(detalles="Perfil de administrador eliminado exitosamente")

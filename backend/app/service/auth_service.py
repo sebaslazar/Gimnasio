@@ -3,7 +3,7 @@ from datetime import datetime
 from fastapi import HTTPException
 
 from passlib.context import CryptContext
-from app.schema import SchemaRegistrar, SchemaLogin
+from app.schema import SchemaRegistrar, SchemaLogin, SchemaEliminar
 from app.model import Cliente, Administrador, Entrenador
 from app.repository.Cliente import ClienteRepository
 from app.repository.Administradores import AdministradorRepository
@@ -61,9 +61,10 @@ class AuthService:
         fecha_nacimiento_con_date = datetime.strptime(registro.fecha_nacimiento, '%d-%m-%Y')
 
         # Asigna datos para realizar la solicitud a la tabla
-        _administrador = Administrador(ID_admin=registro.ID, password=pwd_context.hash(registro.password), sexo=registro.sexo,
-                                       nombre=registro.nombre, segundo_nombre=registro.segundo_nombre,
-                                       apellido=registro.apellido, segundo_apellido=registro.segundo_apellido,
+        _administrador = Administrador(ID_admin=registro.ID, password=pwd_context.hash(registro.password),
+                                       sexo=registro.sexo, nombre=registro.nombre,
+                                       segundo_nombre=registro.segundo_nombre, apellido=registro.apellido,
+                                       segundo_apellido=registro.segundo_apellido,
                                        fecha_nacimiento=fecha_nacimiento_con_date, correo=registro.correo,
                                        direccion=registro.direccion, telefono=registro.telefono, rango="Administrador")
 
@@ -138,6 +139,30 @@ class AuthService:
             del info_administrador['fecha_nacimiento']
             del info_administrador['ID']
             await AdministradorRepository.actualizar_por_id(model_id=administrador.ID, name_id="ID_admin", **info_administrador)
+        else:
+            raise HTTPException(status_code=404, detail="El administrador no existe")
+
+    @staticmethod
+    async def eliminar_perfil_de_cliente(cliente: SchemaEliminar):
+        _cliente = await ClienteRepository.buscar_por_id(cliente.ID, "ID_cliente")
+        if _cliente:
+            await ClienteRepository.eliminar_por_id(model_id=cliente.ID, name_id="ID_cliente")
+        else:
+            raise HTTPException(status_code=404, detail="El cliente no existe")
+
+    @staticmethod
+    async def eliminar_perfil_de_entrenador(entrenador: SchemaEliminar):
+        _entrenador = await EntrenadorRepository.buscar_por_id(entrenador.ID, "ID_entrenador")
+        if _entrenador:
+            await EntrenadorRepository.eliminar_por_id(model_id=entrenador.ID, name_id="ID_entrenador")
+        else:
+            raise HTTPException(status_code=404, detail="El entrenador no existe")
+
+    @staticmethod
+    async def eliminar_perfil_de_administrador(administrador: SchemaEliminar):
+        _administrador = await AdministradorRepository.buscar_por_id(administrador.ID, "ID_admin")
+        if _administrador:
+            await AdministradorRepository.eliminar_por_id(model_id=administrador.ID, name_id="ID_admin")
         else:
             raise HTTPException(status_code=404, detail="El administrador no existe")
 

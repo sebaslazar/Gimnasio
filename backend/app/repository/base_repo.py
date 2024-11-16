@@ -34,7 +34,7 @@ class BaseRepo:
         await commit_rollback()
 
     @classmethod
-    async def eliminar_por_id(cls, model_id: str):
-        query = sql_delete(cls.model).where(cls.model.id == model_id)
+    async def eliminar_por_id(cls, model_id: str, name_id: str):
+        query = sql_delete(cls.model).where(getattr(cls.model, name_id) == model_id)
         await db.execute(query)
         await commit_rollback()

@@ -67,6 +67,10 @@ class SchemaLogin(BaseModel):
     rango: str
 
 
+class SchemaEliminar(BaseModel):
+    ID: str
+
+
 class SchemaDetallado(BaseModel):
     estado: str
     mensaje: str

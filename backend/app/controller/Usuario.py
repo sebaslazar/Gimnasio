@@ -11,7 +11,7 @@ router = APIRouter(prefix="/usuario", tags=['Usuario'], dependencies=[Depends(JW
 
 
 @router.get("/", response_model=SchemaRespuesta, response_model_exclude_none=True)
-async def conseguir_perfil_cliente(credenciales: HTTPAuthorizationCredentials = Security(JWTBearer())):
+async def conseguir_perfil_usuario(credenciales: HTTPAuthorizationCredentials = Security(JWTBearer())):
     token_usuario = JWTRepo.extraer_token(credenciales)
     if token_usuario['Rango'] == "Cliente":
         resultado = await ServicioCliente.buscar_perfil_de_cliente(token_usuario['ID'])
