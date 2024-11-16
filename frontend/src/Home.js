@@ -20,8 +20,7 @@ export default function Home(props) {
     const [rango_token, setRango] = useState(); //Sirve para los datos del rango
 
     useEffect(() => {
-        const auth_token = localStorage.getItem("auth_token"); //Cargo del token del almacenamiento local
-        setToken(auth_token);
+        setToken(localStorage.getItem("auth_token"));
         if(auth_token != null) { //Verifica si el token existe
 
             const auth_token_type = localStorage.getItem("auth_token_type");
@@ -31,8 +30,7 @@ export default function Home(props) {
                 axios.get("http://localhost:8888/usuario/", {headers: {Authorization: token_usuario}}).then((response) => {
                         console.log(response); //Sólo sirve para pruebas
                         setUser(response.data.resultado.info_usuario);
-                        const rango_token = response.data.resultado.rango_usuario;
-                        setRango(rango_token)
+                        setRango(response.data.resultado.rango_usuario)
                     }).catch((error) => {
                         console.log(error); //Sólo sirve para pruebas
                         localStorage.removeItem("auth_token")
@@ -41,7 +39,7 @@ export default function Home(props) {
 
                         setTimeout(() => {
                             window.location.reload();
-                        }, 1500)
+                        }, 1000)
                     })
         }
     }, [auth_token, rango_token])
@@ -74,7 +72,7 @@ export default function Home(props) {
                     <meta charSet="utf-8"/>
                     <title>Gymcontrol - Príncipal</title>
                 </Helmet>
-                {frases[Math.floor(Math.random() * frases.length)+1]}
+                {frases[Math.floor(Math.random() * frases.length)]}
                 <Link to="/?login"
                     onClick={() => {
                         props.setPage("login");
@@ -93,7 +91,9 @@ export default function Home(props) {
                 <meta charSet="utf-8"/>
                     <title>Gymcontrol - Príncipal</title>
                 </Helmet>
-                ¡BIENVENID{user.sexo === "MASCULINO" ? "O " : "A "} {rango_token === "Cliente" ? user.nombre : rango_token}!
+                ¡BIENVENID{user.sexo === "MASCULINO" ? "O " : "A "}
+                {rango_token === "Cliente" ? user.nombre.toUpperCase() : rango_token.toUpperCase()}
+                {user.sexo === "FEMENINO" && rango_token !== "Cliente" ? "A" : ""}!
                 <button
                     type="button"
                     className="btn btn-primary"
