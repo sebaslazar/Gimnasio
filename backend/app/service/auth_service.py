@@ -35,18 +35,6 @@ class AuthService:
         if no_existe_usuario:
             await ClienteRepository.crear(**_cliente.model_dump())
 
-        # Verifica si el ID ya está registrado
-        _ID_cliente = await ClienteRepository.buscar_por_id(registro.ID, "ID_cliente")
-        if _ID_cliente:
-            raise HTTPException(status_code=400, detail="Ya hay un cliente registrado con esa cédula")
-
-        # Verifica si el correo ya está registrado
-        _correo = await ClienteRepository.buscar_por_correo(registro.correo)
-        if _correo:
-            raise HTTPException(status_code=400, detail="Ya hay un cliente registrado con ese correo")
-        else:
-            await ClienteRepository.crear(**_cliente.model_dump())
-
     @staticmethod
     async def servicio_de_registro_de_entrenador(registro: SchemaRegistrar):
 
@@ -64,18 +52,6 @@ class AuthService:
         no_existe_usuario = await verificacion_pre_registro(registro.ID, registro.correo)
 
         if no_existe_usuario:
-            await EntrenadorRepository.crear(**_entrenador.model_dump())
-
-        # Verifica si el ID ya está registrado
-        _ID_entrenador = await EntrenadorRepository.buscar_por_id(registro.ID, "ID_entrenador")
-        if _ID_entrenador:
-            raise HTTPException(status_code=400, detail="Ya hay un entrenador registrado con esa cédula")
-
-        # Verifica si el correo ya está registrado
-        _correo = await EntrenadorRepository.buscar_por_correo(registro.correo)
-        if _correo:
-            raise HTTPException(status_code=400, detail="Ya hay un entrenador registrado con ese correo")
-        else:
             await EntrenadorRepository.crear(**_entrenador.model_dump())
 
     @staticmethod
@@ -120,6 +96,8 @@ async def generar_administrador_principal():
 
 
 async def verificacion_pre_registro(registro_id: str, registro_correo: str):
+
+    # Verifica si el ID ya está registrado
     _ID_usuario = await ClienteRepository.buscar_por_id(registro_id, "ID_cliente")
     if not _ID_usuario:
         _ID_usuario = await EntrenadorRepository.buscar_por_id(registro_id, "ID_entrenador")
@@ -130,8 +108,9 @@ async def verificacion_pre_registro(registro_id: str, registro_correo: str):
         else:
             raise HTTPException(status_code=400, detail="Ya hay un entrenador registrado con esa cédula")
     else:
-        raise HTTPException(status_code=400, detail="Ya hay un entrenador registrado con esa cédula")
+        raise HTTPException(status_code=400, detail="Ya hay un cliente registrado con esa cédula")
 
+    # Verifica si el correo ya está registrado
     _correo_usuario = await ClienteRepository.buscar_por_correo(registro_correo)
     if not _correo_usuario:
         _correo_usuario = await EntrenadorRepository.buscar_por_correo(registro_correo)
