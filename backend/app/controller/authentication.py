@@ -29,3 +29,9 @@ async def login(cuerpo_de_solicitud: SchemaLogin):
     token_usuario = await AuthService.servicio_de_login(cuerpo_de_solicitud)
     return SchemaRespuesta(detalles="Sesión iniciada",
                            resultado={"tipo_de_token": "Bearer", "token_de_acceso": token_usuario})
+
+
+@router.post("/actualizar_cliente", response_model=SchemaRespuesta, response_model_exclude_none=True)
+async def actualizar_cliente(cuerpo_de_solicitud: SchemaRegistrar):
+    await AuthService.actualizar_perfil_de_cliente(cuerpo_de_solicitud)
+    return SchemaRespuesta(detalles="Cliente actualizado exitosamente")

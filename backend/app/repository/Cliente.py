@@ -22,7 +22,7 @@ class ClienteRepository(BaseRepo):
 
     @staticmethod
     async def actualizar_password(correo: str, password: str):
-        query = sql_update(Cliente).where(Cliente.correo == correo).values(password=password).\
-            execution_options(synchronize_session="fetch")
+        query = (sql_update(Cliente).where(Cliente.correo == correo).values(password=password).
+                 execution_options(synchronize_session="fetch"))
         await db.execute(query)
         await commit_rollback()
