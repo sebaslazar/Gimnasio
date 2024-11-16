@@ -20,7 +20,7 @@ export default function Registro(props) {
 
     //Formato de registro
     const [formRegister, setFormRegister] = useState({
-        ID_cliente: "",
+        ID: "",
         password: "",
         sexo: "",
         nombre: "",
@@ -32,8 +32,8 @@ export default function Registro(props) {
         telefono: "",
         direccion: "",
         peso: "",
-        altura: ""
-    })
+        altura: "",
+    });
 
     //Valor por defecto para datepicker
     registerLocale("es", es)
@@ -53,8 +53,8 @@ export default function Registro(props) {
     //Capturador de campos
     const onChange_formulario = (label, event) => {
         switch(label){
-            case "ID_cliente":
-                setFormRegister({ ...formRegister, ID_cliente: event.target.value});
+            case "ID":
+                setFormRegister({ ...formRegister, ID: event.target.value});
                 break;
             case "password":
                 setFormRegister({ ...formRegister, password: event.target.value});
@@ -139,7 +139,7 @@ export default function Registro(props) {
                         className="form-control"
                         placeholder="Identificación"
                         onChange={(event) => {
-                            onChange_formulario("ID_cliente", event);
+                            onChange_formulario("ID", event);
                         }}
                     />
                 </div>

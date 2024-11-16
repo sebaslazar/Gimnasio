@@ -26,6 +26,7 @@ class SchemaRegistrar(BaseModel):
     peso: Optional[float] = None
     altura: Optional[float] = None
     especialidad: Optional[str] = None
+    activo: Optional[bool] = None
 
     # Validación de número de cédula
     @field_validator("ID")

@@ -134,6 +134,7 @@ class AuthService:
             del info_administrador['especialidad']
             del info_administrador['peso']
             del info_administrador['altura']
+            del info_administrador['activo']
             del info_administrador['fecha_nacimiento']
             del info_administrador['ID']
             await AdministradorRepository.actualizar_por_id(model_id=administrador.ID, name_id="ID_admin", **info_administrador)
