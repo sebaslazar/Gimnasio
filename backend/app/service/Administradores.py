@@ -4,7 +4,7 @@ from app.model import Administrador
 from app.config import db
 from fastapi import HTTPException
 
-from app.schema import SchemaProveedor
+from app.schema import SchemaProveedor, SchemaEliminar
 from app.model.Proveedores import Proveedor
 from app.repository.Administradores import AdministradorRepository
 from app.repository.Proveedores import ProveedorRepository
@@ -42,5 +42,13 @@ class ServicioAdministrador:
             del info_proveedor['ID_admin_creador']
             await ProveedorRepository.actualizar_por_id(model_id=registro.ID_proveedor, name_id="ID_proveedor",
                                                         **info_proveedor)
+        else:
+            raise HTTPException(status_code=404, detail="El proveedor no existe")
+
+    @staticmethod
+    async def eliminar_proveedor(registro: SchemaEliminar):
+        _proveedor = await ProveedorRepository.buscar_por_id(model_id=registro.ID, name_id="ID_proveedor")
+        if _proveedor:
+            await ProveedorRepository.eliminar_por_id(model_id=registro.ID, name_id="ID_proveedor")
         else:
             raise HTTPException(status_code=404, detail="El proveedor no existe")
