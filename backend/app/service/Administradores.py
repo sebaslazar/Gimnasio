@@ -7,6 +7,7 @@ from fastapi import HTTPException
 from app.schema import SchemaProveedor, SchemaEliminar
 from app.model.Proveedores import Proveedor
 from app.repository.Administradores import AdministradorRepository
+from app.repository.Cliente import ClienteRepository
 from app.repository.Proveedores import ProveedorRepository
 
 
@@ -60,8 +61,17 @@ class ServicioAdministrador:
     @staticmethod
     async def consultar_lista_de_proveedores():
         resultado = await ProveedorRepository.buscar_todo("nombre")
-        resultado_list = list(resultado)
-        if not resultado_list:
+        resultado_lista = list(resultado)
+        if not resultado_lista:
             raise HTTPException(status_code=404, detail="No existen proveedores")
         else:
-            return resultado_list
+            return resultado_lista
+
+    @staticmethod
+    async def consultar_lista_de_clientes():
+        resultado = await ClienteRepository.buscar_todo("nombre")
+        resultado_lista = list(resultado)
+        if not resultado_lista:
+            raise HTTPException(status_code=404, detail="No existen clientes")
+        else:
+            return resultado_lista

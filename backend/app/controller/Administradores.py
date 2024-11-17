@@ -51,6 +51,13 @@ async def eliminar_administrador(cuerpo_de_solicitud: SchemaEliminar):
     return SchemaRespuesta(detalles="Perfil de administrador eliminado exitosamente")
 
 
+@router.get("/clientes", response_model=SchemaRespuesta)
+async def lista_clientes():
+    clientes = await ServicioAdministrador.consultar_lista_de_clientes()
+    return SchemaRespuesta(detalles="Clientes accedidos correctamente",
+                           resultado=clientes)
+
+
 @router.post("/agregar_proveedor", response_model=SchemaRespuesta)
 async def agregar_proveedor(cuerpo_de_solicitud: SchemaProveedor):
     await ServicioAdministrador.agregar_proveedor(cuerpo_de_solicitud)
@@ -69,7 +76,7 @@ async def eliminar_proveedor(cuerpo_de_solicitud: SchemaEliminar):
     return SchemaRespuesta(detalles="Proveedor eliminado exitosamente")
 
 
-@router.post("/proveedores", response_model=SchemaRespuesta)
+@router.get("/proveedores", response_model=SchemaRespuesta)
 async def lista_proveedores():
     proveedores = await ServicioAdministrador.consultar_lista_de_proveedores()
     return SchemaRespuesta(detalles="Proveedores accedidos correctamente",
