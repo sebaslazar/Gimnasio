@@ -54,10 +54,22 @@ class SchemaLogin(BaseModel):
     password: str
     rango: str
 
+    @field_validator("rango")
+    def check_rango(cls, rango_para_validar):
+        if rango_para_validar in {"Cliente", "Administrador", "Entrenador"}:
+            return rango_para_validar
+        else:
+            raise HTTPException(status_code=400, detail="Rango inválido")
+
 
 class SchemaEliminar(BaseModel):
     ID: str
 
+    @field_validator("ID")
+    def check_id(cls, id_para_validar):
+        logger.debug(f"Cédula en validación: {id_para_validar}")
+        if validar_identificacion(id_para_validar, "Número de cédula inválido"):
+            return id_para_validar
 
 class SchemaProveedor(BaseModel):
     ID_proveedor: str

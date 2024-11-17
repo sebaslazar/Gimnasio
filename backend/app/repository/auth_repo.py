@@ -52,14 +52,14 @@ class JWTBearer(HTTPBearer):
         if credentials:
             if not credentials.scheme == "Bearer":
                 raise HTTPException(status_code=403,
-                                    detail={"status": "Forbidden", "message": "Esquema de autenticación inválido."})
+                                    detail={"status": "Forbidden", "message": "Esquema de autenticación inválido"})
             if not self.verificar_jwt(credentials.credentials):
                 raise HTTPException(status_code=403,
-                                    detail={"status": "Forbidden", "message": "Token inválido o expirado."})
+                                    detail={"status": "Forbidden", "message": "Token inválido o expirado"})
             return credentials.credentials
         else:
             raise HTTPException(status_code=403,
-                                detail={"status": "Forbidden", "message": "Código de autorización inválido."})
+                                detail={"status": "Forbidden", "message": "Código de autorización inválido"})
 
     @staticmethod
     def verificar_jwt(jwt_token: str):

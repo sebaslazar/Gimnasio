@@ -52,7 +52,7 @@ async def eliminar_administrador(cuerpo_de_solicitud: SchemaEliminar):
 
 
 @router.get("/clientes", response_model=SchemaRespuesta)
-async def lista_clientes():
+async def lista_de_clientes():
     clientes = await ServicioAdministrador.consultar_lista_de_clientes()
     return SchemaRespuesta(detalles="Clientes accedidos correctamente",
                            resultado=clientes)
@@ -77,7 +77,7 @@ async def eliminar_proveedor(cuerpo_de_solicitud: SchemaEliminar):
 
 
 @router.get("/proveedores", response_model=SchemaRespuesta)
-async def lista_proveedores():
+async def lista_de_proveedores():
     proveedores = await ServicioAdministrador.consultar_lista_de_proveedores()
     return SchemaRespuesta(detalles="Proveedores accedidos correctamente",
                            resultado=proveedores)

@@ -8,7 +8,7 @@ router = APIRouter(prefix="/entrenador", tags=['Entrenador'], dependencies=[Depe
 
 
 @router.get("/clientes_activos", response_model=SchemaRespuesta, response_model_exclude_none=True)
-async def actualizar_cliente():
+async def list_de_clientes_activos():
     clientes_activos = await ServicioEntrenador.consultar_lista_clientes_activos()
     return SchemaRespuesta(detalles="Clientes activos accedidos correctamente",
                            resultado=clientes_activos)
