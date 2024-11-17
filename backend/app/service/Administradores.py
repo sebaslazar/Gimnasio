@@ -37,11 +37,15 @@ class ServicioAdministrador:
     async def modificar_proveedor(registro: SchemaProveedor):
         _proveedor = await ProveedorRepository.buscar_por_id(model_id=registro.ID_proveedor, name_id="ID_proveedor")
         if _proveedor:
-            info_proveedor = dict(registro)
-            del info_proveedor['ID_proveedor']
-            del info_proveedor['ID_admin_creador']
-            await ProveedorRepository.actualizar_por_id(model_id=registro.ID_proveedor, name_id="ID_proveedor",
-                                                        **info_proveedor)
+            _admin = await AdministradorRepository.buscar_por_id(model_id=registro.ID_admin_creador, name_id="ID_admin")
+            if _admin:
+                info_proveedor = dict(registro)
+                del info_proveedor['ID_proveedor']
+                del info_proveedor['ID_admin_creador']
+                await ProveedorRepository.actualizar_por_id(model_id=registro.ID_proveedor, name_id="ID_proveedor",
+                                                            **info_proveedor)
+            else:
+                raise HTTPException(status_code=404, detail="El administrador no existe")
         else:
             raise HTTPException(status_code=404, detail="El proveedor no existe")
 
@@ -52,3 +56,12 @@ class ServicioAdministrador:
             await ProveedorRepository.eliminar_por_id(model_id=registro.ID, name_id="ID_proveedor")
         else:
             raise HTTPException(status_code=404, detail="El proveedor no existe")
+
+    @staticmethod
+    async def consultar_lista_de_proveedores():
+        resultado = await ProveedorRepository.buscar_todo("nombre")
+        resultado_list = list(resultado)
+        if not resultado_list:
+            raise HTTPException(status_code=404, detail="No existen proveedores")
+        else:
+            return resultado_list

@@ -17,9 +17,9 @@ class BaseRepo:
         return model
 
     @classmethod
-    async def buscar_todo(cls):
-        query = select(cls.model)
-        return (await db.execute(query)).scalars().all
+    async def buscar_todo(cls, criterio_ordenamiento: str):
+        query = select(cls.model).order_by(getattr(cls.model, criterio_ordenamiento))
+        return (await db.execute(query)).scalars()
 
     @classmethod
     async def buscar_por_id(cls, model_id: str, name_id: str):

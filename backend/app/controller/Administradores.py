@@ -67,3 +67,10 @@ async def modificar_proveedor(cuerpo_de_solicitud: SchemaProveedor):
 async def eliminar_proveedor(cuerpo_de_solicitud: SchemaEliminar):
     await ServicioAdministrador.eliminar_proveedor(cuerpo_de_solicitud)
     return SchemaRespuesta(detalles="Proveedor eliminado exitosamente")
+
+
+@router.post("/proveedores", response_model=SchemaRespuesta)
+async def lista_proveedores():
+    proveedores = await ServicioAdministrador.consultar_lista_de_proveedores()
+    return SchemaRespuesta(detalles="Proveedores accedidos correctamente",
+                           resultado=proveedores)
