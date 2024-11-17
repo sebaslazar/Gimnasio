@@ -81,3 +81,17 @@ async def lista_de_proveedores():
     proveedores = await ServicioAdministrador.consultar_lista_de_proveedores()
     return SchemaRespuesta(detalles="Proveedores accedidos correctamente",
                            resultado=proveedores)
+
+
+@router.get("/entrenadores", response_model=SchemaRespuesta)
+async def lista_de_entrenadores():
+    entrenadores = await ServicioAdministrador.consultar_lista_de_entrenadores()
+    return SchemaRespuesta(detalles="Entrenadores accedidos correctamente",
+                           resultado=entrenadores)
+
+
+@router.get("/administradores", response_model=SchemaRespuesta)
+async def lista_de_administradores():
+    administradores = await ServicioAdministrador.consultar_lista_de_administradores()
+    return SchemaRespuesta(detalles="Administradores accedidos correctamente",
+                           resultado=administradores)

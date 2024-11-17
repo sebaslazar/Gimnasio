@@ -1,6 +1,7 @@
 from typing import TypeVar, Generic
 from sqlalchemy import update as sql_update, delete as sql_delete
 from sqlalchemy.future import select
+from sqlalchemy.orm import load_only
 from app.config import db, commit_rollback
 
 T = TypeVar('T')
@@ -17,8 +18,13 @@ class BaseRepo:
         return model
 
     @classmethod
-    async def buscar_todo(cls, criterio_ordenamiento: str):
-        query = select(cls.model).order_by(getattr(cls.model, criterio_ordenamiento))
+    async def buscar_todo(cls, criterio_ordenamiento: str, columnas: list = None):
+        if columnas is not None:
+            columnas_consulta = [getattr(cls.model, col) for col in columnas]
+            query = (select(cls.model).order_by(getattr(cls.model, criterio_ordenamiento)).
+                     options(load_only(*columnas_consulta)))
+        else:
+            query = select(cls.model).order_by(getattr(cls.model, criterio_ordenamiento))
         return (await db.execute(query)).scalars()
 
     @classmethod

@@ -8,6 +8,7 @@ from app.schema import SchemaProveedor, SchemaEliminar
 from app.model.Proveedores import Proveedor
 from app.repository.Administradores import AdministradorRepository
 from app.repository.Cliente import ClienteRepository
+from app.repository.Entrenadores import EntrenadorRepository
 from app.repository.Proveedores import ProveedorRepository
 
 
@@ -60,7 +61,8 @@ class ServicioAdministrador:
 
     @staticmethod
     async def consultar_lista_de_proveedores():
-        resultado = await ProveedorRepository.buscar_todo("nombre")
+        resultado = await ProveedorRepository.buscar_todo("nombre", ['ID_proveedor', 'nombre',
+                                                                     'telefono', 'direccion'])
         resultado_lista = list(resultado)
         if not resultado_lista:
             raise HTTPException(status_code=404, detail="No existen proveedores")
@@ -69,9 +71,30 @@ class ServicioAdministrador:
 
     @staticmethod
     async def consultar_lista_de_clientes():
-        resultado = await ClienteRepository.buscar_todo("nombre")
+        resultado = await ClienteRepository.buscar_todo("nombre", ['ID_cliente', 'nombre',
+                                                                   'telefono', 'sexo'])
         resultado_lista = list(resultado)
         if not resultado_lista:
             raise HTTPException(status_code=404, detail="No existen clientes")
+        else:
+            return resultado_lista
+
+    @staticmethod
+    async def consultar_lista_de_entrenadores():
+        resultado = await EntrenadorRepository.buscar_todo("nombre", ['ID_entrenador', 'nombre',
+                                                                      'telefono', 'sexo'])
+        resultado_lista = list(resultado)
+        if not resultado_lista:
+            raise HTTPException(status_code=404, detail="No existen entrenadores")
+        else:
+            return resultado_lista
+
+    @staticmethod
+    async def consultar_lista_de_administradores():
+        resultado = await AdministradorRepository.buscar_todo("nombre", ['ID_admin', 'nombre',
+                                                                         'telefono', 'sexo'])
+        resultado_lista = list(resultado)
+        if not resultado_lista:
+            raise HTTPException(status_code=404, detail="No existen administradores")
         else:
             return resultado_lista
