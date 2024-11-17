@@ -12,3 +12,9 @@ router = APIRouter(prefix="/admin", tags=['Administrador'], dependencies=[Depend
 async def agregar_proveedor(cuerpo_de_solicitud: SchemaProveedor):
     await ServicioAdministrador.agregar_proveedor(cuerpo_de_solicitud)
     return SchemaRespuesta(detalles="Proveedor agregado exitosamente")
+
+
+@router.post("/modificar_proveedor", response_model=SchemaRespuesta)
+async def modificar_proveedor(cuerpo_de_solicitud: SchemaProveedor):
+    await ServicioAdministrador.modificar_proveedor(cuerpo_de_solicitud)
+    return SchemaRespuesta(detalles="Proveedor modificado exitosamente")

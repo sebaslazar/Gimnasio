@@ -32,3 +32,15 @@ class ServicioAdministrador:
                 raise HTTPException(status_code=404, detail="El proveedor ya existe")
         else:
             raise HTTPException(status_code=404, detail="El administrador no existe")
+
+    @staticmethod
+    async def modificar_proveedor(registro: SchemaProveedor):
+        _proveedor = await ProveedorRepository.buscar_por_id(model_id=registro.ID_proveedor, name_id="ID_proveedor")
+        if _proveedor:
+            info_proveedor = dict(registro)
+            del info_proveedor['ID_proveedor']
+            del info_proveedor['ID_admin_creador']
+            await ProveedorRepository.actualizar_por_id(model_id=registro.ID_proveedor, name_id="ID_proveedor",
+                                                        **info_proveedor)
+        else:
+            raise HTTPException(status_code=404, detail="El proveedor no existe")
