@@ -72,8 +72,8 @@ class SchemaEliminar(BaseModel):
             return id_para_validar
 
 
-class SchemaEstadoCliente(BaseModel):
-    ID_cliente: str
+class SchemaEstado(BaseModel):
+    ID: str
     activo: bool
 
 

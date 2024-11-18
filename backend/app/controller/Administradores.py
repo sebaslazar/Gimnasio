@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Security
 from fastapi.security import HTTPAuthorizationCredentials
 
 from app.repository.auth_repo import JWTBearer, JWTRepo
-from app.schema import SchemaRespuesta, SchemaProveedor, SchemaEliminar, SchemaRegistrar, SchemaEstadoCliente
+from app.schema import SchemaRespuesta, SchemaProveedor, SchemaEliminar, SchemaRegistrar, SchemaEstado
 from app.service.Administradores import ServicioAdministrador
 from app.service.auth_service import AuthService
 
@@ -98,6 +98,34 @@ async def lista_de_administradores():
 
 
 @router.post("/modificar_estado_cliente", response_model=SchemaRespuesta)
-async def modificar_estado_de_cliente(cuerpo_de_solicitud: SchemaEstadoCliente):
+async def modificar_estado_de_cliente(cuerpo_de_solicitud: SchemaEstado):
     await ServicioAdministrador.actualizar_estado_cliente(cuerpo_de_solicitud)
     return SchemaRespuesta(detalles="Estado de cliente actualizado")
+
+
+@router.post("/modificar_estado_entrenador", response_model=SchemaRespuesta)
+async def modificar_estado_de_entrenador(cuerpo_de_solicitud: SchemaEstado):
+    await ServicioAdministrador.actualizar_estado_entrenador(cuerpo_de_solicitud)
+    return SchemaRespuesta(detalles="Estado de entrenador actualizado")
+
+
+@router.patch("/info_cliente/{id_cliente}", response_model=SchemaRespuesta, response_model_exclude_none=True)
+async def buscar_info_de_cliente(id_cliente: str):
+    info_cliente = await ServicioAdministrador.conseguir_info_de_cliente(id_cliente)
+    return SchemaRespuesta(detalles="Información recuperada con éxito",
+                           resultado=info_cliente)
+
+
+@router.patch("/info_entrenador/{id_entrenador}", response_model=SchemaRespuesta, response_model_exclude_none=True)
+async def buscar_info_de_entrenador(id_entrenador: str):
+    info_entrenador = await ServicioAdministrador.conseguir_info_de_entrenador(id_entrenador)
+    return SchemaRespuesta(detalles="Información recuperada con éxito",
+                           resultado=info_entrenador)
+
+
+@router.patch("/info_proveedor/{id_proveedor}", response_model=SchemaRespuesta, response_model_exclude_none=True)
+async def buscar_info_de_proveedor(id_proveedor: str):
+    info_proveedor = await ServicioAdministrador.conseguir_info_de_proveedor(id_proveedor)
+    return SchemaRespuesta(detalles="Información recuperada con éxito",
+                           resultado=info_proveedor)
+

@@ -4,12 +4,14 @@ from app.model import Administrador
 from app.config import db
 from fastapi import HTTPException
 
-from app.schema import SchemaProveedor, SchemaEliminar, SchemaEstadoCliente
+from app.schema import SchemaProveedor, SchemaEliminar, SchemaEstado
 from app.model.Proveedores import Proveedor
 from app.repository.Administradores import AdministradorRepository
 from app.repository.Cliente import ClienteRepository
 from app.repository.Entrenadores import EntrenadorRepository
 from app.repository.Proveedores import ProveedorRepository
+from app.service.Cliente import ServicioCliente
+from app.service.Entrenadores import ServicioEntrenador
 
 
 class ServicioAdministrador:
@@ -100,12 +102,49 @@ class ServicioAdministrador:
             return resultado_lista
 
     @staticmethod
-    async def actualizar_estado_cliente(nuevo_estado: SchemaEstadoCliente):
-        _cliente = await ClienteRepository.buscar_por_id(model_id=nuevo_estado.ID_cliente, name_id="ID_cliente")
+    async def actualizar_estado_cliente(nuevo_estado: SchemaEstado):
+        _cliente = await ClienteRepository.buscar_por_id(model_id=nuevo_estado.ID, name_id="ID_cliente")
         if _cliente:
             resultado_lista = dict(nuevo_estado)
-            del resultado_lista['ID_cliente']
-            await ClienteRepository.actualizar_por_id(model_id=nuevo_estado.ID_cliente, name_id="ID_cliente",
+            del resultado_lista['ID']
+            await ClienteRepository.actualizar_por_id(model_id=nuevo_estado.ID, name_id="ID_cliente",
                                                       **resultado_lista)
         else:
             raise HTTPException(status_code=404, detail="El cliente no existe")
+
+    @staticmethod
+    async def actualizar_estado_entrenador(nuevo_estado: SchemaEstado):
+        _entrenador = await EntrenadorRepository.buscar_por_id(model_id=nuevo_estado.ID, name_id="ID_entrenador")
+        if _entrenador:
+            resultado_lista = dict(nuevo_estado)
+            del resultado_lista['ID']
+            await EntrenadorRepository.actualizar_por_id(model_id=nuevo_estado.ID, name_id="ID_entrenador",
+                                                         **resultado_lista)
+        else:
+            raise HTTPException(status_code=404, detail="El entrenador no existe")
+
+    @staticmethod
+    async def conseguir_info_de_cliente(id_cliente: str):
+        _cliente = await ServicioCliente.buscar_perfil_de_cliente(id_cliente)
+        if _cliente:
+            return _cliente
+        else:
+            raise HTTPException(status_code=404, detail="El cliente no existe")
+
+    @staticmethod
+    async def conseguir_info_de_entrenador(id_entrenador: str):
+        _entrenador = await ServicioEntrenador.buscar_perfil_de_entrenador(id_entrenador)
+        if _entrenador:
+            return _entrenador
+        else:
+            raise HTTPException(status_code=404, detail="El entrenador no existe")
+
+    @staticmethod
+    async def conseguir_info_de_proveedor(id_proveedor: str):
+        query = select(Proveedor).where(Proveedor.ID_proveedor == id_proveedor)
+        resultado_consulta = (await db.execute(query)).scalar_one_or_none()
+        if resultado_consulta is not None:
+            return resultado_consulta
+        else:
+            raise HTTPException(status_code=404, detail="El proveedor no existe")
+
