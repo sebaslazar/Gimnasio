@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Security
 from fastapi.security import HTTPAuthorizationCredentials
 
 from app.repository.auth_repo import JWTBearer, JWTRepo
-from app.schema import SchemaRespuesta, SchemaProveedor, SchemaEliminar, SchemaRegistrar
+from app.schema import SchemaRespuesta, SchemaProveedor, SchemaEliminar, SchemaRegistrar, SchemaEstadoCliente
 from app.service.Administradores import ServicioAdministrador
 from app.service.auth_service import AuthService
 
@@ -33,19 +33,19 @@ async def actualizar_administrador(cuerpo_de_solicitud: SchemaRegistrar):
     return SchemaRespuesta(detalles="Perfil de administrador actualizado exitosamente")
 
 
-@router.post("/eliminar_cliente", response_model=SchemaRespuesta)
+@router.delete("/eliminar_cliente", response_model=SchemaRespuesta)
 async def eliminar_cliente(cuerpo_de_solicitud: SchemaEliminar):
     await AuthService.eliminar_perfil_de_cliente(cuerpo_de_solicitud)
     return SchemaRespuesta(detalles="Perfil de cliente eliminado exitosamente")
 
 
-@router.post("/eliminar_entrenador", response_model=SchemaRespuesta)
+@router.delete("/eliminar_entrenador", response_model=SchemaRespuesta)
 async def eliminar_entrenador(cuerpo_de_solicitud: SchemaEliminar):
     await AuthService.eliminar_perfil_de_entrenador(cuerpo_de_solicitud)
     return SchemaRespuesta(detalles="Perfil de entrenador eliminado exitosamente")
 
 
-@router.post("/eliminar_administrador", response_model=SchemaRespuesta)
+@router.delete("/eliminar_administrador", response_model=SchemaRespuesta)
 async def eliminar_administrador(cuerpo_de_solicitud: SchemaEliminar):
     await AuthService.eliminar_perfil_de_administrador(cuerpo_de_solicitud)
     return SchemaRespuesta(detalles="Perfil de administrador eliminado exitosamente")
@@ -70,7 +70,7 @@ async def modificar_proveedor(cuerpo_de_solicitud: SchemaProveedor):
     return SchemaRespuesta(detalles="Proveedor modificado exitosamente")
 
 
-@router.post("/eliminar_proveedor", response_model=SchemaRespuesta)
+@router.delete("/eliminar_proveedor", response_model=SchemaRespuesta)
 async def eliminar_proveedor(cuerpo_de_solicitud: SchemaEliminar):
     await ServicioAdministrador.eliminar_proveedor(cuerpo_de_solicitud)
     return SchemaRespuesta(detalles="Proveedor eliminado exitosamente")
@@ -95,3 +95,9 @@ async def lista_de_administradores():
     administradores = await ServicioAdministrador.consultar_lista_de_administradores()
     return SchemaRespuesta(detalles="Administradores accedidos correctamente",
                            resultado=administradores)
+
+
+@router.post("/modificar_estado_cliente", response_model=SchemaRespuesta)
+async def modificar_estado_de_cliente(cuerpo_de_solicitud: SchemaEstadoCliente):
+    await ServicioAdministrador.actualizar_estado_cliente(cuerpo_de_solicitud)
+    return SchemaRespuesta(detalles="Estado de cliente actualizado")

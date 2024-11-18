@@ -104,6 +104,7 @@ class AuthService:
         if _cliente:
             info_cliente = dict(cliente)
             info_cliente["password"] = pwd_context.hash(info_cliente["password"])
+            del info_cliente['activo']
             del info_cliente['especialidad']
             del info_cliente['fecha_nacimiento']
             del info_cliente['ID']

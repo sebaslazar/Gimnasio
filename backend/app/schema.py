@@ -71,6 +71,12 @@ class SchemaEliminar(BaseModel):
         if validar_identificacion(id_para_validar, "Número de cédula inválido"):
             return id_para_validar
 
+
+class SchemaEstadoCliente(BaseModel):
+    ID_cliente: str
+    activo: bool
+
+
 class SchemaProveedor(BaseModel):
     ID_proveedor: str
     ID_admin_creador: str
