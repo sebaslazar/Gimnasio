@@ -2,14 +2,17 @@ from sqlalchemy.future import select
 from sqlalchemy.orm import defer
 from app.model import Administrador
 from app.config import db
+from uuid import uuid4
 from fastapi import HTTPException
 
-from app.schema import SchemaProveedor, SchemaEliminar, SchemaEstado
+from app.schema import SchemaProveedor, SchemaEliminar, SchemaEstado, SchemaMembresia
 from app.model.Proveedores import Proveedor
+from app.model.Membresias import Membresia
 from app.repository.Administradores import AdministradorRepository
 from app.repository.Cliente import ClienteRepository
 from app.repository.Entrenadores import EntrenadorRepository
 from app.repository.Proveedores import ProveedorRepository
+from app.repository.Membresias import MembresiaRepository
 from app.service.Cliente import ServicioCliente
 from app.service.Entrenadores import ServicioEntrenador
 
@@ -147,4 +150,29 @@ class ServicioAdministrador:
             return resultado_consulta
         else:
             raise HTTPException(status_code=404, detail="El proveedor no existe")
+
+    @staticmethod
+    async def agregar_membresia(registro: SchemaMembresia):
+        _administrador = await AdministradorRepository.buscar_por_id(model_id=registro.ID_admin_creador,
+                                                                     name_id="ID_admin")
+        if _administrador:
+
+            _nombre_membresia = await MembresiaRepository.buscar_por_nombre(registro.nombre)
+            if not _nombre_membresia:
+
+                _id_membresia = str(uuid4())
+
+                _membresia = Membresia(ID_membresia=_id_membresia, ID_admin_creador=registro.ID_admin_creador,
+                                       nombre=registro.nombre, descripcion=registro.descripcion,
+                                       descuento=registro.descuento, max_miembros=registro.max_miembros,
+                                       precio=registro.precio, duracion_meses=registro.duracion_meses)
+
+                await MembresiaRepository.crear(**_membresia.model_dump())
+
+            else:
+                raise HTTPException(status_code=404, detail="Ya existe una membresía con ese nombre")
+
+        else:
+            raise HTTPException(status_code=404, detail="El administrador no existe")
+
 

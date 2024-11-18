@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Security
 from fastapi.security import HTTPAuthorizationCredentials
 
 from app.repository.auth_repo import JWTBearer, JWTRepo
-from app.schema import SchemaRespuesta, SchemaProveedor, SchemaEliminar, SchemaRegistrar, SchemaEstado
+from app.schema import SchemaRespuesta, SchemaProveedor, SchemaEliminar, SchemaRegistrar, SchemaEstado, SchemaMembresia
 from app.service.Administradores import ServicioAdministrador
 from app.service.auth_service import AuthService
 
@@ -128,4 +128,10 @@ async def buscar_info_de_proveedor(id_proveedor: str):
     info_proveedor = await ServicioAdministrador.conseguir_info_de_proveedor(id_proveedor)
     return SchemaRespuesta(detalles="Información recuperada con éxito",
                            resultado=info_proveedor)
+
+
+@router.post("/agregar_membresia", response_model=SchemaRespuesta)
+async def agregar_membresia(cuerpo_de_solicitud: SchemaMembresia):
+    await ServicioAdministrador.agregar_membresia(cuerpo_de_solicitud)
+    return SchemaRespuesta(detalles="Membresía agregada exitosamente")
 

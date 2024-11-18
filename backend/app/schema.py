@@ -105,6 +105,30 @@ class SchemaProveedor(BaseModel):
             return numero_para_validar
 
 
+class SchemaMembresia(BaseModel):
+    ID_admin_creador: str
+    nombre: str
+    descripcion: str
+    descuento: float
+    max_miembros: int
+    precio: int
+    duracion_meses: int
+
+    @field_validator("ID_admin_creador")
+    def check_id_admin(cls, id_para_validar):
+        logger.debug(f"Cédula en validación: {id_para_validar}")
+        if validar_identificacion(id_para_validar, "Cédula de administrador inválida"):
+            return id_para_validar
+
+    @field_validator("descuento")
+    def check_descuento(cls, descuento_para_validar):
+        logger.debug(f"Descuento en validación: {descuento_para_validar}")
+        if descuento_para_validar > 1:
+            raise HTTPException(status_code=400, detail="Descuento inválido")
+        else:
+            return descuento_para_validar
+
+
 class SchemaDetallado(BaseModel):
     estado: str
     mensaje: str

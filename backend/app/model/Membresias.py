@@ -9,7 +9,7 @@ from app.model.mixins import TimeMixin
 class Membresia(SQLModel, TimeMixin, table=True):
     __tablename__ = "membresia"
 
-    ID_membresia: Optional[int] = Field(default=None, primary_key=True, nullable=False)
+    ID_membresia: Optional[str] = Field(default=None, primary_key=True, nullable=False)
     nombre: str
     descripcion: str
     descuento: float
