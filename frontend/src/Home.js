@@ -4,7 +4,7 @@ import axios from "axios";
 import {Helmet} from "react-helmet"
 import {toast} from 'react-toastify'
 import "./Home.css";
-
+//la vida es vida
 document.documentElement.lang = "es";
 
 export default function Home(props) {
