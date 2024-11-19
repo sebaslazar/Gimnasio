@@ -76,6 +76,12 @@ class SchemaEstado(BaseModel):
     ID: str
     activo: bool
 
+    @field_validator("ID")
+    def check_id(cls, id_para_validar):
+        logger.debug(f"Cédula en validación: {id_para_validar}")
+        if validar_identificacion(id_para_validar, "Cédula inválida"):
+            return id_para_validar
+
 
 class SchemaProveedor(BaseModel):
     ID_proveedor: str
