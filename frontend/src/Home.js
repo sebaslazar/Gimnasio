@@ -4,10 +4,12 @@ import axios from "axios";
 import {Helmet} from "react-helmet"
 import {toast} from 'react-toastify'
 import "./Home.css";
+import { useUser } from "./contexts/UserContext";
 //la vida es vida
 document.documentElement.lang = "es";
 
-export default function Home(props) {
+export default function Home() {
+  const {token, logOut} = useUser();
 
     const frases = ["El único mal entrenamiento es el que no haces",
                     "No se trata de ser el mejor, sino de ser mejor que ayer",
@@ -16,15 +18,15 @@ export default function Home(props) {
                     "Cada gota de sudor es un paso hacia tu mejor versión"
                     ]
     const [user, setUser] = useState({}); //Sirve para los datos del usuario
-    const [auth_token, setToken] = useState(); //Sirve para los datos del token
+    // const [auth_token, setToken] = useState(); //Sirve para los datos del token
     const [rango_token, setRango] = useState(); //Sirve para los datos del rango
 
     useEffect(() => {
-        setToken(localStorage.getItem("auth_token"));
-        if(auth_token != null) { //Verifica si el token existe
+        // setToken(localStorage.getItem("auth_token"));
+        if(token != null) { //Verifica si el token existe
 
             const auth_token_type = localStorage.getItem("auth_token_type");
-            const token_usuario = auth_token_type + " " + auth_token;
+            const token_usuario = auth_token_type + " " + token;
 
                 //Obtiene datos de la API
                 axios.get("http://localhost:8888/usuario/", {headers: {Authorization: token_usuario}}).then((response) => {
@@ -42,13 +44,15 @@ export default function Home(props) {
                         }, 1000)
                     })
         }
-    }, [auth_token, rango_token])
+    }, [token, rango_token])
 
     const onClickHandler = (event) => {
         event.preventDefault();
 
-        localStorage.removeItem("auth_token")
-        localStorage.removeItem("auth_token_type")
+        //* localStorage.removeItem("auth_token")
+        //* localStorage.removeItem("auth_token_type")
+
+        logOut();
 
         toast("Sesión cerrada exitosamente", {
           position: "top-right",
@@ -60,9 +64,9 @@ export default function Home(props) {
           progress: undefined,
         });
 
-        setTimeout(() => {
-            window.location.reload();
-        }, 1500)
+        // setTimeout(() => {
+        //     window.location.reload();
+        // }, 1500)
     }
 
     const pagina_sin_token = () => {
@@ -73,11 +77,7 @@ export default function Home(props) {
                     <title>Gymcontrol - Príncipal</title>
                 </Helmet>
                 {frases[Math.floor(Math.random() * frases.length)]}
-                <Link to="/?login"
-                    onClick={() => {
-                        props.setPage("login");
-                    }}
-                >
+                <Link to="/login">
                     <button type="button" className="btn btn-primary">Únete</button>
                 </Link>
             </div>
@@ -107,5 +107,6 @@ export default function Home(props) {
         );
     }
 
-    return <React.Fragment>{auth_token==null || rango_token==null ? pagina_sin_token() : pagina_con_token()}</React.Fragment>;
+    // return <React.Fragment>{auth_token==null || rango_token==null ? pagina_sin_token() : pagina_con_token()}</React.Fragment>;
+    return <React.Fragment>{token==null || rango_token==null ? pagina_sin_token() : pagina_con_token()}</React.Fragment>;
 }
