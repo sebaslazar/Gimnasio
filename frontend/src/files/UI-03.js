@@ -7,7 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import es from 'date-fns/locale/es';
 import "./UI-03.css";
 
-export default function Registro(props) {
+export default function Registro() {
 
     //Opciones de sexo
     const opciones_sexo = [
@@ -110,10 +110,10 @@ export default function Registro(props) {
             toast.success(response.data.detalles);
 
             //Redirige a página de login
-            navigate("/?login");
-            setTimeout(() => {
-                props.setPage("login");
-            }, 2000)
+            navigate("/login");
+            // setTimeout(() => {
+            //     props.setPage("login");
+            // }, 2000)
 
             //Sólo sirve para pruebas
             console.log(response);
@@ -298,11 +298,7 @@ export default function Registro(props) {
                 </button>
                 <p>
                     ¿Ya Tienes Una Cuenta?{" "}
-                    <Link to="/?login" //Ruta que va a aparecer en el navegador
-                        onClick={() => {
-                            props.setPage("login"); //Nombre de la página indicada en App.js
-                        }}
-                    >
+                    <Link to="/login"> {/*Ruta que va a aparecer en el navegador*/}
                         <span className="link_registrar">Iniciar Sesión</span>
                     </Link>
                 </p>

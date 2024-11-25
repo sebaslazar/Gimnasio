@@ -3,8 +3,10 @@ import {Link} from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "./UI-02.css";
+import { useUser } from '../contexts/UserContext';
 
-export default function Login(props) {
+export default function Login() {
+    const {setToken} = useUser();
 
     //Opciones de rango
     const opciones_rango = [
@@ -44,19 +46,25 @@ export default function Login(props) {
         await axios.post("http://localhost:8888/auth/login",loginForm).then((response) => {
             console.log(response); //Sólo sirve para pruebas
             //Guarda token en almacenamiento local
-            localStorage.setItem("auth_token", response.data.resultado.token_de_acceso);
-            localStorage.setItem(
-                "auth_token_type",
-                response.data.resultado.tipo_de_token
-            );
+            //* localStorage.setItem("auth_token", response.data.resultado.token_de_acceso);
+            //* localStorage.setItem(
+            //     "auth_token_type",
+            //     response.data.resultado.tipo_de_token
+            // );
+            
+            //Guarda token en almacenamiento local
+            setToken({
+                token: response.data.resultado.token_de_acceso,
+                tokenType: response.data.resultado.tipo_de_token,
+            });
 
             //Agregar notificación de éxito
             toast.success(response.data.detalles);
 
             //Recarga página después de login exitoso
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
+            //* setTimeout(() => {
+            //     window.location.reload();
+            // }, 1000);
 
         }).catch((error) => {
             //Sólo sirve para pruebas
@@ -128,11 +136,7 @@ export default function Login(props) {
                 </button>
                 <p>
                     ¿Eres Nuevo?{" "}
-                    <Link to="/?registro_cliente" //Ruta que va a aparecer en el navegador
-                        onClick={() => {
-                            props.setPage("registro_cliente"); //Nombre de la página indicada en App.js
-                        }}
-                    >
+                    <Link to="/registro_cliente"> {/*Ruta que va a aparecer en el navegador*/}
                         <span className="link_registrar">Únete</span>
                     </Link>
                 </p>
