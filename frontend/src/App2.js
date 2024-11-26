@@ -7,6 +7,7 @@ import Login from './files/UI-02.js';
 import RegistroCliente from './files/UI-03.js';
 import { useUser } from "./contexts/UserContext.jsx";
 import { MainLayout } from './layouts/MainLayout.jsx';
+import { ClientsPage } from './files/ShowClientsPage.jsx';
 
 document.documentElement.lang = "es"; //Establece el idioma de la página en español
 
@@ -20,7 +21,8 @@ function App() {
         <title>Gymcontrol</title>
       </Helmet>
       <Routes>
-        <Route path="/" element={<Home />} />
+        {/* <Route path="/" element={<Home />} /> */}
+        <Route path="/" element={<ClientsPage />} />
         <Route element={<MainLayout />}>
           <Route path="/login" element={!token ? <Login /> : <Navigate to="/" />} />
           <Route path="/registro_cliente" element={!token ? <RegistroCliente /> : <Navigate to="/" />} />
