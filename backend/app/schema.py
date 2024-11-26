@@ -11,6 +11,34 @@ T = TypeVar('T')
 logger = logging.getLogger(__name__)
 
 
+def validar_identificacion(id_para_validar: str, mensaje_de_error: str):
+    logger.debug(f"Cédula en validación: {id_para_validar}")
+    regex_cedula_10_digitos = r"\b[0-9]\.{0,1}[0-9]{3}\.{0,1}[0-9]{3}\.{0,1}[0-9]{3}\b"
+    regex_cedula_8_digitos = r"\b[0-9]{2}\.{0,1}[0-9]{3}\.{0,1}[0-9]{3}\b"
+    if (id_para_validar and not re.fullmatch(regex_cedula_10_digitos, id_para_validar)
+            and not re.fullmatch(regex_cedula_8_digitos, id_para_validar)):
+        raise HTTPException(status_code=400, detail=mensaje_de_error)
+    return id_para_validar
+
+
+def validar_telefono(numero_para_validar, mensaje_de_error):
+    logger.debug(f"Teléfono en validación: {numero_para_validar}")
+    regex = (r"^(\(\+?\d{2,3}\)[\*|\s|\-|\.]?(([\d][\*|\s|\-|\.]?){6})(([\d][\s|\-|\.]?){2})?|(\+?[\d]["
+             r"\s|\-|\.]?){8}(([\d][\s|\-|\.]?){2}(([\d][\s|\-|\.]?){2})?)?)$")
+    if numero_para_validar and not re.fullmatch(regex, numero_para_validar):
+        raise HTTPException(status_code=400, detail=mensaje_de_error)
+    return numero_para_validar
+
+
+def validar_correo(correo_para_validar, mensaje_de_error):
+    logger.debug(f"Correo en validación: {correo_para_validar}")
+    regex = (r"^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*["
+             r"a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$")
+    if correo_para_validar and not re.fullmatch(regex, correo_para_validar, re.I):
+        raise HTTPException(status_code=400, detail=mensaje_de_error)
+    return correo_para_validar
+
+
 class SchemaRegistrar(BaseModel):
     ID: str
     password: str
@@ -30,23 +58,27 @@ class SchemaRegistrar(BaseModel):
 
     # Validación de número de cédula
     @field_validator("ID")
-    def check_id(cls, id_para_validar):
-        logger.debug(f"Cédula en validación: {id_para_validar}")
-        if validar_identificacion(id_para_validar, "Tipo de cédula inválida"):
-            return id_para_validar
+    def check_id(cls, id_usuario):
+        return validar_identificacion(id_para_validar=id_usuario,
+                                      mensaje_de_error="Tipo de cédula inválida")
 
     # Validación de número de teléfono
     @field_validator("telefono")
-    def check_telefono(cls, numero_para_validar):
-        logger.debug(f"Teléfono en validación: {numero_para_validar}")
-        if validar_telefono(numero_para_validar, "Número de teléfono inválido"):
-            return numero_para_validar
+    def check_telefono(cls, telefono):
+        return validar_telefono(numero_para_validar=telefono,
+                                mensaje_de_error="Número de teléfono inválido")
+
+    # Validación de correo
+    @field_validator("correo")
+    def check_correo(cls, correo):
+        return validar_correo(correo_para_validar=correo,
+                              mensaje_de_error="Correo inválido")
 
     @field_validator("sexo")
-    def check_sexo(cls, sexo_para_validar):
-        if hasattr(Sexo, sexo_para_validar) is False:
+    def check_sexo(cls, sexo_usuario):
+        if hasattr(Sexo, sexo_usuario) is False:
             raise HTTPException(status_code=400, detail="Género inválido")
-        return sexo_para_validar
+        return sexo_usuario
 
 
 class SchemaLogin(BaseModel):
@@ -54,10 +86,15 @@ class SchemaLogin(BaseModel):
     password: str
     rango: str
 
+    @field_validator("correo")
+    def check_correo(cls, correo_usuario):
+        return validar_correo(correo_para_validar=correo_usuario,
+                              mensaje_de_error="Correo inválido")
+
     @field_validator("rango")
-    def check_rango(cls, rango_para_validar):
-        if rango_para_validar in {"Cliente", "Administrador", "Entrenador"}:
-            return rango_para_validar
+    def check_rango(cls, rango_usuario):
+        if rango_usuario in {"Cliente", "Administrador", "Entrenador"}:
+            return rango_usuario
         else:
             raise HTTPException(status_code=400, detail="Rango inválido")
 
@@ -66,10 +103,9 @@ class SchemaEliminar(BaseModel):
     ID: str
 
     @field_validator("ID")
-    def check_id(cls, id_para_validar):
-        logger.debug(f"Cédula en validación: {id_para_validar}")
-        if validar_identificacion(id_para_validar, "Número de cédula inválido"):
-            return id_para_validar
+    def check_id(cls, id_usuario):
+        return validar_identificacion(id_para_validar=id_usuario,
+                                      mensaje_de_error="Número de cédula inválido")
 
 
 class SchemaEstado(BaseModel):
@@ -77,10 +113,9 @@ class SchemaEstado(BaseModel):
     activo: bool
 
     @field_validator("ID")
-    def check_id(cls, id_para_validar):
-        logger.debug(f"Cédula en validación: {id_para_validar}")
-        if validar_identificacion(id_para_validar, "Cédula inválida"):
-            return id_para_validar
+    def check_id(cls, id_usuario):
+        return validar_identificacion(id_para_validar=id_usuario,
+                                      mensaje_de_error="Cédula inválida")
 
 
 class SchemaProveedor(BaseModel):
@@ -92,23 +127,24 @@ class SchemaProveedor(BaseModel):
     correo: str
     producto: str
 
-    @field_validator("ID_proveedor")
-    def check_id_proveedor(cls, id_para_validar):
-        logger.debug(f"Cédula en validación: {id_para_validar}")
-        if validar_identificacion(id_para_validar, "Cédula de proveedor inválida"):
-            return id_para_validar
-
-    @field_validator("ID_admin_creador")
-    def check_id_admin(cls, id_para_validar):
-        logger.debug(f"Cédula en validación: {id_para_validar}")
-        if validar_identificacion(id_para_validar, "Cédula de administrador inválida"):
-            return id_para_validar
+    @field_validator("ID_proveedor", "ID_admin_creador")
+    def check_id(cls, id_usuario, info):
+        mensaje_de_error = {
+            "ID_proveedor": "Cédula de proveedor inválida",
+            "ID_admin_creador": "Cédula de administrador inválida"
+        }
+        return validar_identificacion(id_para_validar=id_usuario,
+                                      mensaje_de_error=mensaje_de_error[info.field_name])
 
     @field_validator("telefono")
-    def check_telefono(cls, numero_para_validar, mensaje_de_error):
-        logger.debug(f"Teléfono en validación: {numero_para_validar}")
-        if validar_telefono(numero_para_validar, "Teléfono de proveedor inválido"):
-            return numero_para_validar
+    def check_telefono(cls, telefono_usuario):
+        return validar_telefono(numero_para_validar=telefono_usuario,
+                                mensaje_de_error="Teléfono de proveedor inválido")
+
+    @field_validator("correo")
+    def check_correo(cls, correo_usuario):
+        return validar_correo(correo_para_validar=correo_usuario,
+                              mensaje_de_error="Correo de proveedor inválido")
 
 
 class SchemaMembresia(BaseModel):
@@ -121,10 +157,9 @@ class SchemaMembresia(BaseModel):
     duracion_meses: int
 
     @field_validator("ID_admin_creador")
-    def check_id_admin(cls, id_para_validar):
-        logger.debug(f"Cédula en validación: {id_para_validar}")
-        if validar_identificacion(id_para_validar, "Cédula de administrador inválida"):
-            return id_para_validar
+    def check_id_admin(cls, id_admin):
+        return validar_identificacion(id_para_validar=id_admin,
+                                      mensaje_de_error="Cédula de administrador inválida")
 
     @field_validator("descuento")
     def check_descuento(cls, descuento_para_validar):
@@ -144,20 +179,3 @@ class SchemaDetallado(BaseModel):
 class SchemaRespuesta(BaseModel):
     detalles: str
     resultado: Optional[T] = None
-
-
-def validar_identificacion(id_para_validar, mensaje_de_error):
-    regex_cedula_10_digitos = r"\b[0-9]\.{0,1}[0-9]{3}\.{0,1}[0-9]{3}\.{0,1}[0-9]{3}\b"
-    regex_cedula_8_digitos = r"\b[0-9]{2}\.{0,1}[0-9]{3}\.{0,1}[0-9]{3}\b"
-    if (id_para_validar and not re.search(regex_cedula_10_digitos, id_para_validar, re.I)
-            and not re.search(regex_cedula_8_digitos, id_para_validar, re.I)):
-        raise HTTPException(status_code=400, detail=mensaje_de_error)
-    return True
-
-
-def validar_telefono(numero_para_validar, mensaje_de_error):
-    regex = (r"^(\(\+?\d{2,3}\)[\*|\s|\-|\.]?(([\d][\*|\s|\-|\.]?){6})(([\d][\s|\-|\.]?){2})?|(\+?[\d]["
-             r"\s|\-|\.]?){8}(([\d][\s|\-|\.]?){2}(([\d][\s|\-|\.]?){2})?)?)$")
-    if numero_para_validar and not re.search(regex, numero_para_validar, re.I):
-        raise HTTPException(status_code=400, detail=mensaje_de_error)
-    return True
