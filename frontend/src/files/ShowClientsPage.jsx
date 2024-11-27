@@ -1,6 +1,28 @@
 import { Helmet } from "react-helmet";
 import { MainLayout } from "../layouts/PageLayout";
 import { Table, Tbody } from '../components/Table';
+// @ts-check
+
+const clientData = [
+  {
+    nombre: 'Pepito Perez Perez',
+    identificacion: '123456789',
+    telefono: '1234567',
+    sexo: 'Masculino',
+  },
+  {
+    nombre: 'Carlos Mauricio Santana',
+    identificacion: '123456787',
+    telefono: '1234567',
+    sexo: 'Masculino',
+  },
+  {
+    nombre: 'Alan Brito Delgado',
+    identificacion: '123456788',
+    telefono: '1234567',
+    sexo: 'Masculino',
+  },
+];
 
 export function ClientsPage() {
   return (
@@ -20,18 +42,14 @@ export function ClientsPage() {
               </tr>
             </thead>
             <Tbody>
-              <tr>
-                <Table.Td>Carlos Andres Mauricio Santana</Table.Td>
-                <Table.Td>123456789</Table.Td>
-                <Table.Td>1234567</Table.Td>
-                <Table.Td>Masculino</Table.Td>
-              </tr>
-              <tr>
-                <Table.Td>Andrea</Table.Td>
-                <Table.Td>987654321</Table.Td>
-                <Table.Td>7654321</Table.Td>
-                <Table.Td>Femenino</Table.Td>
-              </tr>
+              {clientData.map((client) => (
+                <tr key={client.identificacion}>
+                  <Table.Td>{client.nombre}</Table.Td>
+                  <Table.Td>{client.identificacion}</Table.Td>
+                  <Table.Td>{client.telefono}</Table.Td>
+                  <Table.Td>{client.sexo}</Table.Td>
+                </tr>
+              ))}
             </Tbody>
           </Table>
         </div>
