@@ -1,24 +1,25 @@
 import { Helmet } from "react-helmet";
 import { MainLayout } from "../layouts/PageLayout";
 import { Table, Tbody } from '../components/Table';
+import { IdIcon, SexIcon, TelefoneIcon, UserIcon } from '../components/icons';
 // @ts-check
 
 const clientData = [
   {
     nombre: 'Pepito Perez Perez',
-    identificacion: '123456789',
+    identificacion: '1234567890',
     telefono: '1234567',
     sexo: 'Masculino',
   },
   {
     nombre: 'Carlos Mauricio Santana',
-    identificacion: '123456787',
+    identificacion: '12345678',
     telefono: '1234567',
     sexo: 'Masculino',
   },
   {
     nombre: 'Alan Brito Delgado',
-    identificacion: '123456788',
+    identificacion: '1234567880',
     telefono: '1234567',
     sexo: 'Masculino',
   },
@@ -44,10 +45,22 @@ export function ClientsPage() {
             <Tbody>
               {clientData.map((client) => (
                 <Table.Tr key={client.identificacion}>
-                  <Table.Td>{client.nombre}</Table.Td>
-                  <Table.Td>{client.identificacion}</Table.Td>
-                  <Table.Td>{client.telefono}</Table.Td>
-                  <Table.Td>{client.sexo}</Table.Td>
+                  <Table.Td>
+                    <UserIcon />
+                    {client.nombre}
+                  </Table.Td>
+                  <Table.Td>
+                    <IdIcon />
+                    {client.identificacion}
+                  </Table.Td>
+                  <Table.Td>
+                    <TelefoneIcon />
+                    {client.telefono}
+                  </Table.Td>
+                  <Table.Td>
+                    <SexIcon />
+                    {client.sexo}
+                  </Table.Td>
                 </Table.Tr>
               ))}
             </Tbody>
