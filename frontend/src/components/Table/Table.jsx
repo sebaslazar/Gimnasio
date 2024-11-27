@@ -21,6 +21,18 @@ function Td({children}) {
 }
 
 /**
+ *
+ * @param {React.HTMLProps<HTMLTableRowElement>} propstable.
+ * @returns {JSX.Element} The rendered table component.
+ */
+function Tr({children, ...props}) {
+  const {onClick} = props;
+  const actionClass = onClick ? styles.action : '';
+
+  return <tr {...props} className={`${actionClass}`}>{children}</tr>
+}
+
+/**
  * Table component to display a list of users.
  *
  * @param {object} props - The properties object.
@@ -37,3 +49,4 @@ export function Table({children}){
 
 Table.Th = Th;
 Table.Td = Td;
+Table.Tr = Tr;

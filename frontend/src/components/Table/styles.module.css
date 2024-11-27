@@ -39,16 +39,18 @@
   transition: background-color 0.2s, transform 0.05s;
 }
 
-.body tr:hover {
+/* *Interactive Table Rows */
+.body tr.action:hover {
   cursor: pointer;
   
   background-color: #C4C4C4;
   transform: scale(1.02);
 }
 
-.body tr:hover .td {
+.body tr.action:hover .td {
   border: 1px solid #C4C4C4;
 }
+/* *Interactive Table Rows */
 
 .body tr td:first-child {
   border-radius: var(--row-border-radius) 0 0 var(--row-border-radius);

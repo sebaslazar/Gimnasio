@@ -34,21 +34,21 @@ export function ClientsPage() {
         <div style={{margin: 'auto', width: 'fit-content'}}>
           <Table>
             <thead>
-              <tr>
+              <Table.Tr>
                 <Table.Th>Nombre</Table.Th>
                 <Table.Th>Identificacion</Table.Th>
                 <Table.Th>Telefono</Table.Th>
                 <Table.Th>Sexo</Table.Th>
-              </tr>
+              </Table.Tr>
             </thead>
             <Tbody>
               {clientData.map((client) => (
-                <tr key={client.identificacion}>
+                <Table.Tr key={client.identificacion}>
                   <Table.Td>{client.nombre}</Table.Td>
                   <Table.Td>{client.identificacion}</Table.Td>
                   <Table.Td>{client.telefono}</Table.Td>
                   <Table.Td>{client.sexo}</Table.Td>
-                </tr>
+                </Table.Tr>
               ))}
             </Tbody>
           </Table>
