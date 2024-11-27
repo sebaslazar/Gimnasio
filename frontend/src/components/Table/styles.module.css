@@ -9,7 +9,7 @@
   /* border: 1px solid black; */
   padding: 0 20px;
   min-width: 220px;
-  /* margin: 0 50px; */
+  margin: 0;
   /* background-color: red; */
 }
 
@@ -25,13 +25,29 @@
 .td {
   padding: 13px 20px;
   line-height: normal;
+
+  border: 1px solid #D9D9D9;
+  
+  transition: border-color 0.2s;
 }
 
 .body tr {
   background-color: #D9D9D9;
-
   color: black;
+  
   /* margin: 10px; */
+  transition: background-color 0.2s, transform 0.05s;
+}
+
+.body tr:hover {
+  cursor: pointer;
+  
+  background-color: #C4C4C4;
+  transform: scale(1.02);
+}
+
+.body tr:hover .td {
+  border: 1px solid #C4C4C4;
 }
 
 .body tr td:first-child {
