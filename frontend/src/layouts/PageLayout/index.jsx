@@ -1,5 +1,6 @@
 import { Outlet } from "react-router";
 import styles from './page.module.css';
+import './reset.css';
 
 /**
  * @param {{children: import('react').ReactNode}} props
