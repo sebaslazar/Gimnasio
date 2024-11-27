@@ -4,7 +4,7 @@
  * @param {number} param.size
  * @returns {JSX.Element}
  */
-export function SexIcon({ size }) {
+export function SexIcon({ size=15 }) {
   return (
     <svg
       width={`${size}`}

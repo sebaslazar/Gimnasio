@@ -4,7 +4,7 @@
  * @param {number} param.size
  * @returns {JSX.Element}
  */
-export function IdIcon({ size }) {
+export function IdIcon({ size=25 }) {
   return (
     <svg
       width={`${size}`}
