@@ -1,24 +1,25 @@
+import React from 'react';
 import styles from './styles.module.css';
 
 /**
  *
- * @param {object} props - The properties object.
+ * @param {React.HTMLProps<HTMLTableHeaderCellElement>} props - The properties object.
  * @param {React.ReactNode} props.children - The children nodes to be rendered inside the table.
  * @returns {JSX.Element} The rendered table component.
  */
-function Th({children}) {
-  return <th className={styles.cell}><div className={styles.headDiv}>{children}</div></th>
+function Th({children, ...options}) {
+  return <th {...options} className={styles.cell}><div className={styles.headDiv}>{children}</div></th>
 }
 
 /**
  *
- * @param {object} props - The properties object.
+ * @param {React.HTMLProps<HTMLTableCellElement>} props - The properties object.
  * @param {React.ReactNode} props.children - The children nodes to be rendered inside the table.
  * @returns {JSX.Element} The rendered table component.
  */
-function Td({children}) {
+function Td({children, ...props}) {
   return (
-    <td className={`${styles.cell} ${styles.td}`}>
+    <td {...props} className={`${styles.cell} ${styles.td}`}>
       <div className={`${styles.tdContainer}`}>
         {children}
       </div>
@@ -41,13 +42,13 @@ function Tr({children, ...props}) {
 /**
  * Table component to display a list of users.
  *
- * @param {object} props - The properties object.
+ * @param {React.HTMLProps<HTMLTableElement>} props - The properties object.
  * @param {React.ReactNode} props.children - The children nodes to be rendered inside the table.
  * @returns {JSX.Element} The rendered table component.
  */
-export function Table({children}){
+export function Table({children, ...options}){
   return (
-    <table className={styles.table}>
+    <table {...options} className={styles.table}>
       {children}
     </table>
   );
