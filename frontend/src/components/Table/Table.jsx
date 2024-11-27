@@ -17,7 +17,13 @@ function Th({children}) {
  * @returns {JSX.Element} The rendered table component.
  */
 function Td({children}) {
-  return <td className={`${styles.cell} ${styles.td}`}>{children}</td>
+  return (
+    <td className={`${styles.cell} ${styles.td}`}>
+      <div className={`${styles.tdContainer}`}>
+        {children}
+      </div>
+    </td>
+  )
 }
 
 /**
