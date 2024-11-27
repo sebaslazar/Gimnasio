@@ -7,5 +7,5 @@ import styles from './styles.module.css';
  * @returns {JSX.Element} The rendered table component.
  */
 export function Tbody({children}) {
-  <tbody className={styles.body}>{children}</tbody>
+  return <tbody className={styles.body}>{children}</tbody>
 }
