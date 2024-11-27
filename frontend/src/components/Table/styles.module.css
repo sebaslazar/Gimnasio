@@ -1,0 +1,43 @@
+.table {
+  border-collapse: separate !important;
+  border-spacing: 0 15px;
+
+  --row-border-radius: 10px;
+}
+
+.cell {
+  /* border: 1px solid black; */
+  padding: 0 20px;
+  min-width: 220px;
+  /* margin: 0 50px; */
+  /* background-color: red; */
+}
+
+
+.headDiv {
+  background-color: #3A33BB;
+  border-radius: 10px;
+  line-height: normal;
+  
+  padding: 8px 30px;
+}
+
+.td {
+  padding: 13px 20px;
+  line-height: normal;
+}
+
+.body tr {
+  background-color: #D9D9D9;
+
+  color: black;
+  /* margin: 10px; */
+}
+
+.body tr td:first-child {
+  border-radius: var(--row-border-radius) 0 0 var(--row-border-radius);
+}
+
+.body tr td:last-child {
+  border-radius: 0 var(--row-border-radius) var(--row-border-radius) 0;
+}
