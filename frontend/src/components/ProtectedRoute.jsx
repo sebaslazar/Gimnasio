@@ -8,7 +8,7 @@ import { useUser } from "../contexts/UserContext";
  * @param {import('react-router').RouteProps & {fallbackPath: string}} props - Component props
  * @returns {React.ReactElement|null} The protected route content if authenticated, null or redirect otherwise
  */
-function ProtectedRoute({
+export function ProtectedRoute({
   children,
   element,
   fallbackPath='/login',
