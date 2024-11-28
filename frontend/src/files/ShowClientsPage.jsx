@@ -4,13 +4,12 @@ import { Table, Tbody } from '../components/Table';
 import { IdIcon, SexIcon, TelefoneIcon, UserIcon } from '../components/icons';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useUser } from '../contexts/UserContext';
 
 // @ts-check
 
-const testToken =
-  'token jaja';
-
 export function ClientsPage() {
+  const {token} = useUser();
   const [state, setState] = useState({
     loading: true,
     error: null,
@@ -24,7 +23,7 @@ export function ClientsPage() {
       .get('http://localhost:8888/admin/clientes', {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${testToken}`,
+          Authorization: `Bearer ${token}`,
         },
       })
       .then(({ data, status }) => {
@@ -54,7 +53,7 @@ export function ClientsPage() {
           data: [],
         });
       });
-  }, []);
+  }, [token]);
 
   if (state.loading) {
     content = <SpecialTableContent content="Cargando..." />;
