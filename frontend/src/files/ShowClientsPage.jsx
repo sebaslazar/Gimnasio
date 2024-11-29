@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet';
 import { MainLayout } from '../layouts/PageLayout';
-import { Table, Tbody } from '../components/Table';
+import { Table, Tbody, Thead } from '../components/Table';
 import { IdIcon, SexIcon, TelefoneIcon, UserIcon } from '../components/icons';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -92,14 +92,14 @@ export function ClientsPage() {
       <MainLayout>
         <div style={{ margin: 'auto', width: 'fit-content' }}>
           <Table>
-            <thead>
+            <Thead>
               <Table.Tr>
                 <Table.Th>Nombre</Table.Th>
                 <Table.Th>Identificacion</Table.Th>
                 <Table.Th>Telefono</Table.Th>
                 <Table.Th>Sexo</Table.Th>
               </Table.Tr>
-            </thead>
+            </Thead>
             <Tbody>{content}</Tbody>
           </Table>
         </div>
