@@ -1,0 +1,22 @@
+* {
+  min-width: 0;
+  font: inherit;
+}
+
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+
+img, video, svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
