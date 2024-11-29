@@ -5,7 +5,7 @@ import './reset.css';
 /**
  * @param {{children: import('react').ReactNode}} props
  */
-export function PAgeLayout({children}) {
+export function PageLayout({children}) {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.centeredDiv}>

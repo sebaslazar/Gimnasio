@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet';
-import { PAgeLayout } from '../layouts/PageLayout';
+import { PageLayout } from '../layouts/PageLayout';
 import { Table, Tbody, Thead } from '../components/Table';
 import { IdIcon, SexIcon, TelefoneIcon, UserIcon } from '../components/icons';
 import { useEffect, useState } from 'react';
@@ -89,7 +89,7 @@ export function ClientsPage() {
       <Helmet>
         <title>Gymcontrol - Clientes</title>
       </Helmet>
-      <PAgeLayout>
+      <PageLayout>
           <Table>
             <Thead>
               <Table.Tr>
@@ -101,7 +101,7 @@ export function ClientsPage() {
             </Thead>
             <Tbody>{content}</Tbody>
           </Table>
-      </PAgeLayout>
+      </PageLayout>
     </>
   );
 }
