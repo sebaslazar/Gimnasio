@@ -90,7 +90,6 @@ export function ClientsPage() {
         <title>Gymcontrol - Clientes</title>
       </Helmet>
       <MainLayout>
-        <div style={{ margin: 'auto', width: 'fit-content' }}>
           <Table>
             <Thead>
               <Table.Tr>
@@ -102,7 +101,6 @@ export function ClientsPage() {
             </Thead>
             <Tbody>{content}</Tbody>
           </Table>
-        </div>
       </MainLayout>
     </>
   );
