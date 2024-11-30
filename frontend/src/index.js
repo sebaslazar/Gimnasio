@@ -11,9 +11,10 @@ import { UserProvider } from './contexts/UserContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  // TODO: StrictMode should be removed in production. Specifically because Some Toasts are not working properly with it
   <React.StrictMode>
+    <ToastContainer />
     <BrowserRouter>
-        <ToastContainer />
         <UserProvider>
           <App />
         </UserProvider>
