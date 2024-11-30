@@ -1,6 +1,7 @@
 // @ts-check
 import React, { createContext, useContext, useMemo, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
+import { toast } from 'react-toastify';
 
 /** TYPES
  * @typedef {Object} TokenInfo
@@ -98,6 +99,10 @@ function loadUserData() {
       return data;
     } else {
       console.warn('Token expirado o inválido');
+      toast.error('Tu sesión ha expirado, por favor inicia sesión de nuevo');
+
+      localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
+      localStorage.removeItem(LOCAL_STORAGE_TOKEN_TYPE_KEY);
     }
   }
 
