@@ -12,7 +12,7 @@ export function PageLayout({children, title}) {
     <div className={styles.pageContainer}>
       <div className={styles.centeredDiv}>
         <div className={styles.titleContainer}>
-          <h1 className={styles.title}>title</h1>
+          <h1 className={styles.title}>{title}</h1>
         </div>
         <div className={styles.contentContainer}>
           <Outlet />
