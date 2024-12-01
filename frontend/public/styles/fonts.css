@@ -1,0 +1,15 @@
+@font-face {
+  font-family: 'Hyperwave';
+  src: url('/fonts/Hyperwave.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  ascent-override: 63%;
+  descent-override: 0%;
+}
+
+@font-face {
+  font-family: 'GoodTime Grotesk';
+  src: url('/fonts/MADE GoodTime Grotesk PERSONAL USE.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
