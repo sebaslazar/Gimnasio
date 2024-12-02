@@ -107,12 +107,7 @@ h2 {
 }
 
 .display-4 {
-  margin-bottom: 150px; /* Espacio entre el título y el botón */
-}
-
-.btn-primary {
-  margin-right: -10000;
-  margin-top: -400px;
+  margin-bottom: 70px; /* Espacio entre el título y el botón */
 }
 
 
