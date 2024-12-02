@@ -89,7 +89,7 @@ export function ClientsPage() {
       <Helmet>
         <title>Gymcontrol - Clientes</title>
       </Helmet>
-      <PageLayout>
+      <PageLayout title="Clientes">
           <Table>
             <Thead>
               <Table.Tr>

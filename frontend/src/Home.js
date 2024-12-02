@@ -205,7 +205,7 @@ export default function Home(props) {
                         {frases[Math.floor(Math.random() * frases.length)]}
                     </h2>
                     <Link to="/registro_cliente">
-                        <button type="button" className="btn btn-primary mt-8" style={{ marginLeft: '40px' }}>
+                        <button type="button" className="btn btn-primary mt-8" style={{ marginLeft: '10px' }}>
                             Únete
                         </button>
                     </Link>

@@ -24,7 +24,7 @@
 
 .titleContainer {
   background-color: #181640;
-  padding: 10px 25px;
+  padding: 3px 25px;
   border-radius: 18px;
   /* margin-top: -20px; */
   
@@ -35,8 +35,10 @@
 }
 
 .title {
-  /* font-size: 1.5rem; */
+  font-family: 'Hyperwave', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 3.5rem;
   color: white;
+  
   margin: 0;
   margin-bottom: 2px;
 }

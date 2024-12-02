@@ -1,8 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+    sans-serif; */
+    
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+  font-weight: 500;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -32,8 +40,9 @@ body, html {
 }
 
 .logo {
-  font-family: 'Brush Script MT', cursive;
-  font-size: 2.5rem;
+  font-family: 'Hyperwave', 'Brush Script MT', cursive;
+  font-size: 3.5rem;
+  line-height: .7;
   color: #fff;
 }
 
@@ -92,7 +101,7 @@ h2 {
 .btn-link {
   text-decoration: none !important; /* Asegura que se aplique */
   font-size: 1.2rem !important;
-  margin-top: -20px !important; /* Ajusta este valor para subir el botón */
+  /*margin-top: -20px !important; /* Ajusta este valor para subir el botón */
   color: #ffffff !important; /* Color del texto */
   background-color: transparent !important; /* Asegura que no tenga fondo */
   border: none !important; /* Elimina los bordes si los hay */
@@ -104,10 +113,16 @@ h2 {
   text-align: left;
   width: 60%; /* Ajusta este valor según lo necesario */
   margin: 20 auto; /* Centra el contenedor horizontalmente */
+
+  padding-left: 15px;
 }
 
 .display-4 {
-  margin-bottom: 70px; /* Espacio entre el título y el botón */
+  font-family: 'Hyperwave', 'Brush Script MT';
+  font-size: 4.3rem;
+  line-height: .85;
+
+  margin-bottom: 45px; /* Espacio entre el título y el botón */
 }
 
 
