@@ -1,3 +1,4 @@
+/*
 import React, {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
 import axios from "axios";
@@ -109,4 +110,110 @@ export default function Home() {
 
     // return <React.Fragment>{auth_token==null || rango_token==null ? pagina_sin_token() : pagina_con_token()}</React.Fragment>;
     return <React.Fragment>{token==null || rango_token==null ? pagina_sin_token() : pagina_con_token()}</React.Fragment>;
+}*/
+
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { Helmet } from "react-helmet";
+import { toast } from "react-toastify";
+import { useUser } from "./contexts/UserContext";
+import "./Home.css";
+
+document.documentElement.lang = "es";
+
+export default function Home() {
+  const { token, logOut } = useUser();
+
+  const frases = [
+    "El único mal entrenamiento es el que no haces",
+    "No se trata de ser el mejor, sino de ser mejor que ayer",
+    "Cada repetición cuenta, cada esfuerzo te acerca a tus metas",
+    "No te detengas cuando estés cansado, detente cuando hayas terminado",
+    "Cada gota de sudor es un paso hacia tu mejor versión",
+  ];
+
+  const [user, setUser] = useState({});
+  const [rango_token, setRango] = useState();
+
+  useEffect(() => {
+    if (token != null) {
+      const auth_token_type = localStorage.getItem("auth_token_type");
+      const token_usuario = auth_token_type + " " + token;
+
+      axios
+        .get("http://localhost:8888/usuario/", {
+          headers: { Authorization: token_usuario },
+        })
+        .then((response) => {
+          setUser(response.data.resultado.info_usuario);
+          setRango(response.data.resultado.rango_usuario);
+        })
+        .catch((error) => {
+          localStorage.removeItem("auth_token");
+          localStorage.removeItem("auth_token_type");
+          toast.error(error.response.data.detail.message);
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        });
+    }
+  }, [token, rango_token]);
+
+  const onClickHandler = (event) => {
+    event.preventDefault();
+    logOut();
+
+    toast("Sesión cerrada exitosamente", {
+      position: "top-right",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+  };
+
+  const pagina_sin_token = () => {
+    return (
+      <div className="home_page">
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>Gymcontrol - Principal</title>
+        </Helmet>
+        <h1>{frases[Math.floor(Math.random() * frases.length)]}</h1>
+        <Link to="/login">
+          <button type="button" className="btn btn-primary">
+            Únete
+          </button>
+        </Link>
+      </div>
+    );
+  };
+
+  const pagina_con_token = () => {
+    return (
+      <div className="home_page">
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>Gymcontrol - Principal</title>
+        </Helmet>
+        <h1>
+          ¡BIENVENID{user.sexo === "MASCULINO" ? "O " : "A "}
+          {rango_token === "Cliente" ? user.nombre.toUpperCase() : rango_token.toUpperCase()}
+          {user.sexo === "FEMENINO" && rango_token !== "Cliente" ? "A" : ""}!
+        </h1>
+        <button type="button" className="btn btn-primary" onClick={onClickHandler}>
+          Cerrar Sesión
+        </button>
+      </div>
+    );
+  };
+
+  return (
+    <React.Fragment>
+      {token == null || rango_token == null ? pagina_sin_token() : pagina_con_token()}
+    </React.Fragment>
+  );
 }

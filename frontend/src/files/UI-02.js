@@ -27,17 +27,19 @@ export default function Login() {
     const onChange_formulario = (label, event) => {
         switch(label) {
             case "correo":
-                setLoginform({ ...loginForm, correo: event.target.value});
+                setLoginform({ ...loginForm, correo: event.target.value });
                 break;
             case "password":
-                setLoginform({ ...loginForm, password: event.target.value});
+                setLoginform({ ...loginForm, password: event.target.value });
                 break;
             case "rango":
-                setLoginform({ ...loginForm, rango: event.target.value});
+                setLoginform({ ...loginForm, rango: event.target.value });
                 break;
+            default:
+                console.warn(`Etiqueta no manejada: ${label}`); // Mensaje en caso de valor inesperado.
         }
-    }
-
+    };
+    
     //Manejador de envío de datos
     const onSubmitManejador = async(event) => {
         event.preventDefault()
