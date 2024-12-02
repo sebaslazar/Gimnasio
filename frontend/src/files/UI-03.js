@@ -52,53 +52,55 @@ export default function Registro() {
 
     //Capturador de campos
     const onChange_formulario = (label, event) => {
-        switch(label){
+        switch(label) {
             case "ID":
-                setFormRegister({ ...formRegister, ID: event.target.value});
+                setFormRegister({ ...formRegister, ID: event.target.value });
                 break;
             case "password":
-                setFormRegister({ ...formRegister, password: event.target.value});
+                setFormRegister({ ...formRegister, password: event.target.value });
                 break;
             case "sexo":
-                setFormRegister({ ...formRegister, sexo: event.target.value});
+                setFormRegister({ ...formRegister, sexo: event.target.value });
                 break;
             case "nombre":
-                setFormRegister({ ...formRegister, nombre: event.target.value});
+                setFormRegister({ ...formRegister, nombre: event.target.value });
                 break;
             case "segundo_nombre":
-                setFormRegister({ ...formRegister, segundo_nombre: event.target.value});
+                setFormRegister({ ...formRegister, segundo_nombre: event.target.value });
                 break;
             case "apellido":
-                setFormRegister({ ...formRegister, apellido: event.target.value});
+                setFormRegister({ ...formRegister, apellido: event.target.value });
                 break;
             case "segundo_apellido":
-                setFormRegister({ ...formRegister, segundo_apellido: event.target.value});
+                setFormRegister({ ...formRegister, segundo_apellido: event.target.value });
                 break;
             case "fecha_nacimiento":
                 setBirthDate(event);
-                setFormRegister({ ...formRegister, fecha_nacimiento: formato_fecha(event)});
+                setFormRegister({ ...formRegister, fecha_nacimiento: formato_fecha(event) });
                 break;
             case "correo":
-                setFormRegister({ ...formRegister, correo: event.target.value});
+                setFormRegister({ ...formRegister, correo: event.target.value });
                 break;
             case "telefono":
-                setFormRegister({ ...formRegister, telefono: event.target.value});
+                setFormRegister({ ...formRegister, telefono: event.target.value });
                 break;
             case "direccion":
-                setFormRegister({ ...formRegister, direccion: event.target.value});
+                setFormRegister({ ...formRegister, direccion: event.target.value });
                 break;
             case "activo":
-                setFormRegister({ ...formRegister, activo: event.target.value});
+                setFormRegister({ ...formRegister, activo: event.target.value });
                 break;
             case "peso":
-                setFormRegister({ ...formRegister, peso: event.target.value});
+                setFormRegister({ ...formRegister, peso: event.target.value });
                 break;
             case "altura":
-                setFormRegister({ ...formRegister, altura: event.target.value});
+                setFormRegister({ ...formRegister, altura: event.target.value });
                 break;
+            default:
+                console.warn(`Etiqueta no manejada: ${label}`); // Advertencia si hay un valor no esperado
         }
-    }
-
+    };
+    
     //Manejador de envío de datos
     const onSubmitManejador = async(event) => {
         event.preventDefault()
@@ -293,7 +295,7 @@ export default function Registro() {
                 </div>
                 <button
                     type="submit"
-                    className="btn btn-primary">
+                    className="btn-primary ">
                         Crear cuenta
                 </button>
                 <p>
