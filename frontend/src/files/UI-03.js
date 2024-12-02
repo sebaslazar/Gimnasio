@@ -1,3 +1,4 @@
+
 import React, {useState} from 'react';
 import {Link, useNavigate} from "react-router-dom"
 import axios from "axios";
@@ -293,7 +294,7 @@ export default function Registro(props) {
                 </div>
                 <button
                     type="submit"
-                    className="btn btn-primary">
+                    className="btn btn-primary mt-3">
                         Crear cuenta
                 </button>
                 <p>
@@ -310,3 +311,4 @@ export default function Registro(props) {
         </React.Fragment>
     )
 }
+   

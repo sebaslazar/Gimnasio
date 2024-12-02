@@ -123,7 +123,7 @@ export default function Login(props) {
                 </div>
                 <button
                     type="submit"
-                    className="btn btn-primary">
+                    className="btn btn-primary mt-4">
                         Ingresar
                 </button>
                 <p>
