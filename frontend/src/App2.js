@@ -9,6 +9,11 @@ import { useUser } from "./contexts/UserContext.jsx";
 import { MainLayout } from './layouts/MainLayout.jsx';
 import { ClientsPage } from './files/ShowClientsPage.jsx';
 import { ProtectedRoutes } from './components/ProtectedRoute.jsx';
+import { AdminsPage } from './files/ShowAdminsPage.jsx';
+import { TrainersPage } from './files/ShowTrainersPage.jsx';
+import { ProvidersPage } from './files/ShowProvidersPage.jsx';
+import { MembershipsPage } from './files/ShowMemberships.jsx';
+import { ActiveClientsPage } from './files/entrenador/ShowActiveClients.jsx';
 
 document.documentElement.lang = "es"; //Establece el idioma de la página en español
 
@@ -31,6 +36,15 @@ function App() {
         {/* AQUÍ DEBEN IR LAS RUTAS DEL ADMINISTRADOR */}
         <Route element={<ProtectedRoutes fallbackPath="/login" ranges={['Administrador']} />}>
           <Route path="/admin/clientes" element={<ClientsPage />} />
+          <Route path="/admin/entrenadores" element={<TrainersPage />} />
+          <Route path="/admin/administradores" element={<AdminsPage />} />
+          <Route path="/admin/proveedores" element={<ProvidersPage />} />
+          <Route path="/admin/membresias" element={<MembershipsPage />} />
+        </Route>
+
+        {/* AQUÍ DEBEN IR LAS RUTAS DEL ENTRENADOR */}
+        <Route element={<ProtectedRoutes fallbackPath="/login" ranges={['Entrenador']} />}>
+          <Route path="/entrenador/clientes_activos" element={<ActiveClientsPage />} />
         </Route>
       </Routes>
     </>
