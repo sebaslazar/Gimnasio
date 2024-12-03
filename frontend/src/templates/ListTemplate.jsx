@@ -82,7 +82,7 @@ export function ListTemplate({
   return (
     <>
       <Helmet>
-        <title>Gymcontrol - Clientes</title>
+        <title>Gymcontrol - {title}</title>
       </Helmet>
       <PageLayout title={title}>
           <Table>
