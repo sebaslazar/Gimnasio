@@ -17,6 +17,10 @@ class ServicioCliente:
 
     @staticmethod
     async def consultar_lista_de_membresias_compradas(id_cliente: str):
+        _cliente = await ClienteRepository.buscar_por_id(model_id=id_cliente, name_id="ID_cliente")
+        if not _cliente:
+            raise HTTPException(status_code=404, detail="El cliente no existe")
+
         resultado = await ClienteRepository.generar_lista_de_membresias_compradas(id_cliente)
 
         resultado_lista = list(resultado)

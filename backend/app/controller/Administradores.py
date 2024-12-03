@@ -140,6 +140,6 @@ async def agregar_membresia(cuerpo_de_solicitud: SchemaMembresia):
 @router.get("/membresias", response_model=SchemaRespuesta)
 async def lista_de_membresias():
     membresias = await ServicioAdministrador.consultar_lista_de_membresias()
-    return SchemaRespuesta(detalles="Membresias accedidas correctamente",
+    return SchemaRespuesta(detalles="Membresías accedidas correctamente",
                            resultado=membresias)
 
