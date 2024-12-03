@@ -20,18 +20,72 @@ function defaultGetData(_) {
 }
 
 /**
+ * @typedef {Object} HeaderObject
+ * @property {string} value
+ * @property {string} display
+ */
+
+/**
+ * @typedef {(HeaderObject | string)[]} Header
+ */
+
+/**
+ * @typedef {Header[]} Headers
+ */
+
+/**
+ * Returns the header value
+ * @param {Header} header
+ * @returns {string}
+ */
+function getHeaderValue(header) {
+  if (typeof header === 'string') {
+    return header;
+  }
+  return header.value;
+}
+
+/**
+ * Returns the header display
+ * @param {Header} header
+ * @returns {string}
+ */
+function getHeaderDisplay(header) {
+  if (typeof header === 'string') {
+    return header;
+  }
+  return header.display;
+}
+
+/**
+ * @type {Headers}
+ */
+const DEFAULT_HEADERS = [
+  'nombre',
+  {
+    value: 'identificacion',
+    display: 'Identificación',
+  },
+  {
+    value: 'telefono',
+    display: 'Teléfono',
+  },
+  'sexo',
+];
+
+/**
  * 
  * @param {{
  *   getData: (token: string) => Record<string, string>[],
  *   title: string,
- *   headers: string[],
+ *   headers: Headers,
  * }} props 
  * @returns 
  */
 export function ListTemplate({
   title='undefined',
   getData = defaultGetData,
-  headers = ['nombre', 'identificacion', 'telefono', 'sexo'],
+  headers = DEFAULT_HEADERS,
 }) {
   const {token} = useUser();
   const [state, setState] = useState({
@@ -71,8 +125,8 @@ export function ListTemplate({
     content = state.data.map((client) => (
       <Table.Tr key={client.identificacion}>
         {headers.map((header) => (
-          <Table.Td key={header}>
-            {ICON_MAP[header]} {client[header]}
+          <Table.Td key={getHeaderValue(header)}>
+            {ICON_MAP[getHeaderValue(header)]} {client[getHeaderValue(header)]}
           </Table.Td>
         ))}
       </Table.Tr>
@@ -89,7 +143,7 @@ export function ListTemplate({
             <Thead>
               <Table.Tr>
                 {headers.map((header) => (
-                  <Table.Th key={header}>{toPascalCase(header)}</Table.Th>
+                  <Table.Th key={getHeaderValue(header)}>{toPascalCase(getHeaderDisplay(header))}</Table.Th>
                 ))}
               </Table.Tr>
             </Thead>

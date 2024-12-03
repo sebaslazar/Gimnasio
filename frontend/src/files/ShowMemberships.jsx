@@ -4,11 +4,14 @@ import { ListTemplate } from '../templates/ListTemplate';
 const MEMBERSHIP_HEADERS = [
   'nombre',
   'precio',
-  'duracion',
+  {
+    value: 'duracion',
+    display: 'Duración',
+  },
 ];
 
 export function MembershipsPage() {
   return (
-    <ListTemplate getData={getMembresias} title='Membresias' headers={MEMBERSHIP_HEADERS} />
+    <ListTemplate getData={getMembresias} title='Membresías' headers={MEMBERSHIP_HEADERS} />
   );
 }
