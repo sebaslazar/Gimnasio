@@ -9,6 +9,9 @@ import { useUser } from "./contexts/UserContext.jsx";
 import { MainLayout } from './layouts/MainLayout.jsx';
 import { ClientsPage } from './files/ShowClientsPage.jsx';
 import { ProtectedRoutes } from './components/ProtectedRoute.jsx';
+import { AdminsPage } from './files/ShowAdminsPage.jsx';
+import { TrainersPage } from './files/ShowTrainersPage.jsx';
+import { ProvidersPage } from './files/ShowProvedersPage.jsx';
 
 document.documentElement.lang = "es"; //Establece el idioma de la página en español
 
@@ -31,6 +34,9 @@ function App() {
         {/* AQUÍ DEBEN IR LAS RUTAS DEL ADMINISTRADOR */}
         <Route element={<ProtectedRoutes fallbackPath="/login" ranges={['Administrador']} />}>
           <Route path="/admin/clientes" element={<ClientsPage />} />
+          <Route path="/admin/entrenadores" element={<TrainersPage />} />
+          <Route path="/admin/administradores" element={<AdminsPage />} />
+          <Route path="/admin/proveedores" element={<ProvidersPage />} />
         </Route>
       </Routes>
     </>
