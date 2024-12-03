@@ -86,8 +86,8 @@ class ServicioAdministrador:
 
     @staticmethod
     async def consultar_lista_de_entrenadores():
-        resultado = await EntrenadorRepository.buscar_todo("nombre", ['ID_entrenador', 'nombre',
-                                                                      'telefono', 'sexo'])
+        resultado = await EntrenadorRepository.buscar_todo("nombre", ['ID_entrenador',
+                                                                      'nombre', 'telefono', 'sexo'])
         resultado_lista = list(resultado)
         if not resultado_lista:
             raise HTTPException(status_code=404, detail="No existen entrenadores")
