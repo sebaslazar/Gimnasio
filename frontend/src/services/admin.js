@@ -36,8 +36,8 @@ export function getClientes(token) {
     }
   })
   .catch((error) => {
+    if (error.response?.status === 404) return [];
     console.error(error);
-    if (error.response?.satus === 404) return [];
     throw new Error('Error al cargar los datos');
   });
 }
@@ -70,8 +70,8 @@ export function getAdministradores(token) {
     }
   })
   .catch((error) => {
+    if (error.response?.status === 404) return [];
     console.error(error);
-    if (error.response?.satus === 404) return [];
     throw new Error('Error al cargar los datos');
   });
 }
@@ -104,8 +104,8 @@ export function getEntrenadores(token) {
     }
   })
   .catch((error) => {
+    if (error.response?.status === 404) return [];
     console.error(error);
-    if (error.response?.satus === 404) return [];
     throw new Error('Error al cargar los datos');
   });
 }
@@ -133,13 +133,12 @@ export function getProveedores(token) {
           direccion: client.direccion,
         }));
     } else {
-      console.error(data);
       throw new Error('Error al cargar los datos');
     }
   })
   .catch((error) => {
     console.error(error);
-    if (error.response?.satus === 404) return [];
+    if (error.response?.status === 404) return [];
     throw new Error('Error al cargar los datos');
   });
 }
