@@ -12,6 +12,7 @@ import { ProtectedRoutes } from './components/ProtectedRoute.jsx';
 import { AdminsPage } from './files/ShowAdminsPage.jsx';
 import { TrainersPage } from './files/ShowTrainersPage.jsx';
 import { ProvidersPage } from './files/ShowProvidersPage.jsx';
+import { MembershipsPage } from './files/ShowMemberships.jsx';
 
 document.documentElement.lang = "es"; //Establece el idioma de la página en español
 
@@ -37,6 +38,7 @@ function App() {
           <Route path="/admin/entrenadores" element={<TrainersPage />} />
           <Route path="/admin/administradores" element={<AdminsPage />} />
           <Route path="/admin/proveedores" element={<ProvidersPage />} />
+          <Route path="/admin/membresias" element={<MembershipsPage />} />
         </Route>
       </Routes>
     </>
