@@ -5,12 +5,14 @@ import { IdIcon, SexIcon, TelefoneIcon, UserIcon } from '../components/icons';
 import { useUser } from '../contexts/UserContext';
 import { PageLayout } from '../layouts/PageLayout';
 import { toPascalCase } from '../utils';
+import { MapPinIcon } from '../components/icons/MapPinIcon';
 
 const ICON_MAP = {
   nombre: <UserIcon />,
   identificacion: <IdIcon />,
   telefono: <TelefoneIcon />,
   sexo: <SexIcon />,
+  direccion: <MapPinIcon />,
 }
 
 function defaultGetData(_) {
