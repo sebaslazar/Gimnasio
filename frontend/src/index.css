@@ -33,7 +33,7 @@ body, html {
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
-  background-image: url('../public/image.jpg'); /* Ruta de la imagen */
+  /*background-image: url('../public/image.jpg'); /* Ruta de la imagen */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -56,7 +56,7 @@ h2 {
 }
 
 .btn-primary {
-  background-color: #33072c !important;; /* Púrpura oscuro */
+  background-color: #282471 !important;; /* Púrpura oscuro */
   color: #ffffff; /* Texto blanco */
   font-weight: bold!important;; /* Negrita */
   border-radius: 200px!important;; /* Bordes redondeados */
@@ -68,7 +68,7 @@ h2 {
 }
 
 .btn-primary:hover {
-  background-color: #22031e!important;; /* Un tono más oscuro al hacer hover */
+  background-color: #050322!important;; /* Un tono más oscuro al hacer hover */
   color: #ffffff!important;; /* Asegúrate de que el texto siga siendo blanco */
   text-decoration: none!important; /* Sin subrayado */
   
@@ -101,6 +101,7 @@ h2 {
 .btn-link {
   text-decoration: none !important; /* Asegura que se aplique */
   font-size: 1.2rem !important;
+  font-family: 'MADE GoodTime Grotesk';
   /*margin-top: -20px !important; /* Ajusta este valor para subir el botón */
   color: #ffffff !important; /* Color del texto */
   background-color: transparent !important; /* Asegura que no tenga fondo */
@@ -114,7 +115,7 @@ h2 {
   width: 60%; /* Ajusta este valor según lo necesario */
   margin: 20 auto; /* Centra el contenedor horizontalmente */
 
-  padding-left: 15px;
+  padding-left: 30px;
 }
 
 .display-4 {

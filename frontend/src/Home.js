@@ -120,6 +120,7 @@ import { Helmet } from "react-helmet";
 import { toast } from 'react-toastify';
 import "./Home.css"; // Incluye tus estilos personalizados
 import { useUser } from "./contexts/UserContext";
+import MyNavbar from './components/NavbarCliente';
 
 //import ChatbotIcon from './ChatbotIcon'; // Importa el componente del ícono del chatbot
 
@@ -201,7 +202,7 @@ export default function Home(props) {
                     </Link>
                 </header>
                 <div className="content d-flex flex-column align-items-start">
-                    <h2 className="display-4 font-weight-bold">
+                    <h2 className="display-4 font-weight-bold" >
                         {frases[Math.floor(Math.random() * frases.length)]}
                     </h2>
                     <Link to="/registro_cliente">
@@ -223,18 +224,21 @@ export default function Home(props) {
                 <Helmet>
                     <meta charSet="utf-8" />
                     <title>Gymcontrol - Principal</title>
+                    
                 </Helmet>
                 <header className="d-flex justify-content-between align-items-center p-4">
                     <h1 className="logo">GYMCONTROL</h1>
-                    <button
-                        type="button"
-                        className="btn btn-primary"
-                        onClick={(event) => {
-                            onClickHandler(event);
-                        }}
-                    >
-                        Cerrar Sesión
-                    </button>
+                    
+                   <MyNavbar />
+                <button
+                type="button"
+                className="btn  text-white"
+                onClick={(event) => {
+                    onClickHandler(event);
+                }}
+            >
+                Cerrar Sesión
+            </button>
                 </header>
                 <div className="content d-flex flex-column align-items-start">
                     <h2 className="display-4 font-weight-bold">

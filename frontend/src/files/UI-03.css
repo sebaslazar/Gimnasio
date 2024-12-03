@@ -1,5 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 .nombre_de_gimnasio{
     color: white;
-    font: bold;
+    font-family: 'Hyperwave', 'Brush Script MT';
+    font-size: 4.3rem;
+    line-height: .85;
 }
 
+.btn-primary {
+    background-color: #3A33BB !important;
+    color: white !important;
+    border: 2px solid #3A33BB !important;
+    border-radius: 15px !important;
+    padding: 10px 20px !important;
+    font-size: 16px !important;
+    cursor: pointer !important;
+}
+
+.btn-primary:hover {
+    background-color: #060436 !important;
+    border-color: #09064b !important;
+}
