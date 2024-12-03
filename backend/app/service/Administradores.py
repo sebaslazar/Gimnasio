@@ -184,3 +184,11 @@ class ServicioAdministrador:
             raise HTTPException(status_code=404, detail="No existen membresias")
         else:
             return resultado_lista
+
+    @staticmethod
+    async def consultar_info_de_membresia(id_membresia: str):
+        resultado = await MembresiaRepository.buscar_por_id(model_id=id_membresia, name_id="ID_membresia")
+        if not resultado:
+            raise HTTPException(status_code=404, detail="La membresía específicada no existe")
+        else:
+            return resultado

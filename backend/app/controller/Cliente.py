@@ -25,7 +25,7 @@ async def lista_membresias_compradas(credenciales: HTTPAuthorizationCredentials 
                            resultado=membresias_compradas)
 
 
-@router.post("/comprar_membresia", response_model=SchemaRespuesta)
+@router.post("/comprar_membresia/{id_membresia}", response_model=SchemaRespuesta)
 async def comprar_membresia(id_membresia: str, credenciales: HTTPAuthorizationCredentials = Security(JWTBearer())):
     token_cliente = JWTRepo.extraer_token(credenciales)
     await ServicioCliente.comprar_membresia(id_cliente=token_cliente["ID"], id_membresia=id_membresia)
