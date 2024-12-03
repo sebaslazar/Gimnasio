@@ -1,10 +1,10 @@
 import { getClientes } from '../services/admin';
-import { UserListTemplate } from '../templates/UserListTemplate';
+import { ListTemplate } from '../templates/ListTemplate';
 
 // @ts-check
 
 export function ClientsPage() {
   return (
-    <UserListTemplate getData={getClientes} title='Clientes' />
+    <ListTemplate getData={getClientes} title='Clientes' />
   );
 }

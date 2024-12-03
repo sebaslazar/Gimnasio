@@ -1,10 +1,10 @@
 import { getEntrenadores } from '../services/admin';
-import { UserListTemplate } from '../templates/UserListTemplate';
+import { ListTemplate } from '../templates/ListTemplate';
 
 // @ts-check
 
 export function TrainersPage() {
   return (
-    <UserListTemplate getData={getEntrenadores} title='Entrenadores' />
+    <ListTemplate getData={getEntrenadores} title='Entrenadores' />
   );
 }
