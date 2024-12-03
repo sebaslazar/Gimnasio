@@ -1,12 +1,13 @@
-from fastapi import APIRouter, Depends, Security
-from fastapi.security import HTTPAuthorizationCredentials
+from fastapi import APIRouter, Depends
 
-from app.repository.auth_repo import JWTBearer, JWTRepo
+from app.repository.auth_repo import JWTBearer
 from app.schema import SchemaRespuesta, SchemaProveedor, SchemaEliminar, SchemaRegistrar, SchemaEstado, SchemaMembresia
 from app.service.Administradores import ServicioAdministrador
 from app.service.auth_service import AuthService
 
-router = APIRouter(prefix="/admin", tags=['Administrador'], dependencies=[Depends(JWTBearer())])
+router = APIRouter(prefix="/admin",
+                   tags=['Administrador'],
+                   dependencies=[Depends(JWTBearer(rango_requerido="Administrador"))])
 
 
 @router.post("/registro_entrenador", response_model=SchemaRespuesta, response_model_exclude_none=True)

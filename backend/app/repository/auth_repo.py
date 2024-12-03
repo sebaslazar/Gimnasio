@@ -44,8 +44,9 @@ class JWTRepo:
 
 class JWTBearer(HTTPBearer):
 
-    def __init__(self, auto_error: bool = True):
+    def __init__(self, rango_requerido: str = "usuario", auto_error: bool = True):
         super(JWTBearer, self).__init__(auto_error=auto_error)
+        self.rango_requerido = rango_requerido
 
     async def __call__(self, request: Request):
         credentials: HTTPAuthorizationCredentials = await super(JWTBearer, self).__call__(request)
@@ -53,9 +54,14 @@ class JWTBearer(HTTPBearer):
             if not credentials.scheme == "Bearer":
                 raise HTTPException(status_code=403,
                                     detail={"status": "Forbidden", "message": "Esquema de autenticación inválido"})
-            if not self.verificar_jwt(credentials.credentials):
+            rango_token = self.verificar_jwt(credentials.credentials)
+            if rango_token is None:
                 raise HTTPException(status_code=403,
                                     detail={"status": "Forbidden", "message": "Token inválido o expirado"})
+            else:
+                if not rango_token == self.rango_requerido and not self.rango_requerido == "usuario":
+                    raise HTTPException(status_code=403,
+                                        detail={"status": "Forbidden", "message": "Rango inválido"})
             return credentials.credentials
         else:
             raise HTTPException(status_code=403,
@@ -64,9 +70,10 @@ class JWTBearer(HTTPBearer):
     @staticmethod
     def verificar_jwt(jwt_token: str):
         try:
-            if jwt.decode(token=jwt_token, key=SECRET_KEY, algorithms=[ALGORITHM]) is not None:
-                return True
+            token_decodificado = jwt.decode(token=jwt_token, key=SECRET_KEY, algorithms=[ALGORITHM])
+            if token_decodificado is not None:
+                return token_decodificado["Rango"]
             else:
-                return False
+                return None
         except:
-            return False
+            return None
