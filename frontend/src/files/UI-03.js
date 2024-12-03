@@ -295,7 +295,7 @@ export default function Registro() {
                 </div>
                 <button
                     type="submit"
-                    className="btn-primary ">
+                    className=" btn-primary ">
                         Crear cuenta
                 </button>
                 <p>
