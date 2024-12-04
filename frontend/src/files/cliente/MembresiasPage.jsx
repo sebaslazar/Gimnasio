@@ -1,0 +1,157 @@
+import { Card, Placeholder } from 'react-bootstrap';
+import styles from './MembresiasPage.module.css';
+import { useEffect, useState } from 'react';
+import { getMembresiasDisplay } from '../../services/general';
+import { useUser } from '../../contexts/UserContext';
+
+const cardStyles = {
+  backgroundColor: '#3A33BB',
+  borderRadius: '20px',
+  position: 'relative',
+  paddingTop: '35px',
+  width: '21rem',
+};
+
+export function MembresiasPage() {
+  const [dataState, setDataState] = useState({
+    loading: true,
+    error: null,
+    data: [],
+  });
+
+  const { isLogged, auth } = useUser();
+
+
+  useEffect(() => {
+    getMembresiasDisplay('token')
+      .then((data) => {
+        setDataState({ loading: false, error: null, data });
+      })
+      .catch((error) => {
+        setDataState({ loading: false, error: error.message, data: [] });
+      });
+  }, []);
+
+  let cards;
+
+  if (dataState.loading) {
+    cards = Array.from({ length: 3 }, (_, index) => (
+      <PlaceHolderCard key={index} />
+    ));
+  } else if (dataState.error) {
+    cards = (
+      <Card className={`${styles.card}`} style={cardStyles}>
+        <Card.Body>
+        <div
+          className={`${styles.titleContainer} ${styles.absoluteCenterTitle}`}
+        >
+          <h1 className={`${styles.title}`}>Error</h1>
+        </div>
+          <p>{dataState.error}</p>
+        </Card.Body>
+      </Card>
+    );
+  } else if (dataState.data.length === 0) {
+    cards = (
+      <Card className={`${styles.card}`} style={cardStyles}>
+        <Card.Body>
+          <div className={`${styles.titleContainer}`}>
+            <h1 className={`${styles.title}`}>No hay membresías disponibles</h1>
+          </div>
+        </Card.Body>
+      </Card>
+    );
+  } else {
+    cards = dataState.data.map((item, index) => (
+      <MemberCard key={index} {...item} />
+    ));
+  }
+
+  return (
+    <>
+      <div className={`${styles.titleSection}`}>
+        <div className={`${styles.titleContainer}`}>
+          <h1 className={`${styles.title}`}>Membresías Disponibles</h1>
+        </div>
+      </div>
+      <div className={`${styles.cardSection}`}>{cards}</div>
+      {(isLogged && auth.rango==='Cliente') && (<div className={`${styles.titleSection}`}>
+        <button className={`${styles.squareButton}`}>Mis Membresías</button>
+      </div>)}
+    </>
+  );
+}
+
+/**
+ * @param {{
+ *   title: string,
+ *   price: number,
+ *   features: string[]
+ * }} props
+ * @returns 
+ */
+function MemberCard({
+  title = 'Estándar',
+  price = 50000,
+  features = [
+    'Membresía estándar con acceso a entrenamientos',
+    'Máximo 40 Miembros',
+    'Duración de 1 mes',
+    'Descuento del 20% en todas las actividades',
+  ],
+}) {
+  return (
+    <Card className={`${styles.card}`} style={cardStyles}>
+      <Card.Body>
+        <div
+          className={`${styles.titleContainer} ${styles.absoluteCenterTitle}`}
+        >
+          <h1 className={`${styles.title}`}>{title}</h1>
+        </div>
+        <ul className={`${styles.featureList}`}>
+          {features.map((feature, index) => (
+            <li key={index}>
+              {feature}
+            </li>
+          ))}
+        </ul>
+        <div className={`${styles.footer}`}>
+          <span>Desde:</span>
+          <button className={`btn btn-primary mt-8 ${styles.btn}`}>
+            {`${new Intl.NumberFormat('es-CO', {
+              style: 'currency',
+              currency: 'COP',
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            }).format(price)} COP`}
+          </button>
+        </div>
+      </Card.Body>
+    </Card>
+  );
+}
+
+function PlaceHolderCard(){
+  return (
+    <Card className={`${styles.card}`} style={cardStyles}>
+      <Card.Body>
+          <Placeholder as={Card.Title} animation="glow">
+            <Placeholder xs={6} />
+          </Placeholder>
+          <Placeholder as={Card.Text} animation="glow">
+            <Placeholder xs={7} /> <Placeholder xs={4} /> <Placeholder xs={4} />{' '}
+            <Placeholder xs={6} /> <Placeholder xs={8} />
+          </Placeholder>
+          <Placeholder as={Card.Text} animation="glow">
+            <Placeholder xs={7} /> <Placeholder xs={4} /> <Placeholder xs={4} />{' '}
+            <Placeholder xs={6} /> <Placeholder xs={8} />
+          </Placeholder>
+          <Placeholder as={Card.Text} animation="glow">
+            <Placeholder xs={7} /> <Placeholder xs={4} /> <Placeholder xs={4} />{' '}
+            <Placeholder xs={6} /> <Placeholder xs={8} />
+          </Placeholder>
+          <Placeholder.Button variant="primary" xs={6} />
+        </Card.Body>
+    </Card>
+  );
+}
