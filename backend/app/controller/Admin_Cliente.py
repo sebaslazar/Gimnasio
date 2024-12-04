@@ -10,6 +10,12 @@ router = APIRouter(prefix="/info_membresia",
                    tags=['Sólo administrador y cliente'],
                    dependencies=[Depends(JWTBearer(rangos_requeridos="Administrador-Cliente"))])
 
+@router.get("/membresias", response_model=SchemaRespuesta)
+async def lista_de_membresias():
+    membresias = await ServicioUsuario.consultar_lista_de_membresias()
+    return SchemaRespuesta(detalles="Membresías accedidas correctamente",
+                           resultado=membresias)
+
 @router.get("/{id_membresia}", response_model=SchemaRespuesta)
 async def buscar_info_de_membresia(id_membresia: str, credenciales: HTTPAuthorizationCredentials =
                                    Security(JWTBearer("Administrador-Cliente"))):

@@ -32,3 +32,13 @@ class ServicioUsuario:
 
             return {"Membresia_comprada": False if not _registro_compra else True,
                     "Info_membresia": _membresia}
+
+    @staticmethod
+    async def consultar_lista_de_membresias():
+        resultado = await MembresiaRepository.buscar_todo("nombre", ["nombre", "ID_membresia",
+                                                                     "precio", "duracion_meses"])
+        resultado_lista = list(resultado)
+        if not resultado_lista:
+            raise HTTPException(status_code=404, detail="No existen membresias")
+        else:
+            return resultado_lista
