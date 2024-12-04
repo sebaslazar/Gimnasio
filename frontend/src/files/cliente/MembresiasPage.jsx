@@ -79,7 +79,7 @@ export function MembresiasPage() {
           <h1 className="logo">GYMCONTROL</h1>
         </Link>
 
-        <MyNavbar />
+        <MyNavbar rango_token={auth?.rango ?? 'Cliente'} />
       </header>
       <div className={`${styles.titleSection}`}>
         <div className={`${styles.titleContainer}`}>

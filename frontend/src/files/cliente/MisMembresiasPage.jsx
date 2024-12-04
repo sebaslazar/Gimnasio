@@ -22,7 +22,7 @@ export function MisMembresiasPage() {
     data: [],
   });
 
-  const { token } = useUser();
+  const { token, auth } = useUser();
 
   useEffect(() => {
     getMisMembresiasDisplay(token)
@@ -77,7 +77,7 @@ export function MisMembresiasPage() {
         }}>
           <h1 className="logo">GYMCONTROL</h1>
         </Link>
-        <MyNavbar />
+        <MyNavbar rango_token={auth?.rango ?? 'Cliente'} />
       </header>
       <div className={`${styles.titleSection}`}>
         <div className={`${styles.titleContainer}`}>

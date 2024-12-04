@@ -60,16 +60,19 @@ const MyNavbar = ({ rango_token }) => {
             {rango_token === "Entrenador" && (
               <>
                 <Nav.Link as={Link} to="/perfil" className="text-white me-5">Mi Perfil</Nav.Link>
-                <Nav.Link as={Link} to="/clientes" className="text-white me-5">Clientes</Nav.Link>
+                <Nav.Link as={Link} to="/entrenador/clientes_activos" className="text-white me-5">Clientes</Nav.Link>
                 <Nav.Link as={Link} to="/entrenamientos" className="text-white me-5">Entrenamientos</Nav.Link>
               </>
             )}
 
             {rango_token === "Administrador" && (
               <>
-                <Nav.Link as={Link} to="/usuarios" className="text-white me-5">Usuarios</Nav.Link>
-                <Nav.Link as={Link} to="/reportes" className="text-white me-5">Reportes</Nav.Link>
-                <Nav.Link as={Link} to="/configuraciones" className="text-white me-5">Configuraciones</Nav.Link>
+                <Nav.Link as={Link} to="/admin/administradores" className="text-white me-5">Administradores</Nav.Link>
+                <Nav.Link as={Link} to="/admin/proveedores" className="text-white me-5">Proveedores</Nav.Link>
+                <Nav.Link as={Link} to="/admin/entrenadores" className="text-white me-5">Entrenadores</Nav.Link>
+                <Nav.Link as={Link} to="/admin/clientes" className="text-white me-5">Clientes</Nav.Link>
+
+                <Nav.Link as={Link} to="/admin/membresias" className="text-white me-5">Membresias</Nav.Link>
               </>
             )}
           </Nav>

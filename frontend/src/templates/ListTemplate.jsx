@@ -6,6 +6,8 @@ import { useUser } from '../contexts/UserContext';
 import { PageLayout } from '../layouts/PageLayout';
 import { toPascalCase } from '../utils';
 import { MapPinIcon } from '../components/icons/MapPinIcon';
+import { Link } from 'react-router-dom';
+import MyNavbar from '../components/NavbarCliente';
 
 const ICON_MAP = {
   nombre: <UserIcon />,
@@ -87,7 +89,7 @@ export function ListTemplate({
   getData = defaultGetData,
   headers = DEFAULT_HEADERS,
 }) {
-  const {token} = useUser();
+  const {token, auth} = useUser();
   const [state, setState] = useState({
     loading: true,
     error: null,
@@ -138,6 +140,15 @@ export function ListTemplate({
       <Helmet>
         <title>Gymcontrol - {title}</title>
       </Helmet>
+      <header className="d-flex justify-content-between align-items-center p-4">
+        <Link to="/" style={{
+          textDecoration: 'none',
+        }}>
+          <h1 className="logo">GYMCONTROL</h1>
+        </Link>
+
+        <MyNavbar rango_token={auth?.rango ?? 'Cliente'} />
+      </header>
       <PageLayout title={title}>
           <Table>
             <Thead>
