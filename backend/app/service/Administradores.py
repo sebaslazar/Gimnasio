@@ -22,42 +22,46 @@ class ServicioAdministrador:
     @staticmethod
     async def agregar_proveedor(registro: SchemaProveedor):
         _admin = await AdministradorRepository.buscar_por_id(model_id=registro.ID_admin_creador, name_id="ID_admin")
-        if _admin:
-            _id_proveedor = await ProveedorRepository.buscar_por_id(model_id=registro.ID_proveedor,
-                                                                    name_id="ID_proveedor")
-            if not _id_proveedor:
-                _proveedor = Proveedor(ID_proveedor=registro.ID_proveedor, ID_admin_creador=registro.ID_admin_creador,
-                                       nombre=registro.nombre, telefono=registro.telefono, direccion=registro.direccion,
-                                       correo=registro.correo, producto=registro.producto)
-                await ProveedorRepository.crear(**_proveedor.model_dump())
-            else:
-                raise HTTPException(status_code=404, detail="El proveedor ya existe")
-        else:
+        if not _admin:
             raise HTTPException(status_code=404, detail="El administrador no existe")
+
+        _id_proveedor = await ProveedorRepository.buscar_por_id(model_id=registro.ID_proveedor, name_id="ID_proveedor")
+        if _id_proveedor:
+           raise HTTPException(status_code=404, detail="El proveedor ya existe")
+
+        _correo_proveedor = await ProveedorRepository.buscar_por_nombre(nombre=registro.nombre)
+        if _correo_proveedor:
+            raise HTTPException(status_code=404, detail="Ya hay un proveedor registrado con ese nombre")
+
+        _proveedor = Proveedor(ID_proveedor=registro.ID_proveedor, ID_admin_creador=registro.ID_admin_creador,
+                               nombre=registro.nombre, telefono=registro.telefono, direccion=registro.direccion,
+                               correo=registro.correo, producto=registro.producto)
+        await ProveedorRepository.crear(**_proveedor.model_dump())
+
 
     @staticmethod
     async def modificar_proveedor(registro: SchemaProveedor):
         _proveedor = await ProveedorRepository.buscar_por_id(model_id=registro.ID_proveedor, name_id="ID_proveedor")
-        if _proveedor:
-            _admin = await AdministradorRepository.buscar_por_id(model_id=registro.ID_admin_creador, name_id="ID_admin")
-            if _admin:
-                info_proveedor = dict(registro)
-                del info_proveedor['ID_proveedor']
-                del info_proveedor['ID_admin_creador']
-                await ProveedorRepository.actualizar_por_id(model_id=registro.ID_proveedor, name_id="ID_proveedor",
-                                                            **info_proveedor)
-            else:
-                raise HTTPException(status_code=404, detail="El administrador no existe")
-        else:
+        if not _proveedor:
             raise HTTPException(status_code=404, detail="El proveedor no existe")
+
+        _admin = await AdministradorRepository.buscar_por_id(model_id=registro.ID_admin_creador, name_id="ID_admin")
+        if not _admin:
+            raise HTTPException(status_code=404, detail="El administrador no existe")
+
+        info_proveedor = dict(registro)
+        del info_proveedor['ID_proveedor']
+        del info_proveedor['ID_admin_creador']
+        await ProveedorRepository.actualizar_por_id(model_id=registro.ID_proveedor, name_id="ID_proveedor",
+                                                    **info_proveedor)
 
     @staticmethod
     async def eliminar_proveedor(registro: SchemaEliminar):
         _proveedor = await ProveedorRepository.buscar_por_id(model_id=registro.ID, name_id="ID_proveedor")
-        if _proveedor:
-            await ProveedorRepository.eliminar_por_id(model_id=registro.ID, name_id="ID_proveedor")
-        else:
+        if not _proveedor:
             raise HTTPException(status_code=404, detail="El proveedor no existe")
+
+        await ProveedorRepository.eliminar_por_id(model_id=registro.ID, name_id="ID_proveedor")
 
     @staticmethod
     async def consultar_lista_de_proveedores():
@@ -66,8 +70,8 @@ class ServicioAdministrador:
         resultado_lista = list(resultado)
         if not resultado_lista:
             raise HTTPException(status_code=404, detail="No existen proveedores")
-        else:
-            return resultado_lista
+
+        return resultado_lista
 
     @staticmethod
     async def consultar_lista_de_clientes():
@@ -76,8 +80,8 @@ class ServicioAdministrador:
         resultado_lista = list(resultado)
         if not resultado_lista:
             raise HTTPException(status_code=404, detail="No existen clientes")
-        else:
-            return resultado_lista
+
+        return resultado_lista
 
     @staticmethod
     async def consultar_lista_de_entrenadores():
@@ -86,8 +90,8 @@ class ServicioAdministrador:
         resultado_lista = list(resultado)
         if not resultado_lista:
             raise HTTPException(status_code=404, detail="No existen entrenadores")
-        else:
-            return resultado_lista
+
+        return resultado_lista
 
     @staticmethod
     async def consultar_lista_de_administradores():
@@ -96,30 +100,30 @@ class ServicioAdministrador:
         resultado_lista = list(resultado)
         if not resultado_lista:
             raise HTTPException(status_code=404, detail="No existen administradores")
-        else:
-            return resultado_lista
+
+        return resultado_lista
 
     @staticmethod
     async def actualizar_estado_cliente(nuevo_estado: SchemaEstado):
         _cliente = await ClienteRepository.buscar_por_id(model_id=nuevo_estado.ID, name_id="ID_cliente")
-        if _cliente:
-            resultado_lista = dict(nuevo_estado)
-            del resultado_lista['ID']
-            await ClienteRepository.actualizar_por_id(model_id=nuevo_estado.ID, name_id="ID_cliente",
-                                                      **resultado_lista)
-        else:
+        if not _cliente:
             raise HTTPException(status_code=404, detail="El cliente no existe")
+
+        resultado_lista = dict(nuevo_estado)
+        del resultado_lista['ID']
+        await ClienteRepository.actualizar_por_id(model_id=nuevo_estado.ID, name_id="ID_cliente",
+                                                  **resultado_lista)
 
     @staticmethod
     async def actualizar_estado_entrenador(nuevo_estado: SchemaEstado):
         _entrenador = await EntrenadorRepository.buscar_por_id(model_id=nuevo_estado.ID, name_id="ID_entrenador")
-        if _entrenador:
-            resultado_lista = dict(nuevo_estado)
-            del resultado_lista['ID']
-            await EntrenadorRepository.actualizar_por_id(model_id=nuevo_estado.ID, name_id="ID_entrenador",
-                                                         **resultado_lista)
-        else:
+        if not _entrenador:
             raise HTTPException(status_code=404, detail="El entrenador no existe")
+
+        resultado_lista = dict(nuevo_estado)
+        del resultado_lista['ID']
+        await EntrenadorRepository.actualizar_por_id(model_id=nuevo_estado.ID, name_id="ID_entrenador",
+                                                     **resultado_lista)
 
     @staticmethod
     async def conseguir_info_de_proveedor(id_proveedor: str):
@@ -134,23 +138,19 @@ class ServicioAdministrador:
     async def agregar_membresia(registro: SchemaMembresia):
         _administrador = await AdministradorRepository.buscar_por_id(model_id=registro.ID_admin_creador,
                                                                      name_id="ID_admin")
-        if _administrador:
-
-            _nombre_membresia = await MembresiaRepository.buscar_por_nombre(registro.nombre)
-            if not _nombre_membresia:
-
-                _id_membresia = str(uuid4())
-
-                _membresia = Membresia(ID_membresia=_id_membresia, ID_admin_creador=registro.ID_admin_creador,
-                                       nombre=registro.nombre, descripcion=registro.descripcion,
-                                       descuento=registro.descuento, max_miembros=registro.max_miembros,
-                                       precio=registro.precio, duracion_meses=registro.duracion_meses)
-
-                await MembresiaRepository.crear(**_membresia.model_dump())
-
-            else:
-                raise HTTPException(status_code=404, detail="Ya existe una membresía con ese nombre")
-
-        else:
+        if not _administrador:
             raise HTTPException(status_code=404, detail="El administrador no existe")
+
+        _nombre_membresia = await MembresiaRepository.buscar_por_nombre(registro.nombre)
+        if _nombre_membresia:
+            raise HTTPException(status_code=404, detail="Ya existe una membresía con ese nombre")
+
+        _id_membresia = str(uuid4())
+
+        _membresia = Membresia(ID_membresia=_id_membresia, ID_admin_creador=registro.ID_admin_creador,
+                               nombre=registro.nombre, descripcion=registro.descripcion,
+                               descuento=registro.descuento, max_miembros=registro.max_miembros,
+                               precio=registro.precio, duracion_meses=registro.duracion_meses)
+
+        await MembresiaRepository.crear(**_membresia.model_dump())
 

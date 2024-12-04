@@ -20,29 +20,28 @@ class AuthService:
 
     @staticmethod
     async def servicio_de_login(login: SchemaLogin):
-        if login.rango == "Cliente":
-            _cliente = await ClienteRepository.buscar_por_correo(login.correo)
-            if _cliente is not None:
-                if not pwd_context.verify(login.password, _cliente.password):
-                    raise HTTPException(status_code=400, detail="Contraseña inválida")
-                return JWTRepo(data={"ID": _cliente.ID_cliente, "Rango": _cliente.rango}).generar_token()
-            raise HTTPException(status_code=404, detail="El cliente no existe")
-        elif login.rango == "Administrador":
-            _administrador = await AdministradorRepository.buscar_por_correo(login.correo)
-            if _administrador is not None:
-                if not pwd_context.verify(login.password, _administrador.password):
-                    raise HTTPException(status_code=400, detail="Contraseña inválida")
-                return JWTRepo(data={"ID": _administrador.ID_admin, "Rango": _administrador.rango}).generar_token()
-            raise HTTPException(status_code=404, detail="El administrador no existe")
-        elif login.rango == "Entrenador":
-            _entrenador = await EntrenadorRepository.buscar_por_correo(login.correo)
-            if _entrenador is not None:
-                if not pwd_context.verify(login.password, _entrenador.password):
-                    raise HTTPException(status_code=400, detail="Contraseña inválida")
-                return JWTRepo(data={"ID": _entrenador.ID_entrenador, "Rango": _entrenador.rango}).generar_token()
-            raise HTTPException(status_code=404, detail="El entrenador no existe")
-        else:
+        tipos_de_usuarios = {
+            "Cliente": {"repositorio": ClienteRepository, "id": "ID_cliente"},
+            "Administrador": {"repositorio": AdministradorRepository, "id": "ID_admin"},
+            "Entrenador": {"repositorio": EntrenadorRepository, "id": "ID_entrenador"}
+        }
+
+        if login.rango not in tipos_de_usuarios:
             raise HTTPException(status_code=404, detail="Rango inválido")
+
+        config_usuario = tipos_de_usuarios[login.rango]
+
+        _usuario = await config_usuario["repositorio"].buscar_por_correo(login.correo)
+        if _usuario is None:
+            raise HTTPException(status_code=404, detail=f"El {login.rango.lower()} no existe")
+
+        if not pwd_context.verify(login.password, _usuario.password):
+            raise HTTPException(status_code=400, detail="Contraseña inválida")
+
+        return JWTRepo(data={
+            "ID": getattr(_usuario, config_usuario["id"]),
+            "Rango": _usuario.rango}
+        ).generar_token()
 
     @staticmethod
     async def servicio_de_registro_de_cliente(registro: SchemaRegistrar):
@@ -212,31 +211,20 @@ async def generar_administrador_principal():
 
 
 async def verificacion_pre_registro(registro_id: str, registro_correo: str):
+    tipos_de_usuarios = {
+        "Cliente": {"repositorio": ClienteRepository, "id": "ID_cliente"},
+        "Administrador": {"repositorio": AdministradorRepository, "id": "ID_admin"},
+        "Entrenador": {"repositorio": EntrenadorRepository, "id": "ID_entrenador"}
+    }
 
-    # Verifica si el ID ya está registrado
-    _ID_usuario = await ClienteRepository.buscar_por_id(registro_id, "ID_cliente")
-    if not _ID_usuario:
-        _ID_usuario = await EntrenadorRepository.buscar_por_id(registro_id, "ID_entrenador")
-        if not _ID_usuario:
-            _ID_usuario = await AdministradorRepository.buscar_por_id(registro_id, "ID_admin")
-            if _ID_usuario:
-                raise HTTPException(status_code=400, detail="Ya hay un administrador registrado con esa cédula")
-        else:
-            raise HTTPException(status_code=400, detail="Ya hay un entrenador registrado con esa cédula")
-    else:
-        raise HTTPException(status_code=400, detail="Ya hay un cliente registrado con esa cédula")
+    for tipo_usuario, config_usuario in tipos_de_usuarios.items():
+        _usuario = await config_usuario["repositorio"].buscar_por_id(registro_id, config_usuario["id"])
+        if _usuario:
+            raise HTTPException(status_code=400, detail=f"Ya hay un {tipo_usuario.lower()} registrado con esa cédula")
 
-    # Verifica si el correo ya está registrado
-    _correo_usuario = await ClienteRepository.buscar_por_correo(registro_correo)
-    if not _correo_usuario:
-        _correo_usuario = await EntrenadorRepository.buscar_por_correo(registro_correo)
-        if not _correo_usuario:
-            _correo_usuario = await AdministradorRepository.buscar_por_correo(registro_correo)
-            if _correo_usuario:
-                raise HTTPException(status_code=400, detail="Ya hay un administrador registrado con ese correo")
-            else:
-                return True
-        else:
-            raise HTTPException(status_code=400, detail="Ya hay un entrenador registrado con ese correo")
-    else:
-        raise HTTPException(status_code=400, detail="Ya hay un cliente registrado con ese correo")
+        _correo = await config_usuario["repositorio"].buscar_por_correo(registro_correo)
+        if _correo:
+            raise HTTPException(status_code=400, detail=f"Ya hay un {tipo_usuario.lower()} registrado con ese correo")
+
+    return True
+
