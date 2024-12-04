@@ -1,3 +1,4 @@
+/*
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 import axios from "axios";
@@ -138,11 +139,132 @@ export default function Login() {
                 </button>
                 <p>
                     ¿Eres Nuevo?{" "}
-                    <Link to="/registro_cliente"> {/*Ruta que va a aparecer en el navegador*/}
+                    <Link to="/registro_cliente"> {/*Ruta que va a aparecer en el navegador*/
+                    /*
                         <span className="link_registrar">Únete</span>
                     </Link>
                 </p>
             </form>
         </React.Fragment>
     )
+}
+
+*/
+
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
+import "./UI-02.css";
+import { useUser } from "../contexts/UserContext";
+import { FaEnvelope, FaLock, FaUserCircle } from 'react-icons/fa';
+
+
+export default function Login() {
+  const { setToken } = useUser();
+
+  const opcionesRango = [
+    { value: "", label: "Seleccione su Rango" },
+    { value: "Cliente", label: "Cliente" },
+    { value: "Entrenador", label: "Entrenador" },
+    { value: "Administrador", label: "Administrador" },
+  ];
+
+  const [loginForm, setLoginForm] = useState({
+    correo: "",
+    password: "",
+    rango: "Cliente",
+    rango: "Entrenador",
+    rango: "Administrador",
+  });
+
+  const handleChange = (field, value) => {
+    setLoginForm({ ...loginForm, [field]: value });
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8888/auth/login",
+        loginForm
+      );
+      setToken({
+        token: response.data.resultado.token_de_acceso,
+        tokenType: response.data.resultado.tipo_de_token,
+      });
+      toast.success(response.data.detalles);
+    } catch (error) {
+      toast.error(error.response?.data?.detail || "Error al iniciar sesión");
+    }
+  };
+
+  return (
+    <div className="login-container d-flex flex-column align-items-center mt-5">
+    {/* Título */}
+    <h1 className="nombre_de_gimnasio text-center mb-4">GYMCONTROL</h1>
+
+    {/* Formulario */}
+    <form onSubmit={handleSubmit} className="login-form w-75">
+      {/* Correo */}
+      <div className="form-group mb-3">
+        <FaEnvelope className="icon" />
+        <input
+          type="email"
+          className="form-control"
+          placeholder="Correo Electrónico"
+          value={loginForm.correo}
+          onChange={(e) => handleChange("correo", e.target.value)}
+          required
+        />
+      </div>
+
+      {/* Rango */}
+      <div className="form-group mb-3">
+        <FaUserCircle className="icon" />
+        <select
+          className="form-control"
+          value={loginForm.rango}
+          onChange={(e) => handleChange("rango", e.target.value)}
+          required
+        >
+          {opcionesRango.map((opcion) => (
+            <option key={opcion.value} value={opcion.value} disabled={!opcion.value}>
+              {opcion.label}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Contraseña */}
+      <div className="form-group mb-3">
+        <FaLock className="icon" />
+        <input
+          type="password"
+          className="form-control"
+          placeholder="Contraseña"
+          value={loginForm.password}
+          onChange={(e) => handleChange("password", e.target.value)}
+          required
+        />
+      </div>
+
+      {/* Botón de Ingresar */}
+      <button type="submit" className="btn btn-primary  border-purple rounded-pill">
+        Ingresar
+      </button>
+    </form>
+
+    {/* Enlace de Registro (Fuera del formulario) */}
+    <div className="nuevo-usuario text-center mt-4">
+      <p>
+        ¿Eres Nuevo?{" "}
+        <Link to="/registro_cliente" className="text-primary">
+          Únete
+        </Link>
+      </p>
+    </div>
+  </div>
+);
 }

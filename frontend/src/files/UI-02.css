@@ -1,9 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 .nombre_de_gimnasio{
     color: white;
-    font: bold;
+    color: white;
+    font-family: 'Hyperwave', 'Brush Script MT';
+    font-size: 5.5rem;
+    line-height: .85;
 }
 
-.link_registrar{
-    cursor: pointer;
-}
-
+.border-purple {
+    border-color: #800080 !important; /* Morado */
+  }
+  
+  .btn-primary {
+    background-color: #007bff !important; /* Color predeterminado de fondo de Bootstrap */
+    border-color: #007bff !important; /* Color de borde predeterminado */
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3 !important; /* Color cuando se pasa el mouse */
+    border-color: #0056b3 !important; /* Color del borde cuando se pasa el mouse */
+  }
+  

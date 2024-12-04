@@ -128,6 +128,7 @@ document.documentElement.lang = "es";
 
 export default function Home(props) {
     const { token, logOut } = useUser();
+    
 
     const frases = [
         "El único mal entrenamiento es el que no haces",
@@ -137,7 +138,7 @@ export default function Home(props) {
         "Cada gota de sudor es un paso hacia tu mejor versión"
     ];
     const [user, setUser] = useState({}); // Datos del usuario
-    // const [auth_token, setToken] = useState(); // Token de autenticación
+     const [auth_token, setToken] = useState(); // Token de autenticación
     const [rango_token, setRango] = useState(); // Rango del usuario
 
     useEffect(() => {
@@ -197,7 +198,7 @@ export default function Home(props) {
                 </Helmet>
                 <header className="d-flex justify-content-between align-items-center p-4">
                     <h1 className="logo">GYMCONTROL</h1>
-                    <Link to="/login"> {/* Cambié la ruta de /?login a /login */}
+                    <Link to="/login"> 
                         <button className="btn btn-link">Iniciar Sesión</button>
                     </Link>
                 </header>
@@ -228,8 +229,8 @@ export default function Home(props) {
                 </Helmet>
                 <header className="d-flex justify-content-between align-items-center p-4">
                     <h1 className="logo">GYMCONTROL</h1>
-                    
-                   <MyNavbar />
+                    <MyNavbar rango_token={rango_token} />
+                  
                 <button
                 type="button"
                 className="btn  text-white"
@@ -257,3 +258,5 @@ export default function Home(props) {
         </React.Fragment>
     );
 }
+
+
