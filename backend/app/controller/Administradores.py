@@ -7,7 +7,7 @@ from app.service.auth_service import AuthService
 
 router = APIRouter(prefix="/admin",
                    tags=['Administrador'],
-                   dependencies=[Depends(JWTBearer(rango_requerido="Administrador"))])
+                   dependencies=[Depends(JWTBearer(rangos_requeridos="Administrador"))])
 
 
 @router.post("/registro_entrenador", response_model=SchemaRespuesta, response_model_exclude_none=True)

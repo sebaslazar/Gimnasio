@@ -47,3 +47,4 @@ class ServicioCliente:
         _registro_compra = CompraMembresia(ID_comprador=id_cliente, ID_membresia=id_membresia,
                                            metodo_pago="Efectivo", tipo_compra=True)
         await CompraMembresiaRepository.crear(**_registro_compra.model_dump())
+

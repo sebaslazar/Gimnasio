@@ -44,28 +44,29 @@ class JWTRepo:
 
 class JWTBearer(HTTPBearer):
 
-    def __init__(self, rango_requerido: str = "usuario", auto_error: bool = True):
+    def __init__(self, rangos_requeridos: str = "Usuario", auto_error: bool = True):
         super(JWTBearer, self).__init__(auto_error=auto_error)
-        self.rango_requerido = rango_requerido
+        self.rangos_requeridos = rangos_requeridos
 
     async def __call__(self, request: Request):
         credentials: HTTPAuthorizationCredentials = await super(JWTBearer, self).__call__(request)
-        if credentials:
-            if not credentials.scheme == "Bearer":
-                raise HTTPException(status_code=403,
-                                    detail={"status": "Forbidden", "message": "Esquema de autenticación inválido"})
-            rango_token = self.verificar_jwt(credentials.credentials)
-            if rango_token is None:
-                raise HTTPException(status_code=403,
-                                    detail={"status": "Forbidden", "message": "Token inválido o expirado"})
-            else:
-                if not rango_token == self.rango_requerido and not self.rango_requerido == "usuario":
-                    raise HTTPException(status_code=403,
-                                        detail={"status": "Forbidden", "message": "Rango inválido"})
-            return credentials.credentials
-        else:
+        if not credentials:
             raise HTTPException(status_code=403,
                                 detail={"status": "Forbidden", "message": "Código de autorización inválido"})
+
+        if not credentials.scheme == "Bearer":
+            raise HTTPException(status_code=403,
+                                detail={"status": "Forbidden", "message": "Esquema de autenticación inválido"})
+
+        rango_token = self.verificar_jwt(credentials.credentials)
+        if rango_token is None:
+            raise HTTPException(status_code=403,
+                                detail={"status": "Forbidden", "message": "Token inválido o expirado"})
+        else:
+            if not rango_token in self.rangos_requeridos.split("-"):
+                raise HTTPException(status_code=403,
+                                    detail={"status": "Forbidden", "message": "Rango inválido"})
+        return credentials.credentials
 
     @staticmethod
     def verificar_jwt(jwt_token: str):

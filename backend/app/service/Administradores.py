@@ -184,3 +184,4 @@ class ServicioAdministrador:
             raise HTTPException(status_code=404, detail="No existen membresias")
         else:
             return resultado_lista
+

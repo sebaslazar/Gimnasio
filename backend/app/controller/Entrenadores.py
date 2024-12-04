@@ -6,7 +6,7 @@ from app.service.Entrenadores import ServicioEntrenador
 
 router = APIRouter(prefix="/entrenador",
                    tags=['Entrenador'],
-                   dependencies=[Depends(JWTBearer(rango_requerido="Entrenador"))])
+                   dependencies=[Depends(JWTBearer(rangos_requeridos="Entrenador"))])
 
 
 @router.get("/clientes_activos", response_model=SchemaRespuesta, response_model_exclude_none=True)

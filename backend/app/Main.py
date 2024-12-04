@@ -40,9 +40,9 @@ def init_app():
 
     app.include_router(authentication.router)
     app.include_router(Cliente.router)
+    app.include_router(Entrenadores.router)
     app.include_router(Administradores.router)
     app.include_router(Usuario.router)
-    app.include_router(Entrenadores.router)
 
     return app
 
