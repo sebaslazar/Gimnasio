@@ -58,7 +58,6 @@ class JWTBearer(HTTPBearer):
             raise HTTPException(status_code=403,
                                 detail={"status": "Forbidden", "message": "Esquema de autenticación inválido"})
 
-
         rango_token = self.verificar_jwt(credentials.credentials)
         if rango_token is None:
             raise HTTPException(status_code=403,
@@ -68,7 +67,6 @@ class JWTBearer(HTTPBearer):
                 raise HTTPException(status_code=403,
                                     detail={"status": "Forbidden", "message": "Rango inválido"})
         return credentials.credentials
-
 
     @staticmethod
     def verificar_jwt(jwt_token: str):
