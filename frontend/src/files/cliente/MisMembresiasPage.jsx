@@ -14,7 +14,7 @@ const cardStyles = {
   width: '21rem',
 };
 
-export function MembresiasPage() {
+export function MisMembresiasPage() {
   const [dataState, setDataState] = useState({
     loading: true,
     error: null,
@@ -22,7 +22,6 @@ export function MembresiasPage() {
   });
 
   const { isLogged, auth } = useUser();
-
 
   useEffect(() => {
     getMembresiasDisplay('token')
@@ -44,11 +43,11 @@ export function MembresiasPage() {
     cards = (
       <Card className={`${styles.card}`} style={cardStyles}>
         <Card.Body>
-        <div
-          className={`${styles.titleContainer} ${styles.absoluteCenterTitle}`}
-        >
-          <h1 className={`${styles.title}`}>Error</h1>
-        </div>
+          <div
+            className={`${styles.titleContainer} ${styles.absoluteCenterTitle}`}
+          >
+            <h1 className={`${styles.title}`}>Error</h1>
+          </div>
           <p>{dataState.error}</p>
         </Card.Body>
       </Card>
@@ -77,18 +76,14 @@ export function MembresiasPage() {
         }}>
           <h1 className="logo">GYMCONTROL</h1>
         </Link>
-
         <MyNavbar />
       </header>
       <div className={`${styles.titleSection}`}>
         <div className={`${styles.titleContainer}`}>
-          <h1 className={`${styles.title}`}>Membresías Disponibles</h1>
+          <h1 className={`${styles.title}`}>Mis Membresías</h1>
         </div>
       </div>
       <div className={`${styles.cardSection}`}>{cards}</div>
-      {(isLogged && auth.rango==='Cliente') && (<div className={`${styles.titleSection}`}>
-        <Link to='/mis_membresias' className={`${styles.squareButton}`}>Mis Membresías</Link>
-      </div>)}
     </>
   );
 }
@@ -99,7 +94,7 @@ export function MembresiasPage() {
  *   price: number,
  *   features: string[]
  * }} props
- * @returns 
+ * @returns
  */
 function MemberCard({
   title = 'Estándar',
@@ -121,9 +116,7 @@ function MemberCard({
         </div>
         <ul className={`${styles.featureList}`}>
           {features.map((feature, index) => (
-            <li key={index}>
-              {feature}
-            </li>
+            <li key={index}>{feature}</li>
           ))}
         </ul>
         <div className={`${styles.footer}`}>
@@ -142,27 +135,27 @@ function MemberCard({
   );
 }
 
-function PlaceHolderCard(){
+function PlaceHolderCard() {
   return (
     <Card className={`${styles.card}`} style={cardStyles}>
       <Card.Body>
-          <Placeholder as={Card.Title} animation="glow">
-            <Placeholder xs={6} />
-          </Placeholder>
-          <Placeholder as={Card.Text} animation="glow">
-            <Placeholder xs={7} /> <Placeholder xs={4} /> <Placeholder xs={4} />{' '}
-            <Placeholder xs={6} /> <Placeholder xs={8} />
-          </Placeholder>
-          <Placeholder as={Card.Text} animation="glow">
-            <Placeholder xs={7} /> <Placeholder xs={4} /> <Placeholder xs={4} />{' '}
-            <Placeholder xs={6} /> <Placeholder xs={8} />
-          </Placeholder>
-          <Placeholder as={Card.Text} animation="glow">
-            <Placeholder xs={7} /> <Placeholder xs={4} /> <Placeholder xs={4} />{' '}
-            <Placeholder xs={6} /> <Placeholder xs={8} />
-          </Placeholder>
-          <Placeholder.Button variant="primary" xs={6} />
-        </Card.Body>
+        <Placeholder as={Card.Title} animation="glow">
+          <Placeholder xs={6} />
+        </Placeholder>
+        <Placeholder as={Card.Text} animation="glow">
+          <Placeholder xs={7} /> <Placeholder xs={4} /> <Placeholder xs={4} />{' '}
+          <Placeholder xs={6} /> <Placeholder xs={8} />
+        </Placeholder>
+        <Placeholder as={Card.Text} animation="glow">
+          <Placeholder xs={7} /> <Placeholder xs={4} /> <Placeholder xs={4} />{' '}
+          <Placeholder xs={6} /> <Placeholder xs={8} />
+        </Placeholder>
+        <Placeholder as={Card.Text} animation="glow">
+          <Placeholder xs={7} /> <Placeholder xs={4} /> <Placeholder xs={4} />{' '}
+          <Placeholder xs={6} /> <Placeholder xs={8} />
+        </Placeholder>
+        <Placeholder.Button variant="primary" xs={6} />
+      </Card.Body>
     </Card>
   );
 }

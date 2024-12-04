@@ -1,7 +1,7 @@
 .titleSection {
   display: flex;
   justify-content: center;
-  padding-block: 20px;
+  padding-bottom: 20px;
 }
 
 .titleContainer {
@@ -28,6 +28,7 @@
   gap: 20px;
   padding-block: 20px;
   padding-top: 30px;
+  margin-bottom: 25px;
 
   /* width: 100%; */
   max-width: calc(21rem * 2 + 80px);
