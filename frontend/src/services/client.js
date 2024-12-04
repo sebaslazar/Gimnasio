@@ -95,3 +95,20 @@ export function getMisMembresiasDisplay(token) {
       throw error;
     });
 }
+
+/**
+ * 
+ * @param {{id: string, token: string}} param0
+ * @returns {Promise<void>} 
+ */
+export async function comprarMembresia({
+  id,
+  token,
+}){
+  return axios.post(`http://localhost:8888/cliente/comprar_membresia/${id}`,undefined,{
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
