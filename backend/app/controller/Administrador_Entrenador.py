@@ -1,9 +1,8 @@
 from fastapi import APIRouter, Depends
 
 from app.repository.auth_repo import JWTBearer
-from app.schema import SchemaRespuesta, SchemaProveedor, SchemaEliminar, SchemaRegistrar, SchemaEstado, SchemaMembresia
+from app.schema import SchemaRespuesta
 from app.service.Administradores import ServicioAdministrador
-from app.service.auth_service import AuthService
 
 router = APIRouter(prefix="/info_membresia",
                    tags=['Administrador-Entrenador'],
