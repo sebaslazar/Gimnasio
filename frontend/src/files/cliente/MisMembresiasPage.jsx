@@ -65,7 +65,7 @@ export function MisMembresiasPage() {
     );
   } else {
     cards = dataState.data.map((item, index) => (
-      <MemberCard key={index} {...item} />
+      <MemberCard key={item.id} {...item} />
     ));
   }
 

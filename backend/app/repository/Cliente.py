@@ -36,6 +36,7 @@ class ClienteRepository(BaseRepo):
                  .join(Cliente, CompraMembresia.ID_comprador == Cliente.ID_cliente)
                  .where(Cliente.ID_cliente == id_cliente)
                  .options(load_only(Membresia.nombre,
+                                    Membresia.precio,
                                     Membresia.descripcion,
                                     Membresia.max_miembros,
                                     Membresia.duracion_meses,
@@ -56,6 +57,7 @@ class ClienteRepository(BaseRepo):
         query = (select(Membresia)
                  .where(not_(Membresia.ID_membresia.in_(subquery)))
                  .options(load_only(Membresia.nombre,
+                                    Membresia.precio,
                                     Membresia.descripcion,
                                     Membresia.max_miembros,
                                     Membresia.duracion_meses,
