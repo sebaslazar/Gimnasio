@@ -29,13 +29,13 @@ function membresia2Display(membresia) {
   const duracion = membresia['duracion_meses'];
   return ({
     id: membresia['ID_membresia'],
-    title: membresia.nombre.toLowerCase().startsWith('membresía ') ? membresia.nombre.split(' ')[1] : `Membresia ${membresia.nombre}`,
+    title: membresia.nombre.toLowerCase().startsWith('membresía ') ? membresia.nombre.split(' ')[1] : `${membresia.nombre}`,
     price: membresia.precio,
     features: [
       membresia.descripcion,
       `Máximo ${membresia.max_miembros} Miembros`,
       `Duración de ${duracion} mes${duracion > 1 ? 'es' : ''}`,
-      membresia.descuento ? `Con un descuento especial del ${membresia.descuento}% si lo compras ya` : 'Sin descuento',
+      membresia.descuento ? `Con un descuento especial del ${membresia.descuento*100}% si lo compras ya` : 'Sin descuento',
     ],
   });
 }

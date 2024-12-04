@@ -127,7 +127,7 @@ function MemberCard({
           ))}
         </ul>
         <div className={`${styles.footer}`}>
-          <span>Desde:</span>
+          <span>Comprador por:</span>
           <button className={`btn btn-primary mt-8 ${styles.btn}`}>
             {`${new Intl.NumberFormat('es-CO', {
               style: 'currency',
