@@ -1,8 +1,12 @@
-import { getMembresias } from '../services/admin';
+import { getDisplayMembresias } from '../services/admin';
 import { ListTemplate } from '../templates/ListTemplate';
 
 const MEMBERSHIP_HEADERS = [
   'nombre',
+  {
+    value: 'identificacion',
+    display: 'ID',
+  },
   'precio',
   {
     value: 'duracion',
@@ -12,6 +16,6 @@ const MEMBERSHIP_HEADERS = [
 
 export function MembershipsPage() {
   return (
-    <ListTemplate getData={getMembresias} title='Membresías' headers={MEMBERSHIP_HEADERS} />
+    <ListTemplate getData={getDisplayMembresias} title='Membresías' headers={MEMBERSHIP_HEADERS} />
   );
 }

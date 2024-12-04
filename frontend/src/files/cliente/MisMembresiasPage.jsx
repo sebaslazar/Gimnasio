@@ -1,7 +1,7 @@
 import { Card, Placeholder } from 'react-bootstrap';
 import styles from './MembresiasPage.module.css';
 import { useEffect, useState } from 'react';
-import { getMembresiasDisplay } from '../../services/general';
+import { getMisMembresiasDisplay } from '../../services/general';
 import { useUser } from '../../contexts/UserContext';
 import MyNavbar from '../../components/NavbarCliente';
 import { Link } from 'react-router-dom';
@@ -12,6 +12,7 @@ const cardStyles = {
   position: 'relative',
   paddingTop: '35px',
   width: '21rem',
+  minHeight: '24rem',
 };
 
 export function MisMembresiasPage() {
@@ -21,17 +22,17 @@ export function MisMembresiasPage() {
     data: [],
   });
 
-  const { isLogged, auth } = useUser();
+  const { token } = useUser();
 
   useEffect(() => {
-    getMembresiasDisplay('token')
+    getMisMembresiasDisplay(token)
       .then((data) => {
         setDataState({ loading: false, error: null, data });
       })
       .catch((error) => {
         setDataState({ loading: false, error: error.message, data: [] });
       });
-  }, []);
+  }, [token]);
 
   let cards;
 
@@ -108,7 +109,13 @@ function MemberCard({
 }) {
   return (
     <Card className={`${styles.card}`} style={cardStyles}>
-      <Card.Body>
+      <Card.Body
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        }}
+      >
         <div
           className={`${styles.titleContainer} ${styles.absoluteCenterTitle}`}
         >

@@ -12,6 +12,7 @@ const cardStyles = {
   position: 'relative',
   paddingTop: '35px',
   width: '21rem',
+  minHeight: '24rem',
 };
 
 export function MembresiasPage() {
@@ -21,18 +22,18 @@ export function MembresiasPage() {
     data: [],
   });
 
-  const { isLogged, auth } = useUser();
+  const { isLogged, auth, token } = useUser();
 
 
   useEffect(() => {
-    getMembresiasDisplay('token')
+    getMembresiasDisplay(token)
       .then((data) => {
         setDataState({ loading: false, error: null, data });
       })
       .catch((error) => {
         setDataState({ loading: false, error: error.message, data: [] });
       });
-  }, []);
+  }, [token]);
 
   let cards;
 
@@ -113,7 +114,13 @@ function MemberCard({
 }) {
   return (
     <Card className={`${styles.card}`} style={cardStyles}>
-      <Card.Body>
+      <Card.Body
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        }}
+      >
         <div
           className={`${styles.titleContainer} ${styles.absoluteCenterTitle}`}
         >

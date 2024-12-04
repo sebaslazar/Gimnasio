@@ -155,8 +155,8 @@ export function getProveedores(token) {
  * @typedef {Object} Memberships
  * @property {string} nombre
  * @property {string} identificacion
- * @property {string} telefono
- * @property {string} direccion
+ * @property {number} precio
+ * @property {number} duracion
  */
 
 /**
@@ -167,7 +167,7 @@ export function getProveedores(token) {
  */
 export function getMembresias(token) {
   return axios
-  .get('http://localhost:8888/admin/membresias', {
+  .get('http://localhost:8888/info/membresias', {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
@@ -191,3 +191,34 @@ export function getMembresias(token) {
     throw new Error('Error al cargar los datos');
   });
 }
+
+/**
+ * @typedef {Object} DisplayMemberships
+ * @property {string} nombre
+ * @property {string} identificacion
+ * @property {string} precio
+ * @property {string} duracion
+ */
+
+/**
+ * 
+ * @param {string} token 
+ * @returns {Promise<DisplayMemberships[]>}
+ * @throws {Error}
+ */
+export function getDisplayMembresias(token) {
+  const intl = new Intl.NumberFormat('es-CO', {
+    style: 'currency',
+    currency: 'COP',
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
+  });
+  return getMembresias(token)
+  .then((membresias) => membresias.map((membresia) => ({
+    ...membresia,
+    identificacion: `#${membresia.identificacion.split('-')[0]}-****`,
+    precio: `${intl.format(membresia.precio)} COP`,
+    duracion: `${membresia.duracion} ${membresia.duracion === 1 ? 'mes' : 'meses'}`,
+  })));
+}
+

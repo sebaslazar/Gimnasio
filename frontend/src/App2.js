@@ -42,7 +42,6 @@ function App() {
           <Route path="/admin/administradores" element={<AdminsPage />} />
           <Route path="/admin/proveedores" element={<ProvidersPage />} />
           <Route path="/admin/membresias" element={<MembershipsPage />} />
-          <Route path="/admin/membresias_mock" element={<MembresiasPage />} />
         </Route>
 
         {/* AQUÍ DEBEN IR LAS RUTAS DEL ENTRENADOR */}
