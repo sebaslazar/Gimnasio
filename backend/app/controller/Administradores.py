@@ -112,14 +112,14 @@ async def modificar_estado_de_entrenador(cuerpo_de_solicitud: SchemaEstado):
 
 @router.patch("/info_cliente/{id_cliente}", response_model=SchemaRespuesta, response_model_exclude_none=True)
 async def buscar_info_de_cliente(id_cliente: str):
-    info_cliente = await ServicioAdministrador.conseguir_info_de_cliente(id_cliente)
+    info_cliente = await AuthService.conseguir_info_de_cliente(id_cliente)
     return SchemaRespuesta(detalles="Información recuperada con éxito",
                            resultado=info_cliente)
 
 
 @router.patch("/info_entrenador/{id_entrenador}", response_model=SchemaRespuesta, response_model_exclude_none=True)
 async def buscar_info_de_entrenador(id_entrenador: str):
-    info_entrenador = await ServicioAdministrador.conseguir_info_de_entrenador(id_entrenador)
+    info_entrenador = await AuthService.conseguir_info_de_entrenador(id_entrenador)
     return SchemaRespuesta(detalles="Información recuperada con éxito",
                            resultado=info_entrenador)
 

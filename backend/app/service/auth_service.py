@@ -1,7 +1,10 @@
 from datetime import datetime
-from fastapi import HTTPException
-
+from sqlalchemy.future import select
+from sqlalchemy.orm import defer
 from passlib.context import CryptContext
+from fastapi import HTTPException
+from app.config import db
+
 from app.schema import SchemaRegistrar, SchemaLogin, SchemaEliminar
 from app.model import Cliente, Administrador, Entrenador
 from app.repository.Cliente import ClienteRepository
@@ -14,6 +17,32 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 class AuthService:
+
+    @staticmethod
+    async def servicio_de_login(login: SchemaLogin):
+        if login.rango == "Cliente":
+            _cliente = await ClienteRepository.buscar_por_correo(login.correo)
+            if _cliente is not None:
+                if not pwd_context.verify(login.password, _cliente.password):
+                    raise HTTPException(status_code=400, detail="Contraseña inválida")
+                return JWTRepo(data={"ID": _cliente.ID_cliente, "Rango": _cliente.rango}).generar_token()
+            raise HTTPException(status_code=404, detail="El cliente no existe")
+        elif login.rango == "Administrador":
+            _administrador = await AdministradorRepository.buscar_por_correo(login.correo)
+            if _administrador is not None:
+                if not pwd_context.verify(login.password, _administrador.password):
+                    raise HTTPException(status_code=400, detail="Contraseña inválida")
+                return JWTRepo(data={"ID": _administrador.ID_admin, "Rango": _administrador.rango}).generar_token()
+            raise HTTPException(status_code=404, detail="El administrador no existe")
+        elif login.rango == "Entrenador":
+            _entrenador = await EntrenadorRepository.buscar_por_correo(login.correo)
+            if _entrenador is not None:
+                if not pwd_context.verify(login.password, _entrenador.password):
+                    raise HTTPException(status_code=400, detail="Contraseña inválida")
+                return JWTRepo(data={"ID": _entrenador.ID_entrenador, "Rango": _entrenador.rango}).generar_token()
+            raise HTTPException(status_code=404, detail="El entrenador no existe")
+        else:
+            raise HTTPException(status_code=404, detail="Rango inválido")
 
     @staticmethod
     async def servicio_de_registro_de_cliente(registro: SchemaRegistrar):
@@ -73,30 +102,31 @@ class AuthService:
             await AdministradorRepository.crear(**_administrador.model_dump())
 
     @staticmethod
-    async def servicio_de_login(login: SchemaLogin):
-        if login.rango == "Cliente":
-            _cliente = await ClienteRepository.buscar_por_correo(login.correo)
-            if _cliente is not None:
-                if not pwd_context.verify(login.password, _cliente.password):
-                    raise HTTPException(status_code=400, detail="Contraseña inválida")
-                return JWTRepo(data={"ID": _cliente.ID_cliente, "Rango": _cliente.rango}).generar_token()
-            raise HTTPException(status_code=404, detail="El cliente no existe")
-        elif login.rango == "Administrador":
-            _administrador = await AdministradorRepository.buscar_por_correo(login.correo)
-            if _administrador is not None:
-                if not pwd_context.verify(login.password, _administrador.password):
-                    raise HTTPException(status_code=400, detail="Contraseña inválida")
-                return JWTRepo(data={"ID": _administrador.ID_admin, "Rango": _administrador.rango}).generar_token()
-            raise HTTPException(status_code=404, detail="El administrador no existe")
-        elif login.rango == "Entrenador":
-            _entrenador = await EntrenadorRepository.buscar_por_correo(login.correo)
-            if _entrenador is not None:
-                if not pwd_context.verify(login.password, _entrenador.password):
-                    raise HTTPException(status_code=400, detail="Contraseña inválida")
-                return JWTRepo(data={"ID": _entrenador.ID_entrenador, "Rango": _entrenador.rango}).generar_token()
-            raise HTTPException(status_code=404, detail="El entrenador no existe")
+    async def conseguir_info_de_cliente(id_cliente: str):
+        query = select(Cliente).where(Cliente.ID_cliente == id_cliente).options(defer(Cliente.password))
+        _cliente = (await db.execute(query)).scalar_one_or_none()
+        if _cliente:
+            return _cliente
         else:
-            raise HTTPException(status_code=404, detail="Rango inválido")
+            raise HTTPException(status_code=404, detail="El cliente no existe")
+
+    @staticmethod
+    async def conseguir_info_de_entrenador(id_entrenador: str):
+        query = select(Entrenador).where(Entrenador.ID_entrenador == id_entrenador).options(defer(Entrenador.password))
+        _entrenador = (await db.execute(query)).scalar_one_or_none()
+        if _entrenador:
+            return _entrenador
+        else:
+            raise HTTPException(status_code=404, detail="El entrenador no existe")
+
+    @staticmethod
+    async def conseguir_info_de_administrador(id_admin: str):
+        query = select(Administrador).where(Administrador.ID_admin == id_admin).options(defer(Administrador.password))
+        _admin = (await db.execute(query)).scalar_one_or_none()
+        if _admin:
+            return _admin
+        else:
+            raise HTTPException(status_code=404, detail="El administrador no existe")
 
     @staticmethod
     async def actualizar_perfil_de_cliente(cliente: SchemaRegistrar):

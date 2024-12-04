@@ -11,11 +11,6 @@ from fastapi import HTTPException
 class ServicioCliente:
 
     @staticmethod
-    async def buscar_perfil_de_cliente(id_cliente: str):
-        query = select(Cliente).where(Cliente.ID_cliente == id_cliente).options(defer(Cliente.password))
-        return (await db.execute(query)).scalar_one_or_none()
-
-    @staticmethod
     async def consultar_lista_de_membresias_compradas(id_cliente: str):
         _cliente = await ClienteRepository.buscar_por_id(model_id=id_cliente, name_id="ID_cliente")
         if not _cliente:

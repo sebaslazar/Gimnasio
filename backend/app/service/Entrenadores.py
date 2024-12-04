@@ -10,11 +10,6 @@ from app.model.Cliente import Cliente
 class ServicioEntrenador:
 
     @staticmethod
-    async def buscar_perfil_de_entrenador(id_entrenador: str):
-        query = select(Entrenador).where(Entrenador.ID_entrenador == id_entrenador).options(defer(Entrenador.password))
-        return (await db.execute(query)).scalar_one_or_none()
-
-    @staticmethod
     async def consultar_lista_clientes_activos():
         query = (select(Cliente).where(Cliente.activo == True).order_by(Cliente.nombre).
                  options(load_only(Cliente.ID_cliente, Cliente.nombre, Cliente.telefono, Cliente.sexo)))

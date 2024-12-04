@@ -22,15 +22,6 @@ class ServicioUsuario:
             return {"Membresia_comprada": False,
                     "Info_membresia": _membresia}
 
-        elif token_usuario["Rango"] in "Entrenador":
-            _entrenador = await EntrenadorRepository.buscar_por_id(model_id=token_usuario['ID'],
-                                                                   name_id="ID_entrenador")
-            if not _entrenador:
-                raise HTTPException(status_code=404, detail="El entrenador no existe")
-
-            return {"Membresia_comprada": False,
-                    "Info_membresia": _membresia}
-
         else:
             _cliente = await ClienteRepository.buscar_por_id(model_id=token_usuario['ID'], name_id="ID_cliente")
             if not _cliente:
@@ -41,4 +32,3 @@ class ServicioUsuario:
 
             return {"Membresia_comprada": False if not _registro_compra else True,
                     "Info_membresia": _membresia}
-
