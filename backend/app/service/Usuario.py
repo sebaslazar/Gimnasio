@@ -22,15 +22,6 @@ class ServicioUsuario:
             return {"Membresia_comprada": False,
                     "Info_membresia": _membresia}
 
-        elif token_usuario["Rango"] in "Entrenador":
-            _entrenador = await EntrenadorRepository.buscar_por_id(model_id=token_usuario['ID'],
-                                                                   name_id="ID_entrenador")
-            if not _entrenador:
-                raise HTTPException(status_code=404, detail="El entrenador no existe")
-
-            return {"Membresia_comprada": False,
-                    "Info_membresia": _membresia}
-
         else:
             _cliente = await ClienteRepository.buscar_por_id(model_id=token_usuario['ID'], name_id="ID_cliente")
             if not _cliente:
@@ -42,3 +33,16 @@ class ServicioUsuario:
             return {"Membresia_comprada": False if not _registro_compra else True,
                     "Info_membresia": _membresia}
 
+    @staticmethod
+    async def consultar_lista_de_membresias(token_usuario: dict):
+        if token_usuario["Rango"] == "Administrador":
+            resultado = list(await MembresiaRepository.buscar_todo("nombre", ["nombre", "ID_membresia",
+                                                                         "precio", "duracion_meses"]))
+            if not resultado:
+                raise HTTPException(status_code=404, detail="No existen membresias en la base de datos")
+        else:
+            resultado = list(await ClienteRepository.generar_lista_de_membresias_no_compradas(token_usuario['ID']))
+            if not resultado:
+                raise HTTPException(status_code=404, detail="No hay membresías disponibles para la compra")
+
+        return resultado

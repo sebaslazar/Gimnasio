@@ -17,7 +17,3 @@ async def login(cuerpo_de_solicitud: SchemaLogin):
     token_usuario = await AuthService.servicio_de_login(cuerpo_de_solicitud)
     return SchemaRespuesta(detalles="Sesión iniciada",
                            resultado={"tipo_de_token": "Bearer", "token_de_acceso": token_usuario})
-
-
-
-

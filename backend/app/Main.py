@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import db
 from app.service.auth_service import generar_administrador_principal
-from app.controller import authentication, Cliente, Administradores, Usuario, Entrenadores
+from app.controller import authentication, Cliente, Administradores, Usuario, Entrenadores, Admin_Cliente
 
 origins = [
     "http://localhost:3000",
@@ -43,6 +43,7 @@ def init_app():
     app.include_router(Entrenadores.router)
     app.include_router(Administradores.router)
     app.include_router(Usuario.router)
+    app.include_router(Admin_Cliente.router)
 
     return app
 

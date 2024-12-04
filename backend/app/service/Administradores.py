@@ -20,11 +20,6 @@ from app.service.Entrenadores import ServicioEntrenador
 class ServicioAdministrador:
 
     @staticmethod
-    async def buscar_perfil_de_administrador(id_admin: str):
-        query = select(Administrador).where(Administrador.ID_admin == id_admin).options(defer(Administrador.password))
-        return (await db.execute(query)).scalar_one_or_none()
-
-    @staticmethod
     async def agregar_proveedor(registro: SchemaProveedor):
         _admin = await AdministradorRepository.buscar_por_id(model_id=registro.ID_admin_creador, name_id="ID_admin")
         if _admin:
@@ -127,22 +122,6 @@ class ServicioAdministrador:
             raise HTTPException(status_code=404, detail="El entrenador no existe")
 
     @staticmethod
-    async def conseguir_info_de_cliente(id_cliente: str):
-        _cliente = await ServicioCliente.buscar_perfil_de_cliente(id_cliente)
-        if _cliente:
-            return _cliente
-        else:
-            raise HTTPException(status_code=404, detail="El cliente no existe")
-
-    @staticmethod
-    async def conseguir_info_de_entrenador(id_entrenador: str):
-        _entrenador = await ServicioEntrenador.buscar_perfil_de_entrenador(id_entrenador)
-        if _entrenador:
-            return _entrenador
-        else:
-            raise HTTPException(status_code=404, detail="El entrenador no existe")
-
-    @staticmethod
     async def conseguir_info_de_proveedor(id_proveedor: str):
         query = select(Proveedor).where(Proveedor.ID_proveedor == id_proveedor)
         resultado_consulta = (await db.execute(query)).scalar_one_or_none()
@@ -174,14 +153,4 @@ class ServicioAdministrador:
 
         else:
             raise HTTPException(status_code=404, detail="El administrador no existe")
-
-    @staticmethod
-    async def consultar_lista_de_membresias():
-        resultado = await MembresiaRepository.buscar_todo("nombre", ["nombre", "ID_membresia",
-                                                                     "precio", "duracion_meses"])
-        resultado_lista = list(resultado)
-        if not resultado_lista:
-            raise HTTPException(status_code=404, detail="No existen membresias")
-        else:
-            return resultado_lista
 
