@@ -33,7 +33,7 @@ export default MyNavbar;
 import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom'; // Importa Link de react-router-dom
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 const MyNavbar = ({ rango_token }) => {
   return (

@@ -100,7 +100,12 @@ export function MembresiasPage() {
       <Card className={`${styles.card}`} style={cardStyles}>
         <Card.Body>
           <div className={`${styles.titleContainer}`}>
-            <h1 className={`${styles.title}`}>No hay membresías disponibles</h1>
+            <h1
+              className={`${styles.title}`}
+              style={{
+                whiteSpace: 'normal'
+              }}
+            >No hay membresías disponibles</h1>
           </div>
         </Card.Body>
       </Card>
