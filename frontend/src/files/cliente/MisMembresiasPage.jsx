@@ -1,7 +1,7 @@
 import { Card, Placeholder } from 'react-bootstrap';
 import styles from './MembresiasPage.module.css';
 import { useEffect, useState } from 'react';
-import { getMisMembresiasDisplay } from '../../services/general';
+import { getMisMembresiasDisplay } from '../../services/client';
 import { useUser } from '../../contexts/UserContext';
 import MyNavbar from '../../components/NavbarCliente';
 import { Link } from 'react-router-dom';

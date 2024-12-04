@@ -8,6 +8,8 @@ import { toPascalCase } from '../utils';
 import { MapPinIcon } from '../components/icons/MapPinIcon';
 import { Link } from 'react-router-dom';
 import MyNavbar from '../components/NavbarCliente';
+import { TimeIcon } from '../components/icons/TimeIcon';
+import { MoneyIcon } from '../components/icons/MoneyIcon';
 
 const ICON_MAP = {
   nombre: <UserIcon />,
@@ -15,6 +17,8 @@ const ICON_MAP = {
   telefono: <TelefoneIcon />,
   sexo: <SexIcon />,
   direccion: <MapPinIcon />,
+  duracion: <TimeIcon />,
+  precio: <MoneyIcon />,
 }
 
 function defaultGetData(_) {

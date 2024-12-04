@@ -1,5 +1,5 @@
-import { getDisplayMembresias } from '../services/admin';
-import { ListTemplate } from '../templates/ListTemplate';
+import { getDisplayMembresias } from '../../services/admin';
+import { ListTemplate } from '../../templates/ListTemplate';
 
 const MEMBERSHIP_HEADERS = [
   'nombre',
