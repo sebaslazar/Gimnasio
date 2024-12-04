@@ -14,6 +14,8 @@ import { TrainersPage } from './files/ShowTrainersPage.jsx';
 import { ProvidersPage } from './files/ShowProvidersPage.jsx';
 import { MembershipsPage } from './files/ShowMemberships.jsx';
 import { ActiveClientsPage } from './files/entrenador/ShowActiveClients.jsx';
+import { MembresiasPage } from './files/cliente/MembresiasPage.jsx';
+import { MisMembresiasPage } from './files/cliente/MisMembresiasPage.jsx';
 
 document.documentElement.lang = "es"; //Establece el idioma de la página en español
 
@@ -40,11 +42,18 @@ function App() {
           <Route path="/admin/administradores" element={<AdminsPage />} />
           <Route path="/admin/proveedores" element={<ProvidersPage />} />
           <Route path="/admin/membresias" element={<MembershipsPage />} />
+          <Route path="/admin/membresias_mock" element={<MembresiasPage />} />
         </Route>
 
         {/* AQUÍ DEBEN IR LAS RUTAS DEL ENTRENADOR */}
         <Route element={<ProtectedRoutes fallbackPath="/login" ranges={['Entrenador']} />}>
           <Route path="/entrenador/clientes_activos" element={<ActiveClientsPage />} />
+        </Route>
+
+        {/* AQUÍ DEBEN IR LAS RUTAS DEL CLIENTE */}
+        <Route element={<ProtectedRoutes fallbackPath="/login" ranges={['Cliente']} />}>
+          <Route path="/membresias" element={<MembresiasPage />} />
+          <Route path="/mis_membresias" element={<MisMembresiasPage />} />
         </Route>
       </Routes>
     </>

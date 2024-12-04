@@ -1,0 +1,134 @@
+.titleSection {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+
+.titleContainer {
+  background-color: #181640;
+  padding: 3px 25px;
+  border-radius: 18px;
+  /* margin-top: -20px; */
+}
+
+.title {
+  font-family: 'Hyperwave', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 3.5rem;
+  color: white;
+  
+  margin: 0;
+  margin-bottom: 2px;
+}
+
+/*----------------------------CARD SECTION------------------------------*/
+
+.cardSection {
+  display: flex;
+  justify-content: start;
+  gap: 20px;
+  padding-block: 20px;
+  padding-top: 30px;
+  margin-bottom: 25px;
+
+  /* width: 100%; */
+  max-width: calc(21rem * 2 + 80px);
+  margin-inline: auto;
+  
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+
+  /* Scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: #3A33BB #181640;
+  scrollbar-gutter: auto;
+}
+
+.cardSection > div {
+  flex: 0 0 auto;
+
+  scroll-snap-align: start;
+}
+
+.card {
+  background-color: #3A33BB;
+
+  border-radius: 20px;
+  position: relative;
+
+  padding-top: 35px;
+
+  font-family: 'Montserrat';
+}
+
+.absoluteCenterTitle {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  padding: 0 45px;
+}
+
+.absoluteCenterTitle .title {
+  font-size: 2.5rem;
+}
+
+ul.featureList {
+  list-style-type: none;
+}
+
+ul.featureList li {
+  margin-bottom: 25px;
+  color: black;
+
+  padding-left: 10px;
+  position: relative;
+}
+
+ul.featureList li::before {
+  content: "✓"; /* Bullet personalizado */
+  position: absolute;
+  left: 0; /* Coloca el bullet al principio de la lista */
+  top: 50%; /* Centra el bullet verticalmente */
+  transform: translateY(-50%) translateX(-110%); /* Ajusta la posición vertical al centro exacto */
+
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.card .footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-top: 30px;
+}
+
+.card .footer span {
+  color: white;
+  font-size: .8rem;
+  font-weight: lighter;
+}
+
+.card .footer .btn {
+  font-weight: normal !important;
+}
+
+/*-------------------------------------------------------------------------*/
+
+.squareButton {
+  padding: 15px 30px;
+  background-color: #3A33BB;
+  color: white;
+
+  border: none;
+  border-radius: 10px;
+
+  font-family: 'Montserrat';
+  font-weight: normal;
+}
+
+.squareButton:hover {
+  background-color: #262367;
+}
