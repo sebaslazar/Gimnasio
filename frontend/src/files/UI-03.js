@@ -1,3 +1,4 @@
+
 import React, {useState} from 'react';
 import {Link, useNavigate} from "react-router-dom"
 import axios from "axios";
@@ -300,7 +301,7 @@ export default function Registro() {
                 </button>
                 <p>
                     ¿Ya Tienes Una Cuenta?{" "}
-                    <Link to="/login"> {/*Ruta que va a aparecer en el navegador*/}
+                    <Link to="/login"> 
                         <span className="link_registrar">Iniciar Sesión</span>
                     </Link>
                 </p>
@@ -308,3 +309,5 @@ export default function Registro() {
         </React.Fragment>
     )
 }
+
+

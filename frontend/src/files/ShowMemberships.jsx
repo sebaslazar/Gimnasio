@@ -13,5 +13,6 @@ const MEMBERSHIP_HEADERS = [
 export function MembershipsPage() {
   return (
     <ListTemplate getData={getMembresias} title='Membresías' headers={MEMBERSHIP_HEADERS} />
+    
   );
 }
