@@ -1,4 +1,5 @@
 from sqlalchemy.future import select
+from sqlalchemy import not_
 from sqlalchemy import update as sql_update
 from sqlalchemy.orm import load_only
 
@@ -47,5 +48,17 @@ class ClienteRepository(BaseRepo):
                  .join(Cliente, CompraMembresia.ID_comprador == Cliente.ID_cliente)
                  .join(Membresia, CompraMembresia.ID_membresia == Membresia.ID_membresia)
                  .where(Cliente.ID_cliente == id_cliente, Membresia.ID_membresia == id_membresia))
+        return (await db.execute(query)).scalars().all()
+
+    @staticmethod
+    async def generar_lista_de_membresias_no_compradas(id_cliente: str):
+        subquery = (select(CompraMembresia.ID_membresia).where(CompraMembresia.ID_comprador == id_cliente))
+        query = (select(Membresia)
+                 .where(not_(Membresia.ID_membresia.in_(subquery)))
+                 .options(load_only(Membresia.nombre,
+                                    Membresia.descripcion,
+                                    Membresia.max_miembros,
+                                    Membresia.duracion_meses,
+                                    Membresia.descuento)))
         return (await db.execute(query)).scalars().all()
 
