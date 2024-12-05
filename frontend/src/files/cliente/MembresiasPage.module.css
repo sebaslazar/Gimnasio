@@ -18,6 +18,7 @@
   
   margin: 0;
   margin-bottom: 2px;
+  white-space: nowrap;
 }
 
 /*----------------------------CARD SECTION------------------------------*/
@@ -30,7 +31,7 @@
   padding-top: 30px;
   margin-bottom: 25px;
 
-  /* width: 100%; */
+  width: fit-content;
   max-width: calc(21rem * 2 + 80px);
   margin-inline: auto;
   
@@ -75,6 +76,7 @@
 
 ul.featureList {
   list-style-type: none;
+  margin-bottom: 35px;
 }
 
 ul.featureList li {
@@ -97,12 +99,16 @@ ul.featureList li::before {
   font-weight: bold;
 }
 
+ul.featureList li:last-child {
+  margin-bottom: 0;
+}
+
 .card .footer {
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  margin-top: 30px;
+  /* margin-top: 30px; */
 }
 
 .card .footer span {

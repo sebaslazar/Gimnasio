@@ -1,7 +1,7 @@
 import { Card, Placeholder } from 'react-bootstrap';
 import styles from './MembresiasPage.module.css';
 import { useEffect, useState } from 'react';
-import { getMembresiasDisplay } from '../../services/general';
+import { getMisMembresiasDisplay } from '../../services/client';
 import { useUser } from '../../contexts/UserContext';
 import MyNavbar from '../../components/NavbarCliente';
 import { Link } from 'react-router-dom';
@@ -12,6 +12,7 @@ const cardStyles = {
   position: 'relative',
   paddingTop: '35px',
   width: '21rem',
+  minHeight: '24rem',
 };
 
 export function MisMembresiasPage() {
@@ -21,17 +22,17 @@ export function MisMembresiasPage() {
     data: [],
   });
 
-  const { isLogged, auth } = useUser();
+  const { token, auth } = useUser();
 
   useEffect(() => {
-    getMembresiasDisplay('token')
+    getMisMembresiasDisplay(token)
       .then((data) => {
         setDataState({ loading: false, error: null, data });
       })
       .catch((error) => {
         setDataState({ loading: false, error: error.message, data: [] });
       });
-  }, []);
+  }, [token]);
 
   let cards;
 
@@ -57,14 +58,19 @@ export function MisMembresiasPage() {
       <Card className={`${styles.card}`} style={cardStyles}>
         <Card.Body>
           <div className={`${styles.titleContainer}`}>
-            <h1 className={`${styles.title}`}>No hay membresías disponibles</h1>
+            <h1
+              className={`${styles.title}`}
+              style={{
+                whiteSpace: 'normal'
+              }}
+            >No hay membresías disponibles</h1>
           </div>
         </Card.Body>
       </Card>
     );
   } else {
     cards = dataState.data.map((item, index) => (
-      <MemberCard key={index} {...item} />
+      <MemberCard key={item.id} {...item} />
     ));
   }
 
@@ -76,7 +82,7 @@ export function MisMembresiasPage() {
         }}>
           <h1 className="logo">GYMCONTROL</h1>
         </Link>
-        <MyNavbar />
+        <MyNavbar rango_token={auth?.rango ?? 'Cliente'} />
       </header>
       <div className={`${styles.titleSection}`}>
         <div className={`${styles.titleContainer}`}>
@@ -108,7 +114,13 @@ function MemberCard({
 }) {
   return (
     <Card className={`${styles.card}`} style={cardStyles}>
-      <Card.Body>
+      <Card.Body
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        }}
+      >
         <div
           className={`${styles.titleContainer} ${styles.absoluteCenterTitle}`}
         >
@@ -120,7 +132,7 @@ function MemberCard({
           ))}
         </ul>
         <div className={`${styles.footer}`}>
-          <span>Desde:</span>
+          <span>Comprador por:</span>
           <button className={`btn btn-primary mt-8 ${styles.btn}`}>
             {`${new Intl.NumberFormat('es-CO', {
               style: 'currency',

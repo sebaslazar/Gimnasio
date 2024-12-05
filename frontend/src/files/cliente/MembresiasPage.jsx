@@ -1,10 +1,12 @@
-import { Card, Placeholder } from 'react-bootstrap';
-import styles from './MembresiasPage.module.css';
 import { useEffect, useState } from 'react';
-import { getMembresiasDisplay } from '../../services/general';
-import { useUser } from '../../contexts/UserContext';
-import MyNavbar from '../../components/NavbarCliente';
+import { Card, Offcanvas, Placeholder } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import MyNavbar from '../../components/NavbarCliente';
+import { useUser } from '../../contexts/UserContext';
+import { comprarMembresia, getMembresiasDisplay } from '../../services/client';
+import styles from './MembresiasPage.module.css';
+
+import { toast } from 'react-toastify';
 
 const cardStyles = {
   backgroundColor: '#3A33BB',
@@ -12,27 +14,67 @@ const cardStyles = {
   position: 'relative',
   paddingTop: '35px',
   width: '21rem',
+  minHeight: '24rem',
 };
 
 export function MembresiasPage() {
+  const { isLogged, auth, token } = useUser();
+  
   const [dataState, setDataState] = useState({
     loading: true,
     error: null,
     data: [],
   });
 
-  const { isLogged, auth } = useUser();
+  const [confirmData, setConfirmData] = useState({
+    showCanvas: false,
+    data: null,
+  });
 
-
-  useEffect(() => {
-    getMembresiasDisplay('token')
+  const fetchMembresias = () => {
+    getMembresiasDisplay(token)
       .then((data) => {
         setDataState({ loading: false, error: null, data });
       })
       .catch((error) => {
         setDataState({ loading: false, error: error.message, data: [] });
       });
-  }, []);
+  };
+
+  const onStartBuy = (data) => {
+    setConfirmData({
+      showCanvas: true,
+      data,
+    });
+  };
+
+  const onCancelBuy = () => {
+    setConfirmData({
+      showCanvas: false,
+      data: null,
+    });
+  };
+
+  const onConfirmBuy = async () => {
+    try {
+      await comprarMembresia({
+        id: confirmData.data.id,
+        token,
+      });
+
+      toast.success('Membresía comprada con éxito');
+      setConfirmData({
+        showCanvas: false,
+        data: null,
+      });
+      fetchMembresias();
+    } catch (error) {
+      console.error(error);
+      toast.error('Error al comprar la membresía');
+    }
+  };
+
+  useEffect(fetchMembresias, [token]);
 
   let cards;
 
@@ -58,14 +100,23 @@ export function MembresiasPage() {
       <Card className={`${styles.card}`} style={cardStyles}>
         <Card.Body>
           <div className={`${styles.titleContainer}`}>
-            <h1 className={`${styles.title}`}>No hay membresías disponibles</h1>
+            <h1
+              className={`${styles.title}`}
+              style={{
+                whiteSpace: 'normal'
+              }}
+            >No hay membresías disponibles</h1>
           </div>
         </Card.Body>
       </Card>
     );
   } else {
     cards = dataState.data.map((item, index) => (
-      <MemberCard key={index} {...item} />
+      <MemberCard 
+        key={item.id}
+        onClick={() => onStartBuy(item)}
+        {...item}
+      />
     ));
   }
 
@@ -78,8 +129,53 @@ export function MembresiasPage() {
           <h1 className="logo">GYMCONTROL</h1>
         </Link>
 
-        <MyNavbar />
+        <MyNavbar rango_token={auth?.rango ?? 'Cliente'} />
       </header>
+      <Offcanvas 
+        show={confirmData.showCanvas}
+        onHide={onCancelBuy}
+        placement="bottom"
+        style={{
+          backgroundColor: '#181640',
+          color: 'white',
+          fontFamily: 'Montserrat',
+        }}
+      >
+        <Offcanvas.Header closeButton closeVariant='white'>
+          <Offcanvas.Title 
+            style={{
+              fontFamily: 'Hyperwave',
+              fontSize: '2.5rem',
+              lineHeight: 'normal',
+            }}
+          >
+            Estás seguro de que deseas compralo?
+          </Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <p>
+            {`Estás a punto de comprar la membresía "${confirmData.data?.title}" por ${new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(confirmData.data?.price)} COP`}
+          </p>
+          <p>
+            Al comprar esta membresía, aceptas los términos y condiciones de uso
+            de GYMCONTROL
+          </p>
+          <div className="d-flex justify-content-start gap-3 ps-2">
+            <button
+              className="btn btn-primary"
+              onClick={onConfirmBuy}
+            >
+              Sí
+            </button>
+            <button
+              className="btn btn-danger"
+              onClick={onCancelBuy}
+            >
+              No
+            </button>
+          </div>
+        </Offcanvas.Body>
+      </Offcanvas>
       <div className={`${styles.titleSection}`}>
         <div className={`${styles.titleContainer}`}>
           <h1 className={`${styles.title}`}>Membresías Disponibles</h1>
@@ -98,6 +194,7 @@ export function MembresiasPage() {
  *   title: string,
  *   price: number,
  *   features: string[]
+ *   onClick: () => void
  * }} props
  * @returns 
  */
@@ -110,10 +207,17 @@ function MemberCard({
     'Duración de 1 mes',
     'Descuento del 20% en todas las actividades',
   ],
+  onClick,
 }) {
   return (
     <Card className={`${styles.card}`} style={cardStyles}>
-      <Card.Body>
+      <Card.Body
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        }}
+      >
         <div
           className={`${styles.titleContainer} ${styles.absoluteCenterTitle}`}
         >
@@ -128,7 +232,10 @@ function MemberCard({
         </ul>
         <div className={`${styles.footer}`}>
           <span>Desde:</span>
-          <button className={`btn btn-primary mt-8 ${styles.btn}`}>
+          <button 
+            className={`btn btn-primary mt-8 ${styles.btn}`}
+            onClick={onClick}
+          >
             {`${new Intl.NumberFormat('es-CO', {
               style: 'currency',
               currency: 'COP',

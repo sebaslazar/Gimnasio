@@ -7,12 +7,12 @@ import Login from './files/UI-02.js';
 import RegistroCliente from './files/UI-03.js';
 import { useUser } from "./contexts/UserContext.jsx";
 import { MainLayout } from './layouts/MainLayout.jsx';
-import { ClientsPage } from './files/ShowClientsPage.jsx';
+import { ClientsPage } from './files/admin/ShowClientsPage.jsx';
 import { ProtectedRoutes } from './components/ProtectedRoute.jsx';
-import { AdminsPage } from './files/ShowAdminsPage.jsx';
-import { TrainersPage } from './files/ShowTrainersPage.jsx';
-import { ProvidersPage } from './files/ShowProvidersPage.jsx';
-import { MembershipsPage } from './files/ShowMemberships.jsx';
+import { AdminsPage } from './files/admin/ShowAdminsPage.jsx';
+import { TrainersPage } from './files/admin/ShowTrainersPage.jsx';
+import { ProvidersPage } from './files/admin/ShowProvidersPage.jsx';
+import { MembershipsPage } from './files/admin/ShowMemberships.jsx';
 import { ActiveClientsPage } from './files/entrenador/ShowActiveClients.jsx';
 import { MembresiasPage } from './files/cliente/MembresiasPage.jsx';
 import { MisMembresiasPage } from './files/cliente/MisMembresiasPage.jsx';
@@ -42,7 +42,6 @@ function App() {
           <Route path="/admin/administradores" element={<AdminsPage />} />
           <Route path="/admin/proveedores" element={<ProvidersPage />} />
           <Route path="/admin/membresias" element={<MembershipsPage />} />
-          <Route path="/admin/membresias_mock" element={<MembresiasPage />} />
         </Route>
 
         {/* AQUÍ DEBEN IR LAS RUTAS DEL ENTRENADOR */}

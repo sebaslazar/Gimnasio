@@ -1,5 +1,5 @@
-import { getProveedores } from '../services/admin';
-import { ListTemplate } from '../templates/ListTemplate';
+import { getProveedores } from '../../services/admin';
+import { ListTemplate } from '../../templates/ListTemplate';
 
 // @ts-check
 const PROVIDER_HEADERS = [

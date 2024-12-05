@@ -1,5 +1,5 @@
-import { getClientes } from '../services/admin';
-import { ListTemplate } from '../templates/ListTemplate';
+import { getClientes } from '../../services/admin';
+import { ListTemplate } from '../../templates/ListTemplate';
 
 // @ts-check
 
