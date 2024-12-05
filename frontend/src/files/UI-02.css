@@ -5,6 +5,7 @@
     font-family: 'Hyperwave', 'Brush Script MT';
     font-size: 5.5rem;
     line-height: .85;
+    text-decoration: none; /* Evita el subrayado */
 }
 
 .border-purple {

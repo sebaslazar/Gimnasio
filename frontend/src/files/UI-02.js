@@ -174,8 +174,8 @@ export default function Login() {
     correo: "",
     password: "",
     rango: "Cliente",
-    rango: "Entrenador",
-    rango: "Administrador",
+   /// rango: "Entrenador",
+    //rango: "Administrador",
   });
 
   const handleChange = (field, value) => {
@@ -203,7 +203,10 @@ export default function Login() {
   return (
     <div className="login-container d-flex flex-column align-items-center mt-5">
     {/* Título */}
-    <h1 className="nombre_de_gimnasio text-center mb-4">GYMCONTROL</h1>
+    <Link to="/" className="nombre_de_gimnasio text-center mb-4">
+          GYMCONTROL
+        </Link>
+    
 
     {/* Formulario */}
     <form onSubmit={handleSubmit} className="login-form w-75">

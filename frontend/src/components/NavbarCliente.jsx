@@ -34,8 +34,40 @@ import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom'; // Importa Link de react-router-dom
 // import 'bootstrap/dist/css/bootstrap.min.css';
+import { toast } from 'react-toastify';
+import { useUser } from '../contexts/UserContext'; 
+
+
+
+
+
+
 
 const MyNavbar = ({ rango_token }) => {
+
+  const {  logOut } = useUser();
+  const onClickHandler = (event) => {
+    event.preventDefault();
+  
+    // localStorage.removeItem("auth_token");
+    // localStorage.removeItem("auth_token_type");
+  
+    logOut();
+  
+    toast('Sesión cerrada exitosamente', {
+      position: 'top-right',
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  
+    // setTimeout(() => {
+    //     window.location.reload();
+    // }, 1500);
+  };
   return (
     <Navbar variant="dark" className="py-8">
       <Container>
@@ -44,8 +76,8 @@ const MyNavbar = ({ rango_token }) => {
           <Nav className="ms-auto">
             
             <Nav.Link as={Link} to="/" className="text-white me-5">Inicio</Nav.Link>
-            
-           
+          
+
             {rango_token === "Cliente" && (
               <>
                 <Nav.Link as={Link} to="/actividades" className="text-white me-5">Actividades</Nav.Link>
@@ -75,6 +107,16 @@ const MyNavbar = ({ rango_token }) => {
                 <Nav.Link as={Link} to="/admin/membresias" className="text-white me-5">Membresias</Nav.Link>
               </>
             )}
+
+            <button
+            type="button"
+            className="btn  text-white"
+            onClick={(event) => {
+              onClickHandler(event);
+            }}
+          >
+            Cerrar Sesión
+          </button>
           </Nav>
         </Navbar.Collapse>
       </Container>

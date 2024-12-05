@@ -234,16 +234,18 @@ export default function Home(props) {
         <header className="d-flex justify-content-between align-items-center p-4">
           <h1 className="logo">GYMCONTROL</h1>
           <MyNavbar rango_token={rango_token} />
-
-          <button
-            type="button"
-            className="btn  text-white"
-            onClick={(event) => {
-              onClickHandler(event);
-            }}
-          >
-            Cerrar Sesión
-          </button>
+          
+                      {/* 
+            <button
+              type="button"
+              className="btn  text-white"
+              onClick={(event) => {
+                onClickHandler(event);
+              }}
+            >
+              Cerrar Sesión
+            </button> 
+            */}
         </header>
         <div className="content d-flex flex-column align-items-start">
           <h2 className="display-4 font-weight-bold">
