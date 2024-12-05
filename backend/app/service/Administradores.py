@@ -135,8 +135,8 @@ class ServicioAdministrador:
             raise HTTPException(status_code=404, detail="El proveedor no existe")
 
     @staticmethod
-    async def agregar_membresia(registro: SchemaMembresia):
-        _administrador = await AdministradorRepository.buscar_por_id(model_id=registro.ID_admin_creador,
+    async def agregar_membresia(registro: SchemaMembresia, id_admin: str):
+        _administrador = await AdministradorRepository.buscar_por_id(model_id=id_admin,
                                                                      name_id="ID_admin")
         if not _administrador:
             raise HTTPException(status_code=404, detail="El administrador no existe")
@@ -147,7 +147,7 @@ class ServicioAdministrador:
 
         _id_membresia = str(uuid4())
 
-        _membresia = Membresia(ID_membresia=_id_membresia, ID_admin_creador=registro.ID_admin_creador,
+        _membresia = Membresia(ID_membresia=_id_membresia, ID_admin_creador=id_admin,
                                nombre=registro.nombre, descripcion=registro.descripcion,
                                descuento=registro.descuento, max_miembros=registro.max_miembros,
                                precio=registro.precio, duracion_meses=registro.duracion_meses)
