@@ -16,6 +16,7 @@ import { MembershipsPage } from './files/admin/ShowMemberships.jsx';
 import { ActiveClientsPage } from './files/entrenador/ShowActiveClients.jsx';
 import { MembresiasPage } from './files/cliente/MembresiasPage.jsx';
 import { MisMembresiasPage } from './files/cliente/MisMembresiasPage.jsx';
+import { MembresiaPage } from './files/admin_cli/MembresiaPage.jsx';
 
 document.documentElement.lang = "es"; //Establece el idioma de la página en español
 
@@ -42,6 +43,7 @@ function App() {
           <Route path="/admin/administradores" element={<AdminsPage />} />
           <Route path="/admin/proveedores" element={<ProvidersPage />} />
           <Route path="/admin/membresias" element={<MembershipsPage />} />
+          <Route path="/admin/crear_membresia" element={<MembresiaPage />} />
         </Route>
 
         {/* AQUÍ DEBEN IR LAS RUTAS DEL ENTRENADOR */}

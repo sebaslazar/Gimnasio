@@ -222,3 +222,43 @@ export function getDisplayMembresias(token) {
   })));
 }
 
+/**
+ * @typedef {Object} MembresiaCrear
+ * @property {string} nombre
+ * @property {string} descripcion
+ * @property {number} descuento
+ * @property {number} max_miembros
+ * @property {number} duracion_meses
+ * @property {number} precio
+ */
+
+/**
+ * 
+ * @param {{
+ *  data: MembresiaCrear,
+ *  token: string
+ * }} param0 
+ */
+export function crearMembresia({
+  data,
+  token
+}) {
+  return axios
+  .post('http://localhost:8888/admin/agregar_membresia', data, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  .then(({ data, status }) => {
+    if (status === 201 || status === 200) {
+      return data;
+    } else {
+      throw new Error('Error al crear la membresía');
+    }
+  })
+  .catch((error) => {
+    console.error(error);
+    throw new Error('Error al crear la membresía');
+  });
+}
