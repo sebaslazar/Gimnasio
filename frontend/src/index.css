@@ -33,7 +33,7 @@ body, html {
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
-  /*background-image: url('../public/image.jpg'); /* Ruta de la imagen */
+  background-image: url('../public/image.jpg'); /* Ruta de la imagen */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
