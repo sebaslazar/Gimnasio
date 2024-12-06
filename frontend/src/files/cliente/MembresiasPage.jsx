@@ -149,16 +149,16 @@ export function MembresiasPage() {
               lineHeight: 'normal',
             }}
           >
-            Estás seguro de que deseas compralo?
+            ¿Estás seguro de que deseas continuar?
           </Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
           <p>
-            {`Estás a punto de comprar la membresía "${confirmData.data?.title}" por ${new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(confirmData.data?.price)} COP`}
+            {`Estás a punto de comprar la membresía "${confirmData.data?.title}" por ${new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(confirmData.data?.price)} COP.`}
           </p>
           <p>
             Al comprar esta membresía, aceptas los términos y condiciones de uso
-            de GYMCONTROL
+            de GYMCONTROL.
           </p>
           <div className="d-flex justify-content-start gap-3 ps-2">
             <button

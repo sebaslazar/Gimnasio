@@ -63,7 +63,7 @@ export function MisMembresiasPage() {
               style={{
                 whiteSpace: 'normal'
               }}
-            >No hay membresías disponibles</h1>
+            >No hay membresías compradas</h1>
           </div>
         </Card.Body>
       </Card>
