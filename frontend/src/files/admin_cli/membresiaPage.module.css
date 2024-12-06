@@ -1,0 +1,86 @@
+.borde, .borde div{
+  /* border: 1px solid #000; */
+}
+
+.gridContainer {
+  width: 100%;
+  height: 100%;
+
+  display: grid;
+  grid-template-areas:
+    "nombre nombre nombre"
+    "descripcion descripcion descuento"
+    "descripcion descripcion miembros"
+    "duracion duracion precio"
+    "submit submit submit";
+
+  row-gap: 10px;
+  column-gap: 10px;
+}
+
+.gridContainer > div {
+  text-align: center;
+  /* padding: 20px 0; */
+}
+
+.gridNombre {
+  grid-area: nombre;
+}
+
+.gridDescripcion {
+  grid-area: descripcion;
+}
+
+.gridDescuento {
+  grid-area: descuento;
+}
+
+.gridMiembros {
+  grid-area: miembros;
+}
+
+.gridDuracion {
+  grid-area: duracion;
+}
+
+.gridPrecio {
+  grid-area: precio;
+}
+
+.gridSubmit {
+  grid-area: submit;
+  display: flex;
+  justify-content: center;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1.2em;
+  background-color: white;
+  border: 1px solid #000;
+  border-radius: 15px;
+  
+  color: #000;
+}
+
+.textarea {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  font-size: 1.2em;
+  background-color: white;
+  border: 1px solid #000;
+  border-radius: 25px;
+
+  color: #000;
+}
+
+.submit {
+  padding: 10px 20px;
+  font-size: 1.2em;
+  background-color: #000;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
